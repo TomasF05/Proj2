@@ -2,7 +2,6 @@ package com.example.projeto2.Tables;
 
 import jakarta.persistence.*;
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 @Entity
 @Table(name = "Cliente")
@@ -12,18 +11,17 @@ public class Cliente implements Serializable {
 
     @Id
     @Column(name = "IdCliente", nullable = false)
-    private BigDecimal idCliente;
+    private Long idCliente;
 
     @Column(name = "Nome")
     private String nome;
 
     @Column(name = "NIF")
-    private BigDecimal nif;
+    private String nif;
 
     @Column(name = "Contacto")
-    private BigDecimal contacto;
+    private String contacto;
 
-    // Relacionamento com a tabela CodPostal
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "IdCodPostal", referencedColumnName = "CodPostal")
     private CodPostal codPostal;
@@ -35,11 +33,11 @@ public class Cliente implements Serializable {
     private String password;
 
     // Getters and Setters
-    public BigDecimal getIdCliente() {
+    public Long getIdCliente() {
         return idCliente;
     }
 
-    public void setIdCliente(BigDecimal idCliente) {
+    public void setIdCliente(Long idCliente) {
         this.idCliente = idCliente;
     }
 
@@ -51,19 +49,19 @@ public class Cliente implements Serializable {
         this.nome = nome;
     }
 
-    public BigDecimal getNif() {
+    public String getNif() {
         return nif;
     }
 
-    public void setNif(BigDecimal nif) {
+    public void setNif(String nif) {
         this.nif = nif;
     }
 
-    public BigDecimal getContacto() {
+    public String getContacto() {
         return contacto;
     }
 
-    public void setContacto(BigDecimal contacto) {
+    public void setContacto(String contacto) {
         this.contacto = contacto;
     }
 
@@ -91,14 +89,13 @@ public class Cliente implements Serializable {
         this.password = password;
     }
 
-    // toString method
     @Override
     public String toString() {
         return "Cliente{" +
                 "idCliente=" + idCliente +
                 ", nome='" + nome + '\'' +
-                ", nif=" + nif +
-                ", contacto=" + contacto +
+                ", nif='" + nif + '\'' +
+                ", contacto='" + contacto + '\'' +
                 ", codPostal=" + codPostal +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
