@@ -18,23 +18,10 @@ public class Projeto2Application {
         // Obtém o serviço de cliente
         ClienteService clienteService = context.getBean(ClienteService.class);
 
-        // Criação de um scanner para ler a entrada do usuário
-        Scanner scanner = new Scanner(System.in);
-
-        // Solicitar e ler os dados do cliente na linha de comando
-        System.out.print("Digite o ID do cliente: ");
-        Long idCliente = scanner.nextLong();  // Lê o ID do cliente
-
-        scanner.nextLine();  // Limpar o buffer após ler o número
-
-        System.out.print("Digite o nome do cliente: ");
-        String nome = scanner.nextLine();  // Lê o nome do cliente
-
-        System.out.print("Digite o NIF do cliente: ");
-        String nif = scanner.nextLine();  // Lê o NIF do cliente
-
-        System.out.print("Digite o contacto do cliente: ");
-        String contacto = scanner.nextLine();  // Lê o contacto do cliente
+        Long idCliente = 1L;
+        String nome = "Tone";
+        String nif = "999999999";
+        String contacto = "999999999";
 
         // Criando um novo cliente com os dados inseridos pelo usuário
         Cliente novoCliente = new Cliente();
@@ -63,7 +50,5 @@ public class Projeto2Application {
             }
         }
 
-        // Fechar o scanner
-        scanner.close();
     }
 }
