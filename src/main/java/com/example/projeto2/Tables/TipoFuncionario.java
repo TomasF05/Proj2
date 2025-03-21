@@ -8,16 +8,16 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "TipoFuncionario")
+@Table(name = "tipofuncionario")
 public class TipoFuncionario implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name = "IdTipo", nullable = false)
+    @Column(name = "idtipo", nullable = false)
     private BigDecimal idTipo;
 
-    @Column(name = "TipoFuncionario")
+    @Column(name = "tipofuncionario")
     private String tipoFuncionario;
 
     // Getters e Setters

@@ -5,14 +5,14 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "CodPostal", schema = "public")
+@Table(name = "codpostal")
 public class CodPostal {
 
     @Id
-    @Column(name = "CodPostal", length = 10, nullable = false, unique = true)
+    @Column(name = "codpostal", length = 10, nullable = false, unique = true)
     private String codPostal;
 
-    @Column(name = "Descricao", length = 50)
+    @Column(name = "descricao", length = 50)
     private String descricao;
 
     @OneToMany(mappedBy = "codPostal")

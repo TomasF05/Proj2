@@ -2,6 +2,7 @@ package com.example.projeto2.Tables;
 
 import jakarta.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "Cliente")
@@ -10,20 +11,20 @@ public class Cliente implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name = "IdCliente", nullable = false)
-    private Long idCliente;
+    @Column(name = "idcliente", nullable = false)
+    private BigDecimal idCliente;
 
-    @Column(name = "Nome")
+    @Column(name = "nome")
     private String nome;
 
-    @Column(name = "NIF")
+    @Column(name = "nif")
     private String nif;
 
-    @Column(name = "Contacto")
+    @Column(name = "contacto")
     private String contacto;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "IdCodPostal", referencedColumnName = "CodPostal")
+    @JoinColumn(name = "idcodpostal", referencedColumnName = "codpostal")
     private CodPostal codPostal;
 
     @Column(name = "username")
@@ -33,11 +34,11 @@ public class Cliente implements Serializable {
     private String password;
 
     // Getters and Setters
-    public Long getIdCliente() {
+    public BigDecimal getIdCliente() {
         return idCliente;
     }
 
-    public void setIdCliente(Long idCliente) {
+    public void setIdCliente(BigDecimal idCliente) {
         this.idCliente = idCliente;
     }
 

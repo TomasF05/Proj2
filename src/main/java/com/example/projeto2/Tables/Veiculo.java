@@ -8,28 +8,28 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "Veiculo")
+@Table(name = "veiculo")
 public class Veiculo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name = "IdVeiculo", nullable = false)
+    @Column(name = "idveiculo", nullable = false)
     private BigDecimal idVeiculo;
 
-    @Column(name = "Matricula")
+    @Column(name = "matricula")
     private String matricula;
 
-    @Column(name = "Marca")
+    @Column(name = "marca")
     private String marca;
 
-    @Column(name = "Modelo")
+    @Column(name = "modelo")
     private String modelo;
 
-    @Column(name = "Ano")
+    @Column(name = "ano")
     private BigDecimal ano;
 
-    @Column(name = "IdCliente")
+    @Column(name = "idcliente")
     private BigDecimal idCliente;
 
     // Getters e Setters

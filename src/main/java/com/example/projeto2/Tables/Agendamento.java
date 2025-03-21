@@ -16,22 +16,22 @@ public class Agendamento implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name = "IdAgendamento", nullable = false)
+    @Column(name = "idagendamento", nullable = false)
     private BigDecimal idAgendamento;
 
-    @Column(name = "DataHora")
+    @Column(name = "datahora")
     private Date dataHora;
 
-    @Column(name = "EstadoPagamento")
+    @Column(name = "estadopagamento")
     private String estadoPagamento;
 
-    @Column(name = "Observacoes")
+    @Column(name = "observacoes")
     private String observacoes;
 
-    @Column(name = "IdVeiculo")
+    @Column(name = "idveiculo")
     private BigDecimal idVeiculo;
 
-    @Column(name = "IdFuncionario")
+    @Column(name = "idfuncionario")
     private BigDecimal idFuncionario;
 
     // Getters and Setters

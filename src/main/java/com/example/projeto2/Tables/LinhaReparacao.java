@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "LinhaReparacao")
+@Table(name = "linhareparacao")
 public class LinhaReparacao implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -16,7 +16,7 @@ public class LinhaReparacao implements Serializable {
     @EmbeddedId
     private LinhaReparacaoId id;  // A chave composta é agora um objeto
 
-    @Column(name = "Qtd")
+    @Column(name = "qtd")
     private BigDecimal qtd;
 
     // Getters e Setters

@@ -9,40 +9,40 @@ import java.math.BigDecimal;
 import java.sql.Date;
 
 @Entity
-@Table(name = "Reparacao")
+@Table(name = "reparacao")
 public class Reparacao implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name = "IdReparacao", nullable = false)
+    @Column(name = "idreparacao", nullable = false)
     private BigDecimal idReparacao;
 
-    @Column(name = "DataInicio")
+    @Column(name = "datainicio")
     private Date dataInicio;
 
-    @Column(name = "DataFim")
+    @Column(name = "datafim")
     private Date dataFim;
 
-    @Column(name = "Estado")
+    @Column(name = "estado")
     private String estado;
 
-    @Column(name = "Descricao")
+    @Column(name = "descricao")
     private String descricao;
 
-    @Column(name = "ValorTotal")
+    @Column(name = "valortotal")
     private BigDecimal valorTotal;
 
-    @Column(name = "nFatura")
+    @Column(name = "nfatura")
     private BigDecimal nFatura;
 
-    @Column(name = "IdVeiculo")
+    @Column(name = "idveiculo")
     private BigDecimal idVeiculo;
 
-    @Column(name = "IdFuncionario")
+    @Column(name = "idfuncionario")
     private BigDecimal idFuncionario;
 
-    @Column(name = "IdServico")
+    @Column(name = "idservico")
     private BigDecimal idServico;
 
     // Getters e Setters

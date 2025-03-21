@@ -7,7 +7,7 @@ import jakarta.persistence.Table;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "LinhaEncFornecedor")
+@Table(name = "linhaencfornecedor")
 public class LinhaEncFornecedor {
 
     private static final long serialVersionUID = 1L;
@@ -15,10 +15,10 @@ public class LinhaEncFornecedor {
     @EmbeddedId
     private LinhaEncFornecedorId id;
 
-    @Column(name = "Qtd")
+    @Column(name = "qtd")
     private BigDecimal qtd;
 
-    @Column(name = "ValorTotal")
+    @Column(name = "valortotal")
     private BigDecimal valorTotal;
 
     // Getters and Setters

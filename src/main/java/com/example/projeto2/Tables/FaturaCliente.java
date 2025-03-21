@@ -9,22 +9,22 @@ import java.math.BigDecimal;
 import java.sql.Date;
 
 @Entity
-@Table(name = "FaturaCliente")
+@Table(name = "faturacliente")
 public class FaturaCliente implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name = "nFatura", nullable = false)
+    @Column(name = "nfatura", nullable = false)
     private BigDecimal nFatura;
 
-    @Column(name = "Data")
+    @Column(name = "data")
     private Date data;
 
-    @Column(name = "ValorTotal")
+    @Column(name = "valortotal")
     private BigDecimal valorTotal;
 
-    @Column(name = "IdCliente")
+    @Column(name = "idcliente")
     private BigDecimal idCliente;
 
     // Getters and Setters

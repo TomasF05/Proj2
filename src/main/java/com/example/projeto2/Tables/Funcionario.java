@@ -14,13 +14,13 @@ public class Funcionario implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name = "IdFuncionario", nullable = false)
+    @Column(name = "idfuncionario", nullable = false)
     private BigDecimal idFuncionario;
 
-    @Column(name = "Nome")
+    @Column(name = "nome")
     private String nome;
 
-    @Column(name = "Tipo")
+    @Column(name = "tipo")
     private BigDecimal tipo;
 
     @Column(name = "username")

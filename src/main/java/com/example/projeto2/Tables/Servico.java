@@ -8,19 +8,19 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "Servico")
+@Table(name = "servico")
 public class Servico implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name = "IdServico", nullable = false)
+    @Column(name = "idservico", nullable = false)
     private BigDecimal idServico;
 
-    @Column(name = "Nome")
+    @Column(name = "nome")
     private String nome;
 
-    @Column(name = "Descricao")
+    @Column(name = "descricao")
     private String descricao;
 
     // Getters e Setters

@@ -9,25 +9,25 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "\"Fornecedor\"", schema = "public")
+@Table(name = "fornecedor", schema = "public")
 public class Fornecedor {
 
     @Id
-    @Column(name = "\"IdFornecedor\"", nullable = false, precision = 8)
+    @Column(name = "idFornecedor", nullable = false)
     private BigDecimal id;
 
-    @Column(name = "\"Nome\"", length = 50)
+    @Column(name = "nome", length = 50)
     private String nome;
 
-    @Column(name = "\"NIF\"", precision = 9)
+    @Column(name = "nif", precision = 9)
     private BigDecimal nif;
 
-    @Column(name = "\"Contacto\"", precision = 9)
+    @Column(name = "contacto", precision = 9)
     private BigDecimal contacto;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.SET_NULL)
-    @JoinColumn(name = "\"CodPostal\"")
+    @JoinColumn(name = "codpostal")
     private CodPostal codPostal;
 
     @OneToMany(mappedBy = "idFornecedor")

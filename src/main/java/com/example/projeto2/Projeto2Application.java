@@ -1,11 +1,12 @@
 package com.example.projeto2;
 
-import com.example.projeto2.Tables.Cliente;
-import com.example.projeto2.Services.ClienteService;
+import com.example.projeto2.Tables.*;
+import com.example.projeto2.Services.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Scanner;
 
@@ -18,7 +19,7 @@ public class Projeto2Application {
         // Obtém o serviço de cliente
         ClienteService clienteService = context.getBean(ClienteService.class);
 
-        Long idCliente = 1L;
+        BigDecimal idCliente = BigDecimal.valueOf(1);
         String nome = "Tone";
         String nif = "999999999";
         String contacto = "999999999";
@@ -49,6 +50,72 @@ public class Projeto2Application {
                         " | Contato: " + cliente.getContacto());
             }
         }
+        // ---------------- Peca Example (Parts) ----------------
+        PecaService pecaService = context.getBean(PecaService.class);
+        Peca novaPeca = new Peca();
+        novaPeca.setIdpeca(BigDecimal.valueOf(1));
+        novaPeca.setNome("Filtro de Ar");
+        novaPeca.setReferencia("FA-123");
+        novaPeca.setPreco(new BigDecimal("50.00"));
+        novaPeca.setQtd(BigDecimal.valueOf(20));
+
+        // Inserindo a peça no banco de dados
+        pecaService.savePeca(novaPeca);
+        System.out.println("Nova peça adicionada com sucesso!");
+
+        // Atualizando a peça (ex.: alterando preço e quantidade)
+        novaPeca.setPreco(new BigDecimal("55.00"));
+        novaPeca.setQtd(BigDecimal.valueOf(25));
+        pecaService.updatePeca(novaPeca);
+        System.out.println("Peça atualizada com sucesso!");
+
+        // Deletando a peça
+        pecaService.deletePeca(novaPeca.getIdpeca());
+        System.out.println("Peça deletada com sucesso!");
+
+        // ---------------- Veiculo Example (Vehicle) ----------------
+        VeiculoService veiculoService = context.getBean(VeiculoService.class);
+        Veiculo novoVeiculo = new Veiculo();
+        novoVeiculo.setIdveiculo(BigDecimal.valueOf(1));
+        novoVeiculo.setMatricula("12-34-AB");
+        novoVeiculo.setMarca("Toyota");
+        novoVeiculo.setModelo("Corolla");
+        novoVeiculo.setAno(BigDecimal.valueOf(2020));
+        novoVeiculo.setIdcliente(BigDecimal.valueOf(1));  // assumindo que o cliente existe
+
+        // Inserindo o veículo no banco de dados
+        veiculoService.saveVeiculo(novoVeiculo);
+        System.out.println("Novo veículo adicionado com sucesso!");
+
+        // Atualizando o veículo (ex.: alterando o modelo)
+        novoVeiculo.setModelo("Camry");
+        veiculoService.updateVeiculo(novoVeiculo);
+        System.out.println("Veículo atualizado com sucesso!");
+
+        // Deletando o veículo
+        veiculoService.deleteVeiculo(novoVeiculo.getIdveiculo());
+        System.out.println("Veículo deletado com sucesso!");
+
+        // ---------------- Fornecedor Example (Supplier) ----------------
+        FornecedorService fornecedorService = context.getBean(FornecedorService.class);
+        Fornecedor novoFornecedor = new Fornecedor();
+        novoFornecedor.setId(BigDecimal.valueOf(1));
+        novoFornecedor.setNome("Fornecedor A");
+        novoFornecedor.setNif(BigDecimal.valueOf(123456789L));
+        novoFornecedor.setContacto(BigDecimal.valueOf(987654321L));
+
+        // Inserindo o fornecedor no banco de dados
+        fornecedorService.saveFornecedor(novoFornecedor);
+        System.out.println("Novo fornecedor adicionado com sucesso!");
+
+        // Atualizando o fornecedor (ex.: alterando o nome)
+        novoFornecedor.setNome("Fornecedor A Atualizado");
+        fornecedorService.updateFornecedor(novoFornecedor);
+        System.out.println("Fornecedor atualizado com sucesso!");
+
+        // Deletando o fornecedor
+        fornecedorService.deleteFornecedor(novoFornecedor.getId());
+        System.out.println("Fornecedor deletado com sucesso!");
 
     }
 }
