@@ -13,7 +13,7 @@ import java.util.Set;
 public class Fornecedor {
 
     @Id
-    @Column(name = "idFornecedor", nullable = false)
+    @Column(name = "idfornecedor", nullable = false)
     private BigDecimal id;
 
     @Column(name = "nome", length = 50)

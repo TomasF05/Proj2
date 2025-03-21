@@ -53,7 +53,7 @@ public class Projeto2Application {
         // ---------------- Peca Example (Parts) ----------------
         PecaService pecaService = context.getBean(PecaService.class);
         Peca novaPeca = new Peca();
-        novaPeca.setIdpeca(BigDecimal.valueOf(1));
+        novaPeca.setIdPeca(BigDecimal.valueOf(1));
         novaPeca.setNome("Filtro de Ar");
         novaPeca.setReferencia("FA-123");
         novaPeca.setPreco(new BigDecimal("50.00"));
@@ -66,22 +66,22 @@ public class Projeto2Application {
         // Atualizando a peça (ex.: alterando preço e quantidade)
         novaPeca.setPreco(new BigDecimal("55.00"));
         novaPeca.setQtd(BigDecimal.valueOf(25));
-        pecaService.updatePeca(novaPeca);
+        pecaService.updatePeca(novaPeca.getIdPeca(), novaPeca);
         System.out.println("Peça atualizada com sucesso!");
 
         // Deletando a peça
-        pecaService.deletePeca(novaPeca.getIdpeca());
+        pecaService.deletePeca(novaPeca.getIdPeca());
         System.out.println("Peça deletada com sucesso!");
 
         // ---------------- Veiculo Example (Vehicle) ----------------
         VeiculoService veiculoService = context.getBean(VeiculoService.class);
         Veiculo novoVeiculo = new Veiculo();
-        novoVeiculo.setIdveiculo(BigDecimal.valueOf(1));
+        novoVeiculo.setIdVeiculo(BigDecimal.valueOf(1));
         novoVeiculo.setMatricula("12-34-AB");
         novoVeiculo.setMarca("Toyota");
         novoVeiculo.setModelo("Corolla");
         novoVeiculo.setAno(BigDecimal.valueOf(2020));
-        novoVeiculo.setIdcliente(BigDecimal.valueOf(1));  // assumindo que o cliente existe
+        novoVeiculo.setIdCliente(BigDecimal.valueOf(1));  // assumindo que o cliente existe
 
         // Inserindo o veículo no banco de dados
         veiculoService.saveVeiculo(novoVeiculo);
@@ -89,11 +89,11 @@ public class Projeto2Application {
 
         // Atualizando o veículo (ex.: alterando o modelo)
         novoVeiculo.setModelo("Camry");
-        veiculoService.updateVeiculo(novoVeiculo);
+        veiculoService.updateVeiculo(novoVeiculo.getIdVeiculo(), novoVeiculo);
         System.out.println("Veículo atualizado com sucesso!");
 
         // Deletando o veículo
-        veiculoService.deleteVeiculo(novoVeiculo.getIdveiculo());
+        veiculoService.deleteVeiculo(novoVeiculo.getIdVeiculo());
         System.out.println("Veículo deletado com sucesso!");
 
         // ---------------- Fornecedor Example (Supplier) ----------------
@@ -110,7 +110,7 @@ public class Projeto2Application {
 
         // Atualizando o fornecedor (ex.: alterando o nome)
         novoFornecedor.setNome("Fornecedor A Atualizado");
-        fornecedorService.updateFornecedor(novoFornecedor);
+        fornecedorService.updateFornecedor(novoFornecedor.getId(), novoFornecedor);
         System.out.println("Fornecedor atualizado com sucesso!");
 
         // Deletando o fornecedor
