@@ -9,6 +9,7 @@ import jakarta.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class FuncionarioService {
@@ -54,5 +55,17 @@ public class FuncionarioService {
 
         // Salva as alterações
         return funcionarioRepository.save(existingFuncionario);
+    }
+    
+    // Método para autenticar um funcionário
+    @Transactional
+    public Optional<Funcionario> authenticateFuncionario(String username, String password) {
+        return funcionarioRepository.findByUsernameAndPassword(username, password);
+    }
+    
+    // Método para encontrar um funcionário por username
+    @Transactional
+    public Optional<Funcionario> getFuncionarioByUsername(String username) {
+        return funcionarioRepository.findByUsername(username);
     }
 }

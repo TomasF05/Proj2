@@ -2,20 +2,107 @@ package com.example.projeto2;
 
 import com.example.projeto2.Tables.*;
 import com.example.projeto2.Services.*;
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Scanner;
 
-@SpringBootApplication
-public class Projeto2Application {
+@SpringBootApplication(scanBasePackages = {"com.example.projeto2", "com.example.projeto2.Desktop"})
+public class Projeto2Application extends Application {
+    
+    private static ConfigurableApplicationContext springContext;
+    private static String[] savedArgs;
+    
+    // Static accessor for the Spring context
+    public static ConfigurableApplicationContext getSpringContext() {
+        return springContext;
+    }
+    
+    // This is needed for running with JAR
     public static void main(String[] args) {
-        // Inicializa o contexto Spring
-        ApplicationContext context = SpringApplication.run(Projeto2Application.class, args);
-
+        savedArgs = args;
+        Application.launch(Projeto2Application.class, args);
+    }
+    
+    @Override
+    public void init() throws Exception {
+        springContext = SpringApplication.run(Projeto2Application.class, savedArgs);
+    }
+    
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        try {
+            // Create a sample funcionario for testing if none exists
+            createSampleFuncionarioIfNeeded();
+            
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/login.fxml"));
+            loader.setControllerFactory(springContext::getBean);
+            Parent root = loader.load();
+            
+            primaryStage.setTitle("AutoPro Workshop Management");
+            primaryStage.setScene(new Scene(root));
+            primaryStage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+    }
+    
+    private void createSampleFuncionarioIfNeeded() {
+        FuncionarioService funcionarioService = springContext.getBean(FuncionarioService.class);
+        
+        // Check if any funcionarios exist
+        if (funcionarioService.getAllFuncionarios().isEmpty()) {
+            System.out.println("Creating sample funcionario for testing...");
+            
+            // Create a sample funcionario
+            Funcionario sampleFuncionario = new Funcionario();
+            sampleFuncionario.setIdFuncionario(new BigDecimal(1));
+            sampleFuncionario.setNome("Admin");
+            sampleFuncionario.setTipo(new BigDecimal(1)); // Admin type
+            sampleFuncionario.setUsername("admin");
+            sampleFuncionario.setPassword("admin");
+            
+            // Save to database
+            funcionarioService.saveFuncionario(sampleFuncionario);
+            
+            System.out.println("Sample funcionario created successfully. Use username 'admin' and password 'admin' to login.");
+        } else {
+            System.out.println("Funcionarios already exist in the database. No need to create samples.");
+            
+            // Debug: Print all funcionarios
+            List<Funcionario> funcionarios = funcionarioService.getAllFuncionarios();
+            System.out.println("Available funcionarios:");
+            for (Funcionario f : funcionarios) {
+                System.out.println("Username: " + f.getUsername() + ", Password: " + f.getPassword());
+            }
+        }
+    }
+    
+    @Override
+    public void stop() {
+        springContext.close();
+        Platform.exit();
+    }
+    
+    // Alternative main method without JavaFX to run database examples
+    public static void runConsoleMode(String[] args) {
+        ConfigurableApplicationContext context = SpringApplication.run(Projeto2Application.class, args);
+        runDatabaseExamples(context);
+        context.close();
+    }
+    
+    // This method can be used to run database examples separately
+    private static void runDatabaseExamples(ApplicationContext context) {
         // Obtém o serviço de cliente
         ClienteService clienteService = context.getBean(ClienteService.class);
 
@@ -50,72 +137,5 @@ public class Projeto2Application {
                         " | Contato: " + cliente.getContacto());
             }
         }
-        // ---------------- Peca Example (Parts) ----------------
-        PecaService pecaService = context.getBean(PecaService.class);
-        Peca novaPeca = new Peca();
-        novaPeca.setIdPeca(BigDecimal.valueOf(1));
-        novaPeca.setNome("Filtro de Ar");
-        novaPeca.setReferencia("FA-123");
-        novaPeca.setPreco(new BigDecimal("50.00"));
-        novaPeca.setQtd(BigDecimal.valueOf(20));
-
-        // Inserindo a peça no banco de dados
-        pecaService.savePeca(novaPeca);
-        System.out.println("Nova peça adicionada com sucesso!");
-
-        // Atualizando a peça (ex.: alterando preço e quantidade)
-        novaPeca.setPreco(new BigDecimal("55.00"));
-        novaPeca.setQtd(BigDecimal.valueOf(25));
-        pecaService.updatePeca(novaPeca.getIdPeca(), novaPeca);
-        System.out.println("Peça atualizada com sucesso!");
-
-        // Deletando a peça
-        pecaService.deletePeca(novaPeca.getIdPeca());
-        System.out.println("Peça deletada com sucesso!");
-
-        // ---------------- Veiculo Example (Vehicle) ----------------
-        VeiculoService veiculoService = context.getBean(VeiculoService.class);
-        Veiculo novoVeiculo = new Veiculo();
-        novoVeiculo.setIdVeiculo(BigDecimal.valueOf(1));
-        novoVeiculo.setMatricula("12-34-AB");
-        novoVeiculo.setMarca("Toyota");
-        novoVeiculo.setModelo("Corolla");
-        novoVeiculo.setAno(BigDecimal.valueOf(2020));
-        novoVeiculo.setIdCliente(BigDecimal.valueOf(1));  // assumindo que o cliente existe
-
-        // Inserindo o veículo no banco de dados
-        veiculoService.saveVeiculo(novoVeiculo);
-        System.out.println("Novo veículo adicionado com sucesso!");
-
-        // Atualizando o veículo (ex.: alterando o modelo)
-        novoVeiculo.setModelo("Camry");
-        veiculoService.updateVeiculo(novoVeiculo.getIdVeiculo(), novoVeiculo);
-        System.out.println("Veículo atualizado com sucesso!");
-
-        // Deletando o veículo
-        veiculoService.deleteVeiculo(novoVeiculo.getIdVeiculo());
-        System.out.println("Veículo deletado com sucesso!");
-
-        // ---------------- Fornecedor Example (Supplier) ----------------
-        FornecedorService fornecedorService = context.getBean(FornecedorService.class);
-        Fornecedor novoFornecedor = new Fornecedor();
-        novoFornecedor.setId(BigDecimal.valueOf(1));
-        novoFornecedor.setNome("Fornecedor A");
-        novoFornecedor.setNif(BigDecimal.valueOf(123456789L));
-        novoFornecedor.setContacto(BigDecimal.valueOf(987654321L));
-
-        // Inserindo o fornecedor no banco de dados
-        fornecedorService.saveFornecedor(novoFornecedor);
-        System.out.println("Novo fornecedor adicionado com sucesso!");
-
-        // Atualizando o fornecedor (ex.: alterando o nome)
-        novoFornecedor.setNome("Fornecedor A Atualizado");
-        fornecedorService.updateFornecedor(novoFornecedor.getId(), novoFornecedor);
-        System.out.println("Fornecedor atualizado com sucesso!");
-
-        // Deletando o fornecedor
-        fornecedorService.deleteFornecedor(novoFornecedor.getId());
-        System.out.println("Fornecedor deletado com sucesso!");
-
     }
 }
