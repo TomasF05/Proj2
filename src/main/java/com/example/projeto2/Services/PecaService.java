@@ -22,6 +22,9 @@ public class PecaService {
         return savedPeca.getIdPeca();
     }
 
+    public List<Peca> findLowStockPecas() {
+        return pecaRepository.findByQtdLessThanEqual(5); // Adjust threshold as needed
+    }
     @Transactional
     public void deletePeca(BigDecimal id) {
         pecaRepository.deleteById(id);

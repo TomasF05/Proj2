@@ -10,7 +10,9 @@ import java.io.IOException;
 import java.net.URL;
 
 @Configuration
-public class FxmlConfig {
+public class
+
+FxmlConfig {
 
     private final ConfigurableApplicationContext context;
 

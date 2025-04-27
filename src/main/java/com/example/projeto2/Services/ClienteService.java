@@ -36,4 +36,6 @@ public class ClienteService {
     public void deleteCliente(BigDecimal id) {
         clienteRepository.deleteById(id);
     }
+
+
 }

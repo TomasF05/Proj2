@@ -3,10 +3,13 @@ package com.example.projeto2.Tables;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.Date;
 
 @Entity
@@ -34,7 +37,10 @@ public class Agendamento implements Serializable {
     @Column(name = "idfuncionario")
     private BigDecimal idFuncionario;
 
-    // Getters and Setters
+    @ManyToOne
+    @JoinColumn(name = "idcliente", referencedColumnName = "idcliente")
+    private Cliente cliente;
+
     public BigDecimal getIdAgendamento() {
         return idAgendamento;
     }
@@ -83,7 +89,19 @@ public class Agendamento implements Serializable {
         this.idFuncionario = idFuncionario;
     }
 
-    // toString method
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    // Convert Date to LocalTime
+    public LocalTime getLocalTime() {
+        return dataHora.toInstant().atZone(ZoneId.systemDefault()).toLocalTime();
+    }
+
     @Override
     public String toString() {
         return "Agendamento{" +
@@ -93,6 +111,7 @@ public class Agendamento implements Serializable {
                 ", observacoes='" + observacoes + '\'' +
                 ", idVeiculo=" + idVeiculo +
                 ", idFuncionario=" + idFuncionario +
+                ", cliente=" + cliente +
                 '}';
     }
 }

@@ -1,9 +1,7 @@
 package com.example.projeto2.Tables;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -44,8 +42,6 @@ public class Reparacao implements Serializable {
 
     @Column(name = "idservico")
     private BigDecimal idServico;
-
-    // Getters e Setters
 
     public BigDecimal getIdReparacao() {
         return idReparacao;

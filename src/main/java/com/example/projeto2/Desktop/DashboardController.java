@@ -1,9 +1,12 @@
 package com.example.projeto2.Desktop;
 
 import com.example.projeto2.Services.AgendamentoService;
+import com.example.projeto2.Services.PecaService;
 import com.example.projeto2.Services.ReparacaoService;
 import com.example.projeto2.Tables.Agendamento;
+import com.example.projeto2.Tables.Peca;
 import com.example.projeto2.Tables.Reparacao;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -11,6 +14,16 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TabPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.LinearGradient;
+import javafx.scene.paint.Stop;
+import javafx.scene.shape.Arc;
+import javafx.scene.shape.ArcType;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -21,83 +34,81 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 @Component
-public class DashboardController implements Initializable {
+public class DashboardController {
 
-    private final AgendamentoService agendamentoService;
+    @FXML
+    private BorderPane mainLayout;
+
+    @FXML
+    private Arc progressArc;
+
+    @FXML
+    private Label progressLabel;
+
+    @FXML
+    private VBox stockList;
+
     private final ReparacaoService reparacaoService;
-
-    @FXML
-    private Button servicesButton;
-
-    @FXML
-    private Button inventoryButton;
+    private final PecaService pecaService;
 
     @Autowired
-    public DashboardController(AgendamentoService agendamentoService, ReparacaoService reparacaoService) {
-        this.agendamentoService = agendamentoService;
+    public DashboardController(ReparacaoService reparacaoService, PecaService pecaService) {
         this.reparacaoService = reparacaoService;
+        this.pecaService = pecaService;
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        System.out.println("DashboardController initializing...");
-        
-        try {
-            // Set up button actions if buttons are not null
-            if (servicesButton != null) {
-                System.out.println("Setting up services button action");
-                servicesButton.setOnAction(event -> navigateToServices());
-            } else {
-                System.out.println("Services button is null!");
-            }
-            
-            if (inventoryButton != null) {
-                System.out.println("Setting up inventory button action");
-                inventoryButton.setOnAction(event -> navigateToInventory());
-            } else {
-                System.out.println("Inventory button is null!");
-            }
-            
-            // Initialize dashboard data
-            loadDashboardData();
-            System.out.println("Dashboard data loaded successfully");
-        } catch (Exception e) {
-            System.out.println("Error initializing DashboardController: " + e.getMessage());
-            e.printStackTrace();
+    @FXML
+    public void initialize() {
+        loadRepairProgress();
+        loadStockInformation();
+    }
+
+    private void loadRepairProgress() {
+        int totalRepairs = reparacaoService.countTodayRepairs();
+        int completedRepairs = reparacaoService.countCompletedRepairsToday();
+
+        if (totalRepairs > 0) {
+            double progressPercentage = (double) completedRepairs / totalRepairs * 100;
+            progressLabel.setText(String.format("%.1f%% das reparações de hoje concluídas", progressPercentage));
+
+            // Customize the arc based on progress
+            progressArc.setRadiusX(40);
+            progressArc.setRadiusY(40);
+            progressArc.setType(ArcType.OPEN);
+            progressArc.setStartAngle(90);
+            progressArc.setLength(360 * (progressPercentage / 100));
+
+            Stop[] stops = new Stop[]{new Stop(0, Color.valueOf("#ff6b35")), new Stop(1, Color.valueOf("#ff9a00"))};
+            LinearGradient gradient = new LinearGradient(0, 0, 1, 0, true, null, stops);
+            progressArc.setStroke(gradient);
+            progressArc.setStrokeWidth(10);
+            progressArc.setFill(null);
         }
     }
 
-    private void loadDashboardData() {
-        // This is where you'd load data from your services to display on the dashboard
-        // For example:
-        List<Agendamento> todaysAppointments = agendamentoService.getAllAgendamentos();
-        List<Reparacao> activeRepairs = reparacaoService.getAllReparacoes();
-        
-        // Then update your UI elements with this data
-        // For example: appointmentsLabel.setText("Today's appointments: " + todaysAppointments.size());
-    }
+    private void loadStockInformation() {
+        List<Peca> lowStockPecas = pecaService.findLowStockPecas();
 
-    private void navigateToServices() {
-        try {
-            // Use the SceneManager to open the services window
-            SceneManager.openNewWindow("/services.fxml", "AutoPro Services");
-            
-            // Optionally, close the current window
-            // ((Stage) servicesButton.getScene().getWindow()).close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    
-    private void navigateToInventory() {
-        try {
-            // Use the SceneManager to open the inventory window
-            SceneManager.openNewWindow("/inventory.fxml", "AutoPro Inventory");
-            
-            // Optionally, close the current window
-            // ((Stage) inventoryButton.getScene().getWindow()).close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        lowStockPecas.forEach(peca -> {
+            HBox stockItem = new HBox(10);
+            Label pecaName = new Label(peca.getNome());
+            pecaName.setStyle("-fx-text-fill: white;");
+            Label stockInfo = new Label(String.format("Stock: %d unidades restantes", peca.getQtd()));
+            stockInfo.setStyle("-fx-text-fill: #ff6b35;");
+
+            Region spacer = new Region();
+            HBox.setHgrow(spacer, javafx.scene.layout.Priority.ALWAYS);
+
+            Region stockBar = new Region();
+            stockBar.setStyle("-fx-background-color: linear-gradient(to right, #ff6b35, #ff9a00);");
+            stockBar.setMinHeight(5);
+            stockBar.setMaxHeight(5);
+
+            stockItem.getChildren().addAll(pecaName, spacer, stockInfo);
+            HBox barContainer = new HBox(stockBar);
+            barContainer.setPadding(new javafx.geometry.Insets(5, 0, 5, 0));
+
+            stockList.getChildren().addAll(stockItem, barContainer);
+        });
     }
 }

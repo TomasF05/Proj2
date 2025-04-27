@@ -1,0 +1,26 @@
+/* styles.css */
+.root {
+    -fx-background-color: #1a1a1a;
+}
+
+/* Sidebar styles */
+.sidebar {
+    -fx-background-color: linear-gradient(to bottom, #2d2d2d, #1a1a1a);
+    -fx-pref-width: 250px;
+}
+
+.sidebar-title {
+    -fx-text-fill: #ff6b35;
+}
+
+.sidebar-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-padding: 10px 15px;
+    -fx-alignment: center-left;
+}
+
+.sidebar-button:hover {
+    -fx-background-color: #3a3a3a;
+}

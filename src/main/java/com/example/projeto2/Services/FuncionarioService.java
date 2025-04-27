@@ -68,4 +68,12 @@ public class FuncionarioService {
     public Optional<Funcionario> getFuncionarioByUsername(String username) {
         return funcionarioRepository.findByUsername(username);
     }
+    // Java
+    @Transactional
+    public Funcionario findByUsername(String username) {
+        return funcionarioRepository.findByUsername(username)
+                .orElseThrow(() -> new NoSuchElementException("Funcionario not found: " + username));
+    }
+
+
 }

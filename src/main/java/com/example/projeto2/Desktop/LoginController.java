@@ -1,5 +1,6 @@
 package com.example.projeto2.Desktop;
 
+import com.example.projeto2.Projeto2Application;
 import com.example.projeto2.Services.FuncionarioService;
 import com.example.projeto2.Tables.Funcionario;
 import javafx.event.ActionEvent;
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,41 +47,20 @@ public class LoginController {
             return;
         }
 
-        // Debug output
-        System.out.println("Attempting login with username: " + username);
-        System.out.println("Number of funcionarios in DB: " + funcionarioService.getAllFuncionarios().size());
-        
-        // Debug: Print all funcionarios from DB
-        for (Funcionario f : funcionarioService.getAllFuncionarios()) {
-            System.out.println("DB User: " + f.getUsername() + ", Password: " + f.getPassword());
-        }
-        
-        // Try the direct authentication method first
         boolean authenticated = false;
-        
+
         try {
             Optional<Funcionario> funcionarioOpt = funcionarioService.authenticateFuncionario(username, password);
-            
+
             if (funcionarioOpt.isPresent()) {
                 authenticated = true;
-                System.out.println("Authentication successful using repository method!");
             } else {
-                System.out.println("Authentication failed using repository method");
-                
-                // Fallback to manual authentication
                 List<Funcionario> funcionarios = funcionarioService.getAllFuncionarios();
-                
+
                 for (Funcionario funcionario : funcionarios) {
-                    System.out.println("Checking against: " + funcionario.getUsername());
-                    
-                    boolean usernameMatch = funcionario.getUsername() != null && funcionario.getUsername().equalsIgnoreCase(username);
-                    boolean passwordMatch = funcionario.getPassword() != null && funcionario.getPassword().equals(password);
-                    
-                    System.out.println("Username match: " + usernameMatch + ", Password match: " + passwordMatch);
-                    
-                    if (usernameMatch && passwordMatch) {
+                    if (funcionario.getUsername() != null && funcionario.getUsername().equalsIgnoreCase(username) &&
+                            funcionario.getPassword() != null && funcionario.getPassword().equals(password)) {
                         authenticated = true;
-                        System.out.println("Authentication successful using manual check!");
                         break;
                     }
                 }
@@ -91,12 +72,35 @@ public class LoginController {
 
         if (authenticated) {
             try {
-                // Use the SceneManager to switch to the dashboard
-                SceneManager.switchScene("/dashboard.fxml", "AutoPro Dashboard", (Node) event.getSource());
+                // Determine the user type
+                Funcionario usuario = funcionarioService.findByUsername(username);
+
+                FXMLLoader loader;
+                Parent root;
+
+                if (usuario.getTipo().equals(new BigDecimal(1))) {
+                    // Load mechanic dashboard
+                    loader = new FXMLLoader(getClass().getResource("/dashboard.fxml"));
+                } else if (usuario.getTipo().equals(new BigDecimal(2))) {
+                    // Load receptionist dashboard
+                    loader = new FXMLLoader(getClass().getResource("/receptionist-dashboard.fxml"));
+                } else {
+                    // Default to main page
+                    loader = new FXMLLoader(getClass().getResource("/main.fxml"));
+                }
+
+                loader.setControllerFactory(Projeto2Application.getSpringContext()::getBean);
+                root = loader.load();
+
+                Stage stage = new Stage();
+                stage.setScene(new Scene(root));
+                stage.show();
+
+                ((Stage) ((Node) event.getSource()).getScene().getWindow()).close();
             } catch (IOException e) {
                 e.printStackTrace();
-                showAlert(Alert.AlertType.ERROR, "Error", "Navigation Error", 
-                          "Failed to load dashboard: " + e.getMessage());
+                showAlert(Alert.AlertType.ERROR, "Error", "Navigation Error",
+                        "Failed to load dashboard: " + e.getMessage());
             }
         } else {
             showAlert(Alert.AlertType.ERROR, "Error", "Login Failed", "Invalid username or password.");

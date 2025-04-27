@@ -16,4 +16,5 @@ public interface FuncionarioRepository extends JpaRepository<Funcionario, BigDec
     // Find by username and password
     @Query("SELECT f FROM Funcionario f WHERE f.username = :username AND f.password = :password")
     Optional<Funcionario> findByUsernameAndPassword(@Param("username") String username, @Param("password") String password);
+
 }

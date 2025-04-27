@@ -54,4 +54,9 @@ public class FaturaClienteService {
         // Salva as alterações
         return faturaClienteRepository.save(existingFatura);
     }
+    @Transactional
+    public List<FaturaCliente> getAllFaturasCliente() {
+        return faturaClienteRepository.findAll();
+    }
+
 }

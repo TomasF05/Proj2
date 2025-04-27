@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -15,6 +16,24 @@ public class ReparacaoService {
 
     @Autowired
     private ReparacaoRepository reparacaoRepository;
+
+    public int countTodayRepairs() {
+        LocalDate today = LocalDate.now();
+        return reparacaoRepository.countByDataInicioLessThanEqualAndDataFimGreaterThanEqual(today, today);
+    }
+
+    public int countCompletedRepairsToday() {
+        LocalDate today = LocalDate.now();
+        return reparacaoRepository.countByDataFimLessThanEqualAndEstado(today, "Concluída");
+    }
+    public List<Reparacao> getTodayRepairs() {
+        LocalDate today = LocalDate.now();
+        return reparacaoRepository.findByDataInicioLessThanEqualAndDataFimGreaterThanEqual(today, today);
+    }
+
+    public List<Reparacao> getActiveRepairs() {
+        return reparacaoRepository.findByEstadoNot("Concluída");
+    }
 
     // Salva ou atualiza uma reparação
     @Transactional

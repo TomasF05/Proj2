@@ -94,4 +94,6 @@ public class Veiculo implements Serializable {
                 ", idCliente=" + idCliente +
                 '}';
     }
+
+
 }

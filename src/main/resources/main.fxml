@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:id="mainLayout"
+            fx:controller="com.example.projeto2.Desktop.MainController"
+            stylesheets="/styles.css">
+    <left>
+        <fx:include source="sidebar.fxml" />
+    </left>
+    <center>
+        <fx:include source="dashboard.fxml" />
+    </center>
+</BorderPane>

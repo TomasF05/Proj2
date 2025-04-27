@@ -70,4 +70,5 @@ public class FaturaCliente implements Serializable {
                 ", idCliente=" + idCliente +
                 '}';
     }
+
 }

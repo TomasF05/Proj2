@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -55,5 +56,9 @@ public class AgendamentoService {
 
         // Salva as alterações
         return agendamentoRepository.save(existingAgendamento);
+    }
+    public List<Agendamento> getTodayAppointments() {
+        LocalDate today = LocalDate.now();
+        return agendamentoRepository.findByDataHoraGreaterThanEqualAndDataHoraLessThanEqual(today.atStartOfDay(), today.atTime(23, 59, 59));
     }
 }
