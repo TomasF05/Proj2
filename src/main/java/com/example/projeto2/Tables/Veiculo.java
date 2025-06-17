@@ -95,5 +95,11 @@ public class Veiculo implements Serializable {
                 '}';
     }
 
+    @jakarta.persistence.ManyToOne
+    @jakarta.persistence.JoinColumn(name = "idcliente", insertable = false, updatable = false)
+    private Cliente cliente;
 
+    public Cliente getCliente() {
+        return cliente;
+    }
 }

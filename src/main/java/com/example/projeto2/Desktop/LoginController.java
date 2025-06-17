@@ -15,6 +15,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import com.example.projeto2.Desktop.SceneManager;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -23,6 +24,7 @@ import java.util.Optional;
 
 @Component
 public class LoginController {
+    private static String loggedInUsername;
 
     @FXML
     private TextField usernameField;
@@ -74,29 +76,18 @@ public class LoginController {
             try {
                 // Determine the user type
                 Funcionario usuario = funcionarioService.findByUsername(username);
-
-                FXMLLoader loader;
-                Parent root;
+                LoginController.setLoggedInUsername(username);
 
                 if (usuario.getTipo().equals(new BigDecimal(1))) {
                     // Load mechanic dashboard
-                    loader = new FXMLLoader(getClass().getResource("/dashboard.fxml"));
+                    SceneManager.switchScene("/mechanic/dashboard.fxml", "Mechanic Dashboard", (Node) event.getSource());
                 } else if (usuario.getTipo().equals(new BigDecimal(2))) {
                     // Load receptionist dashboard
-                    loader = new FXMLLoader(getClass().getResource("/receptionist-dashboard.fxml"));
+                    SceneManager.switchScene("/receptionist-dashboard.fxml", "Receptionist Dashboard", (Node) event.getSource());
                 } else {
                     // Default to main page
-                    loader = new FXMLLoader(getClass().getResource("/main.fxml"));
+                    SceneManager.switchScene("/main.fxml", "Main Page", (Node) event.getSource());
                 }
-
-                loader.setControllerFactory(Projeto2Application.getSpringContext()::getBean);
-                root = loader.load();
-
-                Stage stage = new Stage();
-                stage.setScene(new Scene(root));
-                stage.show();
-
-                ((Stage) ((Node) event.getSource()).getScene().getWindow()).close();
             } catch (IOException e) {
                 e.printStackTrace();
                 showAlert(Alert.AlertType.ERROR, "Error", "Navigation Error",
@@ -113,5 +104,13 @@ public class LoginController {
         alert.setHeaderText(header);
         alert.setContentText(content);
         alert.showAndWait();
+    }
+
+    public static String getLoggedInUsername() {
+        return loggedInUsername;
+    }
+
+    public static void setLoggedInUsername(String loggedInUsername) {
+        LoginController.loggedInUsername = loggedInUsername;
     }
 }

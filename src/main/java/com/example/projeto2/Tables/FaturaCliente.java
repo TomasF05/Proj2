@@ -71,4 +71,22 @@ public class FaturaCliente implements Serializable {
                 '}';
     }
 
+    public BigDecimal getIdFaturaCliente() {
+        return nFatura;
+    }
+
+    public void setIdFaturaCliente(BigDecimal idFaturaCliente) {
+        this.nFatura = idFaturaCliente;
+    }
+
+    @Column(name = "metodopagamento")
+    private String metodoPagamento;
+
+    public String getMetodoPagamento() {
+        return metodoPagamento;
+    }
+
+    public void setMetodoPagamento(String metodoPagamento) {
+        this.metodoPagamento = metodoPagamento;
+    }
 }

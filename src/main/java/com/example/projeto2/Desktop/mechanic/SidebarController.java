@@ -1,4 +1,4 @@
-package com.example.projeto2.Desktop;
+package com.example.projeto2.Desktop.mechanic;
 
 import javafx.fxml.FXML;
 import javafx.scene.Parent;

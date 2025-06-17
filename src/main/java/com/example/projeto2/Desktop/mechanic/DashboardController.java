@@ -1,4 +1,4 @@
-package com.example.projeto2.Desktop;
+package com.example.projeto2.Desktop.mechanic;
 
 import com.example.projeto2.Services.AgendamentoService;
 import com.example.projeto2.Services.PecaService;

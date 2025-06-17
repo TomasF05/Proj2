@@ -45,5 +45,30 @@ public class LinhaEncFornecedorId implements Serializable {
                 ", idEncFornecedor=" + idEncFornecedor +
                 '}';
     }
-}
 
+    public EncomendaFornecedor getEncomendaFornecedor() {
+        return null; // These should be retrieved from LinhaEncFornecedor using the ID
+    }
+
+    public Peca getPeca() {
+        return null; // These should be retrieved from LinhaEncFornecedor using the ID
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        LinhaEncFornecedorId that = (LinhaEncFornecedorId) o;
+
+        if (!idPeca.equals(that.idPeca)) return false;
+        return idEncFornecedor.equals(that.idEncFornecedor);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = idPeca.hashCode();
+        result = 31 * result + idEncFornecedor.hashCode();
+        return result;
+    }
+}

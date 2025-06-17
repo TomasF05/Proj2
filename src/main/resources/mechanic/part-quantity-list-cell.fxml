@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.Priority?>
+<?import javafx.scene.layout.Region?>
+
+<HBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      spacing="10.0"
+      alignment="CENTER_LEFT"
+      style="-fx-padding: 5px;">
+    <padding>
+        <Insets left="5.0" right="5.0"/>
+    </padding>
+    <VBox HBox.hgrow="ALWAYS" spacing="2.0">
+        <Label fx:id="partNameLabel" style="-fx-text-fill: white; -fx-font-size: 14px;"/>
+        <Label fx:id="stockLabel" style="-fx-text-fill: #cccccc; -fx-font-size: 10px;"/>
+    </VBox>
+    <Region HBox.hgrow="ALWAYS"/>
+    <Label text="Quantity:" style="-fx-text-fill: white;"/>
+    <TextField fx:id="quantityField" prefWidth="60.0" style="-fx-background-color: #3a3a3a; -fx-text-fill: white; -fx-padding: 2px; -fx-background-radius: 3px;"/>
+</HBox>

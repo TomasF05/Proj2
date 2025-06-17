@@ -139,4 +139,15 @@ public class Reparacao implements Serializable {
                 ", idServico=" + idServico +
                 '}';
     }
+
+    @ManyToOne
+    @JoinColumn(name = "idveiculo", insertable = false, updatable = false)
+    private Veiculo veiculo;
+
+    public Cliente getCliente() {
+        if (veiculo != null) {
+            return veiculo.getCliente();
+        }
+        return null;
+    }
 }

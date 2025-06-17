@@ -32,11 +32,7 @@
         </HBox>
         <HBox spacing="10.0">
             <Label text="Código Postal:" style="-fx-text-fill: white;" HBox.hgrow="ALWAYS" />
-            <TextField fx:id="postalCodeField" style="-fx-background-color: #3a3a3a; -fx-padding: 10px; -fx-background-radius: 5px;" />
-        </HBox>
-        <HBox spacing="10.0">
-            <Label text="Veículo:" style="-fx-text-fill: white;" HBox.hgrow="ALWAYS" />
-            <TextField fx:id="vehicleField" style="-fx-background-color: #3a3a3a; -fx-padding: 10px; -fx-background-radius: 5px;" />
+            <Button text="Select Postal Code" onAction="#handleSelectPostalCode" style="-fx-background-color: #3a3a3a; -fx-text-fill: white; -fx-padding: 10px; -fx-background-radius: 5px;" />
         </HBox>
         <Button text="Criar Cliente" onAction="#handleCreateClient" style="-fx-background-color: linear-gradient(to right, #ff6b35, #ff9a00); -fx-text-fill: white; -fx-padding: 10px; -fx-font-size: 16px; -fx-background-radius: 5px;" />
     </VBox>

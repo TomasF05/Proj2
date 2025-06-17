@@ -1,6 +1,7 @@
 // MainController.java
 package com.example.projeto2.Desktop;
 
+import com.example.projeto2.Desktop.mechanic.SidebarController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;

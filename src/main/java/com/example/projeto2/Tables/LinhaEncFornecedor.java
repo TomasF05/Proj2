@@ -55,4 +55,23 @@ public class LinhaEncFornecedor {
                 ", valorTotal=" + valorTotal +
                 '}';
     }
+
+    public EncomendaFornecedor getEncomendaFornecedor() {
+        return this.getId().getEncomendaFornecedor();
+    }
+
+    public Peca getPeca() {
+        return this.getId().getPeca();
+    }
+
+    @Column(name = "qtdrecebida")
+    private BigDecimal qtdRecebida;
+
+    public BigDecimal getQtdRecebida() {
+        return this.qtdRecebida;
+    }
+
+    public void setQtdRecebida(BigDecimal qtdRecebida) {
+        this.qtdRecebida = qtdRecebida;
+    }
 }

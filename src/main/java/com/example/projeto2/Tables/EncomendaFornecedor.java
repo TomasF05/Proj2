@@ -7,6 +7,7 @@ import jakarta.persistence.Table;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "encomendafornecedor")
@@ -69,5 +70,20 @@ public class EncomendaFornecedor implements Serializable {
                 ", valorTotal=" + valorTotal +
                 ", idFornecedor=" + idFornecedor +
                 '}';
+    }
+
+    @jakarta.persistence.OneToMany(mappedBy = "id.encomendaFornecedor")
+    private List<LinhaEncFornecedor> linhasEncFornecedor;
+
+    public List<LinhaEncFornecedor> getLinhasEncFornecedor() {
+        return this.linhasEncFornecedor;
+    }
+
+    @jakarta.persistence.ManyToOne
+    @jakarta.persistence.JoinColumn(name = "idfornecedor", insertable = false, updatable = false)
+    private Fornecedor fornecedor;
+
+    public Fornecedor getFornecedor() {
+        return fornecedor;
     }
 }

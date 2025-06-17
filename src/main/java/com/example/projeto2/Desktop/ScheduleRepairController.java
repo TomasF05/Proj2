@@ -1,15 +1,23 @@
 package com.example.projeto2.Desktop;
 
+import com.example.projeto2.Services.AgendamentoService;
+import com.example.projeto2.Services.FuncionarioService;
 import com.example.projeto2.Services.ReparacaoService;
+import com.example.projeto2.Tables.Agendamento;
+import com.example.projeto2.Tables.Funcionario;
 import com.example.projeto2.Tables.Reparacao;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
-import java.sql.Date;
+import java.io.IOException;
 
 @Component
 public class ScheduleRepairController {
@@ -20,52 +28,70 @@ public class ScheduleRepairController {
     @FXML
     private TextField timeField;
 
-    @FXML
-    private TextField paymentStatusField;
+     @FXML
+     private Button appointmentSlotButton;
+
+     @FXML
+     private TextField observationsField;
+ 
+     @Autowired
+     private ApplicationContext applicationContext;
+ 
+     @Autowired
+     private FuncionarioService funcionarioService;
+
+     @Autowired
+     private AgendamentoService agendamentoService;
+
+     @Autowired
+     private ReparacaoService reparacaoService;
+ 
+     private Agendamento selectedAppointmentSlot;
+     private Funcionario loggedInFuncionario;
+
+     public void setAppointmentSlot(Agendamento appointmentSlot) {
+         // Get the logged-in funcionario
+         //loggedInFuncionario = funcionarioService.findByUsername("test1"); //TODO: Get the logged in user
+         funcionarioService.getFuncionarioByUsername(LoginController.getLoggedInUsername()).ifPresent(funcionario -> loggedInFuncionario = funcionario);
+         this.selectedAppointmentSlot = appointmentSlot;
+         this.timeField.setText(selectedAppointmentSlot.getDataHora().toString());
+     }
+
+     @FXML
+     private void handleSelectAppointmentSlot() throws IOException {
+         FXMLLoader loader = new FXMLLoader(getClass().getResource("/appointment-slot-modal.fxml"));
+         loader.setControllerFactory(applicationContext::getBean);
+         Parent root = loader.load();
+         AppointmentSlotModalController controller = loader.getController();
+         //controller.setApplicationContext(applicationContext);
+         Stage stage = new Stage();
+         stage.setScene(new Scene(root));
+         stage.show();
+     }
 
     @FXML
-    private TextField notesField;
+    private void handleConfirm() {
+        // Implement logic to schedule repair
+        if (selectedAppointmentSlot != null) {
+            System.out.println("Scheduling repair for: " + selectedAppointmentSlot);
 
-    private final ReparacaoService reparacaoService;
+            // Create a new Reparacao object
+            Reparacao newReparacao = new Reparacao();
+            newReparacao.setDescricao(observationsField.getText());
+            newReparacao.setIdVeiculo(selectedAppointmentSlot.getIdVeiculo()); // Assuming you have the vehicle ID
+            newReparacao.setIdFuncionario(loggedInFuncionario.getIdFuncionario()); // Set the logged-in funcionario ID
+            newReparacao.setEstado("Pendente"); // Set the initial state to "Pendente"
 
-    @Autowired
-    public ScheduleRepairController(ReparacaoService reparacaoService) {
-        this.reparacaoService = reparacaoService;
-    }
+            // Save the new Reparacao to the database
+            reparacaoService.saveReparacao(newReparacao);
 
-    @FXML
-    protected void handleScheduleRepair() {
-        String date = dateField.getText();
-        String time = timeField.getText();
-        String paymentStatus = paymentStatusField.getText();
-        String notes = notesField.getText();
+            // Save the Agendamento
+            selectedAppointmentSlot.setObservacoes(observationsField.getText());
+            agendamentoService.saveAgendamento(selectedAppointmentSlot);
 
-        if (date.isEmpty() || time.isEmpty() || paymentStatus.isEmpty() || notes.isEmpty()) {
-            showAlert("Error", "Schedule Repair Failed", "All fields are required.");
-            return;
+            System.out.println("Scheduled repair: " + newReparacao);
+        } else {
+            System.out.println("No appointment slot selected");
         }
-
-        Reparacao newRepair = new Reparacao();
-        newRepair.setDataInicio(Date.valueOf(date));
-        newRepair.setEstado(paymentStatus);
-        newRepair.setDescricao(notes);
-
-        reparacaoService.saveReparacao(newRepair);
-
-        showAlert("Success", "Repair Scheduled", "Repair scheduled successfully.");
-
-        // Clear fields after successful scheduling
-        dateField.clear();
-        timeField.clear();
-        paymentStatusField.clear();
-        notesField.clear();
-    }
-
-    private void showAlert(String title, String header, String content) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(header);
-        alert.setContentText(content);
-        alert.showAndWait();
     }
 }

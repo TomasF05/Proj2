@@ -9,6 +9,7 @@ import jakarta.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class PecaService {
@@ -49,5 +50,11 @@ public class PecaService {
     @Transactional
     public List<Peca> getAllPecas() {
         return pecaRepository.findAll();
+    }
+
+    // Add method to find a Peca by name
+    @Transactional
+    public Optional<Peca> getPecaByNome(String nome) {
+        return pecaRepository.findByNome(nome);
     }
 }

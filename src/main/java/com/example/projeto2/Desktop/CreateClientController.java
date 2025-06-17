@@ -1,15 +1,21 @@
-// java
 package com.example.projeto2.Desktop;
 
 import com.example.projeto2.Services.ClienteService;
 import com.example.projeto2.Tables.Cliente;
-import com.example.projeto2.Tables.CodPostal;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import com.example.projeto2.Services.CodPostalService;
+import com.example.projeto2.Tables.CodPostal;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
+
+import java.io.IOException;
 
 @Component
 public class CreateClientController {
@@ -24,58 +30,57 @@ public class CreateClientController {
     private TextField contactField;
 
     @FXML
-    private TextField postalCodeField;
+    private Button postalCodeButton;
 
     @FXML
-    private TextField vehicleField;
-
-    private final ClienteService clienteService;
+    private TextField postalCodeField;
 
     @Autowired
-    public CreateClientController(ClienteService clienteService) {
-        this.clienteService = clienteService;
+    private ClienteService clienteService;
+
+    @Autowired
+    private ApplicationContext applicationContext;
+
+    @Autowired
+    private CodPostalService codPostalService;
+
+    private CodPostal selectedPostalCode;
+
+    public void setPostalCode(CodPostal postalCode) {
+        this.selectedPostalCode = postalCode;
+        this.postalCodeField.setText(postalCode.getCodPostal() + " - " + postalCode.getDescricao());
     }
 
     @FXML
-    protected void handleCreateClient() {
+    private void handleSelectPostalCode() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/postal-code-modal.fxml"));
+        loader.setControllerFactory(applicationContext::getBean);
+        Parent root = loader.load();
+        PostalCodeModalController controller = loader.getController();
+        controller.setApplicationContext(applicationContext);
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.show();
+    }
+
+    @FXML
+    private void handleCreateClient() {
         String name = nameField.getText();
         String nif = nifField.getText();
         String contact = contactField.getText();
-        String postalCode = postalCodeField.getText();
-        String vehicle = vehicleField.getText();
 
-        if (name.isEmpty() || nif.isEmpty() || contact.isEmpty() || postalCode.isEmpty() || vehicle.isEmpty()) {
-            showAlert("Error", "Create Client Failed", "All fields are required.");
-            return;
+        if (name != null && !name.isEmpty() && nif != null && !nif.isEmpty() && contact != null && !contact.isEmpty() && selectedPostalCode != null) {
+            Cliente newCliente = new Cliente();
+            newCliente.setNome(name);
+            newCliente.setNif(nif);
+            newCliente.setContacto(contact);
+            newCliente.setCodPostal(selectedPostalCode);
+
+            clienteService.saveCliente(newCliente);
+
+            System.out.println("Client created: " + newCliente);
+        } else {
+            System.out.println("Please enter all the required information");
         }
-
-        Cliente newClient = new Cliente();
-        newClient.setNome(name);
-        newClient.setNif(nif);
-        newClient.setContacto(contact);
-
-        // Create a new CodPostal setting its codPostal field from the string
-        CodPostal cp = new CodPostal();
-        cp.setCodPostal(postalCode);
-        newClient.setCodPostal(cp);
-
-        clienteService.saveCliente(newClient);
-
-        showAlert("Success", "Client Created", "Client created successfully.");
-
-        // Clear fields after successful creation
-        nameField.clear();
-        nifField.clear();
-        contactField.clear();
-        postalCodeField.clear();
-        vehicleField.clear();
-    }
-
-    private void showAlert(String title, String header, String content) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(header);
-        alert.setContentText(content);
-        alert.showAndWait();
     }
 }

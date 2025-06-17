@@ -59,4 +59,12 @@ public class FaturaClienteService {
         return faturaClienteRepository.findAll();
     }
 
+    @Transactional
+    public FaturaCliente getLastFaturaCliente() {
+        List<FaturaCliente> allFaturas = faturaClienteRepository.findAll();
+        if (allFaturas.isEmpty()) {
+            return null;
+        }
+        return allFaturas.get(allFaturas.size() - 1);
+    }
 }

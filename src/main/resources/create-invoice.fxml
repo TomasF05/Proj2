@@ -1,51 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.Button?>
-
-<?import javafx.geometry.Insets?>
-<VBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.example.projeto2.Desktop.CreateInvoiceController"
-      spacing="20.0"
-      style="-fx-background-color: #1a1a1a; -fx-padding: 20px;">
-    <padding>
-        <Insets top="20.0" right="20.0" bottom="20.0" left="20.0" />
-    </padding>
-    <Label text="Criar Recibo" style="-fx-text-fill: white; -fx-font-size: 18px;" />
-
-    <VBox spacing="15.0" style="-fx-background-color: #2d2d2d; -fx-padding: 15px; -fx-spacing: 10px;">
-        <HBox spacing="10.0">
-            <Label text="Nome do Cliente:" style="-fx-text-fill: white;" HBox.hgrow="ALWAYS" />
-            <TextField fx:id="clientNameField" style="-fx-background-color: #3a3a3a; -fx-padding: 10px; -fx-background-radius: 5px;" />
-        </HBox>
-        <HBox spacing="10.0">
-            <Label text="Data do Recibo:" style="-fx-text-fill: white;" HBox.hgrow="ALWAYS" />
-            <TextField fx:id="invoiceDateField" style="-fx-background-color: #3a3a3a; -fx-padding: 10px; -fx-background-radius: 5px;" />
-        </HBox>
-        <HBox spacing="10.0">
-            <Label text="Numero do Recibo:" style="-fx-text-fill: white;" HBox.hgrow="ALWAYS" />
-            <TextField fx:id="invoiceNumberField" style="-fx-background-color: #3a3a3a; -fx-padding: 10px; -fx-background-radius: 5px;" />
-        </HBox>
-        <HBox spacing="10.0">
-            <Label text="Serviço prestado:" style="-fx-text-fill: white;" HBox.hgrow="ALWAYS" />
-            <TextField fx:id="serviceProvidedField" style="-fx-background-color: #3a3a3a; -fx-padding: 10px; -fx-background-radius: 5px;" />
-        </HBox>
-        <HBox spacing="10.0">
-            <Label text="Peças utilizadas:" style="-fx-text-fill: white;" HBox.hgrow="ALWAYS" />
-            <TextField fx:id="partsUsedField" style="-fx-background-color: #3a3a3a; -fx-padding: 10px; -fx-background-radius: 5px;" />
-        </HBox>
-        <HBox spacing="10.0">
-            <Label text="Mão de obra:" style="-fx-text-fill: white;" HBox.hgrow="ALWAYS" />
-            <TextField fx:id="laborField" style="-fx-background-color: #3a3a3a; -fx-padding: 10px; -fx-background-radius: 5px;" />
-        </HBox>
-        <HBox spacing="10.0">
-            <Label text="Método de Pagamento:" style="-fx-text-fill: white;" HBox.hgrow="ALWAYS" />
-            <TextField fx:id="paymentMethodField" style="-fx-background-color: #3a3a3a; -fx-padding: 10px; -fx-background-radius: 5px;" />
-        </HBox>
-        <Button text="Criar Recibo" onAction="#handleCreateInvoice" style="-fx-background-color: linear-gradient(to right, #ff6b35, #ff9a00); -fx-text-fill: white; -fx-padding: 10px; -fx-font-size: 16px; -fx-background-radius: 5px;" />
-    </VBox>
+<VBox prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projeto2.Desktop.CreateInvoiceController">
+   <children>
+      <fx:include source="sidebar.fxml" />
+      <VBox prefHeight="400.0" prefWidth="500.0">
+         <children>
+            <Label text="Create Receipt">
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </Label>
+            <GridPane hgap="10.0" vgap="10.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label text="Client Name:" />
+                  <TextField GridPane.columnIndex="1" />
+                  <Label text="Reparacao:" GridPane.rowIndex="1" />
+                  <Button mnemonicParsing="false" text="Select Reparacao" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Label text="Servico Prestado:" GridPane.rowIndex="2" />
+                  <Button mnemonicParsing="false" text="Select Servico" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <Label text="Pecas Utilizadas:" GridPane.rowIndex="3" />
+                  <Button mnemonicParsing="false" text="Select Pecas" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <Label text="Labor Cost:" GridPane.rowIndex="4" />
+                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <Label text="Payment Method:" GridPane.rowIndex="5" />
+                  <ComboBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </GridPane>
+            <Button mnemonicParsing="false" text="Confirm">
+               <VBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </VBox.margin>
+            </Button>
+         </children>
+      </VBox>
+   </children>
 </VBox>

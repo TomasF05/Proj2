@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.Label?>
+
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.shape.Arc?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.projeto2.Desktop.mechanic.DashboardController"
+            style="-fx-background-color: #1a1a1a;">
+    <center>
+        <VBox spacing="20.0" style="-fx-padding: 20px;">
+            <HBox spacing="20.0" alignment="CENTER_LEFT">
+                <VBox spacing="5.0" alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
+                    <HBox alignment="CENTER_LEFT" spacing="10">
+                         <Arc fx:id="progressArc" radiusX="40" radiusY="40" type="OPEN" startAngle="90" length="180" stroke="#ff6b35" strokeWidth="10" fill="null"/>
+                         <Label fx:id="progressLabel" text="50% das reparações de hoje concluídas" style="-fx-text-fill: white;" />
+                    </HBox>
+                </VBox>
+                <Button text="Ver reparações" style="-fx-background-color: linear-gradient(to right, #ff6b35, #ff9a00); -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 20 10 20; -fx-background-radius: 5;" />
+            </HBox>
+            <Label text="Peças em rutura de stock" style="-fx-text-fill: white; -fx-font-size: 18px;" />
+            <VBox fx:id="stockList" spacing="10.0" style="-fx-padding: 0 20px;" />
+        </VBox>
+    </center>
+</BorderPane>
