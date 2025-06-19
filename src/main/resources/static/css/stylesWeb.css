@@ -1,0 +1,175 @@
+/* stylesWeb.css - CSS para web */
+
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #1a1a1a;
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Página de login */
+.login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+/* Container do login */
+.login-page .login-container { display: flex;
+    flex-direction: column; /* ← garante layout vertical */
+    align-items: center;     /* centra os filhos horizontalmente */
+    background-color: #2d2d2d;
+    padding: 2.5rem 3rem;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+    width: 320px;
+    text-align: center;
+}
+
+/* Cabeçalho */
+.login-page .login-header h1 {
+    color: #ff6b35;
+    font-weight: bold;
+    margin-bottom: 0.25rem;
+}
+
+.login-page .login-header p {
+    color: #ccc;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+}
+
+/* Input group: alinhamento dos ícones e inputs */
+.login-page .input-group-text {
+    background-color: #1a1a1a;
+    border: none;
+    color: #ff6b35;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 42px;
+    border-radius: 6px 0 0 6px;
+}
+
+/* Inputs */
+.login-page .form-control {
+    background-color: #1a1a1a;
+    border: none;
+    color: white;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0 6px 6px 0;
+    box-shadow: none;
+}
+
+/* Placeholder mais claro */
+.login-page .form-control::placeholder {
+    color: #555;
+}
+
+/* Botão de login */
+.login-page .btn-login {
+    background: linear-gradient(45deg, #ff6b35, #ff9a00);
+    border: none;
+    color: white;
+    font-weight: bold;
+    padding: 0.6rem;
+    border-radius: 8px;
+    width: 100%;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    margin-top: 1rem;
+}
+
+.login-page .btn-login:hover {
+    background: linear-gradient(45deg, #ff9a00, #ff6b35);
+}
+
+/* Mensagem pequena abaixo do botão */
+.login-page .text-center small {
+    color: #666;
+    display: block;
+    margin-top: 1rem;
+}
+
+.btn-primary {
+    background: linear-gradient(45deg, #ff6b35, #ff9a00);
+    border: none;
+    color: white;
+    padding: 0.5rem 1rem;
+    font-weight: bold;
+    border-radius: 8px;
+    transition: transform 0.2s ease;
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(45deg, #ff9a00, #ff6b35);
+    transform: translateY(-2px);
+    text-decoration: none;
+    color: white;
+}
+
+
+/* Sidebar styles */
+.sidebar {
+    background: linear-gradient(to bottom, #2d2d2d, #1a1a1a);
+    width: 250px;
+    height: 100vh;
+    padding: 1rem;
+    box-sizing: border-box;
+}
+
+.sidebar-title {
+    color: #ff6b35;
+    font-weight: bold;
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+}
+
+.sidebar-button {
+    background: transparent;
+    color: white;
+    font-size: 16px;
+    padding: 10px 15px;
+    text-align: left;
+    border: none;
+    width: 100%;
+    cursor: pointer;
+    display: block;
+}
+
+.sidebar-button:hover {
+    background-color: #3a3a3a;
+}
+
+/* Estilo para os cards escuros reutilizados no dashboard */
+.card {
+    background-color: #2d2d2d;
+    border: none;
+    border-radius: 20px;
+    color: white;
+}
+
+/* Para listas do dashboard */
+.list-group-item {
+    margin-bottom: 0.5rem;
+}
+
+.list-group-item:last-child {
+    margin-bottom: 0;
+}
+
+.text-muted {
+    color: #6c757d !important;
+}
+
+#reparacoes-list, #agendamentos-list {
+    max-height: 300px;
+    overflow-y: auto;
+}

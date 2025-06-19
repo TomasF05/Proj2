@@ -1,9 +1,6 @@
 package com.example.projeto2.Tables;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -28,7 +25,15 @@ public class EncomendaFornecedor implements Serializable {
     @Column(name = "idfornecedor")
     private BigDecimal idFornecedor;
 
-    // Getters and Setters
+    @OneToMany(mappedBy = "encomendaFornecedor", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<LinhaEncFornecedor> linhasEncFornecedor;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idfornecedor", insertable = false, updatable = false)
+    private Fornecedor fornecedor;
+
+    // Getters e setters
+
     public BigDecimal getIdEncFornecedor() {
         return idEncFornecedor;
     }
@@ -61,7 +66,22 @@ public class EncomendaFornecedor implements Serializable {
         this.idFornecedor = idFornecedor;
     }
 
-    // toString method
+    public List<LinhaEncFornecedor> getLinhasEncFornecedor() {
+        return linhasEncFornecedor;
+    }
+
+    public void setLinhasEncFornecedor(List<LinhaEncFornecedor> linhasEncFornecedor) {
+        this.linhasEncFornecedor = linhasEncFornecedor;
+    }
+
+    public Fornecedor getFornecedor() {
+        return fornecedor;
+    }
+
+    public void setFornecedor(Fornecedor fornecedor) {
+        this.fornecedor = fornecedor;
+    }
+
     @Override
     public String toString() {
         return "EncomendaFornecedor{" +
@@ -70,20 +90,5 @@ public class EncomendaFornecedor implements Serializable {
                 ", valorTotal=" + valorTotal +
                 ", idFornecedor=" + idFornecedor +
                 '}';
-    }
-
-    @jakarta.persistence.OneToMany(mappedBy = "id.encomendaFornecedor")
-    private List<LinhaEncFornecedor> linhasEncFornecedor;
-
-    public List<LinhaEncFornecedor> getLinhasEncFornecedor() {
-        return this.linhasEncFornecedor;
-    }
-
-    @jakarta.persistence.ManyToOne
-    @jakarta.persistence.JoinColumn(name = "idfornecedor", insertable = false, updatable = false)
-    private Fornecedor fornecedor;
-
-    public Fornecedor getFornecedor() {
-        return fornecedor;
     }
 }

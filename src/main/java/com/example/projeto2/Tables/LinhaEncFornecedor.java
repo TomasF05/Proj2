@@ -1,19 +1,24 @@
 package com.example.projeto2.Tables;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
 @Table(name = "linhaencfornecedor")
 public class LinhaEncFornecedor {
 
-    private static final long serialVersionUID = 1L;
-
     @EmbeddedId
     private LinhaEncFornecedorId id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("idEncFornecedor") // referencia o campo idEncFornecedor no ID composto
+    @JoinColumn(name = "idencfornecedor", nullable = false)
+    private EncomendaFornecedor encomendaFornecedor;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("idPeca") // referencia o campo idPeca no ID composto
+    @JoinColumn(name = "idpeca", nullable = false)
+    private Peca peca;
 
     @Column(name = "qtd")
     private BigDecimal qtd;
@@ -21,13 +26,33 @@ public class LinhaEncFornecedor {
     @Column(name = "valortotal")
     private BigDecimal valorTotal;
 
-    // Getters and Setters
+    @Column(name = "qtdrecebida")
+    private BigDecimal qtdRecebida;
+
+    // Getters e setters
+
     public LinhaEncFornecedorId getId() {
         return id;
     }
 
     public void setId(LinhaEncFornecedorId id) {
         this.id = id;
+    }
+
+    public EncomendaFornecedor getEncomendaFornecedor() {
+        return encomendaFornecedor;
+    }
+
+    public void setEncomendaFornecedor(EncomendaFornecedor encomendaFornecedor) {
+        this.encomendaFornecedor = encomendaFornecedor;
+    }
+
+    public Peca getPeca() {
+        return peca;
+    }
+
+    public void setPeca(Peca peca) {
+        this.peca = peca;
     }
 
     public BigDecimal getQtd() {
@@ -46,32 +71,21 @@ public class LinhaEncFornecedor {
         this.valorTotal = valorTotal;
     }
 
-    // toString method
+    public BigDecimal getQtdRecebida() {
+        return qtdRecebida;
+    }
+
+    public void setQtdRecebida(BigDecimal qtdRecebida) {
+        this.qtdRecebida = qtdRecebida;
+    }
+
     @Override
     public String toString() {
         return "LinhaEncFornecedor{" +
                 "id=" + id +
                 ", qtd=" + qtd +
                 ", valorTotal=" + valorTotal +
+                ", qtdRecebida=" + qtdRecebida +
                 '}';
-    }
-
-    public EncomendaFornecedor getEncomendaFornecedor() {
-        return this.getId().getEncomendaFornecedor();
-    }
-
-    public Peca getPeca() {
-        return this.getId().getPeca();
-    }
-
-    @Column(name = "qtdrecebida")
-    private BigDecimal qtdRecebida;
-
-    public BigDecimal getQtdRecebida() {
-        return this.qtdRecebida;
-    }
-
-    public void setQtdRecebida(BigDecimal qtdRecebida) {
-        this.qtdRecebida = qtdRecebida;
     }
 }

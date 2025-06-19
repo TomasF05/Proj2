@@ -12,7 +12,7 @@
 
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.example.projeto2.Desktop.InventoryController"
+      fx:controller="com.example.projeto2.Desktop.mechanic.InventoryController"
       spacing="20.0"
       style="-fx-background-color: #1a1a1a; -fx-padding: 20px;">
     <padding>

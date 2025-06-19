@@ -39,30 +39,11 @@ public class LinhaEncFornecedorId implements Serializable {
     }
 
     @Override
-    public String toString() {
-        return "LinhaEncFornecedorId{" +
-                "idPeca=" + idPeca +
-                ", idEncFornecedor=" + idEncFornecedor +
-                '}';
-    }
-
-    public EncomendaFornecedor getEncomendaFornecedor() {
-        return null; // These should be retrieved from LinhaEncFornecedor using the ID
-    }
-
-    public Peca getPeca() {
-        return null; // These should be retrieved from LinhaEncFornecedor using the ID
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
+        if (!(o instanceof LinhaEncFornecedorId)) return false;
         LinhaEncFornecedorId that = (LinhaEncFornecedorId) o;
-
-        if (!idPeca.equals(that.idPeca)) return false;
-        return idEncFornecedor.equals(that.idEncFornecedor);
+        return idPeca.equals(that.idPeca) && idEncFornecedor.equals(that.idEncFornecedor);
     }
 
     @Override
@@ -70,5 +51,13 @@ public class LinhaEncFornecedorId implements Serializable {
         int result = idPeca.hashCode();
         result = 31 * result + idEncFornecedor.hashCode();
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "LinhaEncFornecedorId{" +
+                "idPeca=" + idPeca +
+                ", idEncFornecedor=" + idEncFornecedor +
+                '}';
     }
 }

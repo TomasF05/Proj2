@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.example.projeto2.Desktop.ServicesController"
+      fx:controller="com.example.projeto2.Desktop.mechanic.ServicesController"
       spacing="20.0"
       style="-fx-background-color: #1a1a1a; -fx-padding: 20px;">
     <padding>

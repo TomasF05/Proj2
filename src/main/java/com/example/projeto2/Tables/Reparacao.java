@@ -13,8 +13,9 @@ public class Reparacao implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idreparacao", nullable = false)
-    private BigDecimal idReparacao;
+    private Long idReparacao;
 
     @Column(name = "datainicio")
     private Date dataInicio;
@@ -43,11 +44,11 @@ public class Reparacao implements Serializable {
     @Column(name = "idservico")
     private BigDecimal idServico;
 
-    public BigDecimal getIdReparacao() {
+    public Long getIdReparacao() {
         return idReparacao;
     }
 
-    public void setIdReparacao(BigDecimal idReparacao) {
+    public void setIdReparacao(Long idReparacao) {
         this.idReparacao = idReparacao;
     }
 
@@ -123,7 +124,6 @@ public class Reparacao implements Serializable {
         this.idServico = idServico;
     }
 
-    // Método toString() (opcional)
     @Override
     public String toString() {
         return "Reparacao{" +
