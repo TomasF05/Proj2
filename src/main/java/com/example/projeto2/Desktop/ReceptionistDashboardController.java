@@ -1,15 +1,13 @@
 package com.example.projeto2.Desktop;
 
+import com.example.projeto2.Services.PecaService;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
@@ -22,76 +20,59 @@ import java.util.ResourceBundle;
 public class ReceptionistDashboardController implements Initializable {
 
     @FXML
-    private VBox sidebar;
+    private ListView partsListView;
 
-    @FXML
-    private Button createClientButton;
+    private BorderPane mainLayout; // Injected from MainController
+
+    private final ApplicationContext applicationContext;
+    private final PecaService pecaService;
 
     @Autowired
-    private ApplicationContext applicationContext;
+    public ReceptionistDashboardController(ApplicationContext applicationContext, PecaService pecaService) {
+        this.applicationContext = applicationContext;
+        this.pecaService = pecaService;
+    }
 
-    @FXML
-    private Button scheduleRepairButton;
-
-    @FXML
-    private Button createReceiptButton;
-
-    @FXML
-    private Button orderPartsButton;
-
-    @FXML
-    private ListView partsListView;
+    public void setMainLayout(BorderPane mainLayout) {
+        this.mainLayout = mainLayout;
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Load parts from database and populate the list view
+        // This part remains, but sidebar loading is removed
+    }
+
+    @FXML
+    private void handleCreateClient() {
+        loadContent("/create-client.fxml");
+    }
+
+    @FXML
+    private void handleScheduleRepair() {
+        loadContent("/schedule-repair.fxml");
+    }
+
+    @FXML
+    private void handleCreateReceipt() {
+        loadContent("/create-invoice.fxml");
+    }
+
+    @FXML
+    private void handleOrderParts() {
+        loadContent("/order-part.fxml");
+    }
+
+    private void loadContent(String fxmlPath) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mechanic/sidebar.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             loader.setControllerFactory(applicationContext::getBean);
-            Parent sidebarContent = loader.load();
-            sidebar.getChildren().add(sidebarContent);
+            Parent content = loader.load();
+            if (mainLayout != null) {
+                mainLayout.setCenter(content);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    @FXML
-    private void handleCreateClient() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/create-client.fxml"));
-        loader.setControllerFactory(applicationContext::getBean);
-        Parent root = loader.load();
-        //Stage stage = new Stage();
-        //stage.setScene(new Scene(root));
-        //stage.show();
-    }
-
-    @FXML
-    private void handleScheduleRepair() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/schedule-repair.fxml"));
-        loader.setControllerFactory(applicationContext::getBean);
-        Parent root = loader.load();
-        //Stage stage = new Stage();
-        //stage.setScene(new Scene(root));
-        //stage.show();
-    }
-
-    @FXML
-    private void handleCreateReceipt() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/create-invoice.fxml"));
-        loader.setControllerFactory(applicationContext::getBean);
-        Parent root = loader.load();
-        //Stage stage = new Stage();
-        //stage.setScene(new Scene(root));
-        //stage.show();
-    }
-
-    @FXML
-    private void handleOrderParts() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/order-part.fxml"));
-        loader.setControllerFactory(applicationContext::getBean);
-        Parent root = loader.load();
-        //Stage stage = new Stage();
-        //stage.setScene(new Scene(root));
-        //stage.show();
     }
 }

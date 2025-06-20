@@ -7,8 +7,4 @@
             fx:id="mainLayout"
             fx:controller="com.example.projeto2.Desktop.MainController"
             stylesheets="/styles.css">
-    <left>
-        <fx:include source="sidebar.fxml" />
-    </left>
-
 </BorderPane>

@@ -1,5 +1,6 @@
 package com.example.projeto2.Desktop.mechanic;
 
+import com.example.projeto2.Desktop.SceneManager;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.layout.BorderPane;
@@ -8,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import javafx.fxml.FXMLLoader;
+
+import java.io.IOException;
 
 @Component
 public class SidebarController {
@@ -62,7 +65,7 @@ public class SidebarController {
 
     private void loadDashboard() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/dashboard.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mechanic/dashboard.fxml"));
             loader.setControllerFactory(context::getBean);
             Parent dashboardContent = loader.load();
             mainLayout.setCenter(dashboardContent);
@@ -73,7 +76,7 @@ public class SidebarController {
 
     private void loadInventory() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/inventory.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mechanic/inventory.fxml"));
             loader.setControllerFactory(context::getBean);
             Parent inventoryContent = loader.load();
             mainLayout.setCenter(inventoryContent);
@@ -84,7 +87,7 @@ public class SidebarController {
 
     private void loadServices() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/services.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mechanic/services.fxml"));
             loader.setControllerFactory(context::getBean);
             Parent servicesContent = loader.load();
             mainLayout.setCenter(servicesContent);
@@ -95,11 +98,20 @@ public class SidebarController {
 
     private void loadOrders() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/orders.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mechanic/order-part.fxml"));
             loader.setControllerFactory(context::getBean);
             Parent ordersContent = loader.load();
             mainLayout.setCenter(ordersContent);
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void onLogoutButtonClick() {
+        try {
+            SceneManager.switchScene("/login.fxml", "Login", sidebar);
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

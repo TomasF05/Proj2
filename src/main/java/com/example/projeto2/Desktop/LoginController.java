@@ -78,16 +78,16 @@ public class LoginController {
                 Funcionario usuario = funcionarioService.findByUsername(username);
                 LoginController.setLoggedInUsername(username);
 
-                if (usuario.getTipo().equals(new BigDecimal(1))) {
-                    // Load mechanic dashboard
-                    SceneManager.switchScene("/mechanic/dashboard.fxml", "Mechanic Dashboard", (Node) event.getSource());
-                } else if (usuario.getTipo().equals(new BigDecimal(2))) {
-                    // Load receptionist dashboard
-                    SceneManager.switchScene("/receptionist-dashboard.fxml", "Receptionist Dashboard", (Node) event.getSource());
-                } else {
-                    // Default to main page
-                    SceneManager.switchScene("/main.fxml", "Main Page", (Node) event.getSource());
-                }
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/main.fxml"));
+                loader.setControllerFactory(Projeto2Application.getSpringContext()::getBean);
+                Parent root = loader.load();
+                MainController mainController = loader.getController();
+                mainController.loadUserSpecificContent(usuario.getTipo());
+
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                stage.setScene(new Scene(root));
+                stage.setTitle("AutoPro Workshop Management");
+                stage.show();
             } catch (IOException e) {
                 e.printStackTrace();
                 showAlert(Alert.AlertType.ERROR, "Error", "Navigation Error",

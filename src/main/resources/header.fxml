@@ -9,8 +9,11 @@
 <?import javafx.scene.text.Font?>
 <HBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      style="-fx-background-color: #2d2d2d; -fx-padding: 15px;">
-    <Label text="AutoPro Workshop Management" style="-fx-text-fill: white;">
+      fx:controller="com.example.projeto2.Desktop.HeaderController"
+      style="-fx-background-color: #2d2d2d; -fx-padding: 15px;" alignment="CENTER_LEFT" spacing="10">
+    <Button fx:id="sidebarToggleButton" text="☰" onAction="#toggleSidebar"
+            style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 24px; -fx-font-weight: bold;" />
+    <Label text="AutoPro" style="-fx-text-fill: white;">
         <font>
             <Font size="24.0" />
         </font>
