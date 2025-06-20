@@ -13,7 +13,7 @@ import javafx.fxml.FXMLLoader;
 import java.io.IOException;
 
 @Component
-public class SidebarController {
+public class SidebarControllerMechanic {
 
     @FXML
     private VBox sidebar;
@@ -22,7 +22,7 @@ public class SidebarController {
     private BorderPane mainLayout;
 
     @Autowired
-    public SidebarController(ApplicationContext context) {
+    public SidebarControllerMechanic(ApplicationContext context) {
         this.context = context;
     }
 

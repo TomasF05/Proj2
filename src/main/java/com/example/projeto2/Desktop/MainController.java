@@ -1,7 +1,7 @@
 // MainController.java
 package com.example.projeto2.Desktop;
 
-import com.example.projeto2.Tables.Funcionario;
+import com.example.projeto2.Desktop.mechanic.SidebarControllerMechanic;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -57,7 +57,7 @@ public class MainController {
                 FXMLLoader sidebarLoader = new FXMLLoader(getClass().getResource("/mechanic/sidebar.fxml"));
                 sidebarLoader.setControllerFactory(context::getBean);
                 sidebarContent = sidebarLoader.load();
-                com.example.projeto2.Desktop.mechanic.SidebarController sidebarController = sidebarLoader.getController();
+                SidebarControllerMechanic sidebarController = sidebarLoader.getController();
                 sidebarController.setMainLayout(mainLayout);
 
                 FXMLLoader dashboardLoader = new FXMLLoader(getClass().getResource("/mechanic/dashboard.fxml"));

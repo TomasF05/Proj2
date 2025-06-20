@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Font?>
 <VBox fx:id="sidebarVBox" xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.example.projeto2.Desktop.mechanic.SidebarController"
+      fx:controller="com.example.projeto2.Desktop.mechanic.SidebarControllerMechanic"
       spacing="15.0"
       style="-fx-background-color: #2d2d2d; -fx-pref-width: 250px;">
     <padding>
