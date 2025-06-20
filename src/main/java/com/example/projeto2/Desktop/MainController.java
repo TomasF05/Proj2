@@ -66,7 +66,10 @@ public class MainController {
                 sidebarLoader.setClassLoader(getClass().getClassLoader());
                 sidebarLoader.setControllerFactory(context::getBean);
                 sidebarContent = sidebarLoader.load();
-                sidebarController.setMainLayout(mainLayout); // Pass mainLayout to sidebar for content loading
+                com.example.projeto2.Desktop.mechanic.SidebarControllerMechanic sidebarController = sidebarLoader.getController();
+                if (sidebarController != null) {
+                    sidebarController.setMainLayout(mainLayout); // Pass mainLayout to sidebar for content loading
+                }
 
                 FXMLLoader dashboardLoader = new FXMLLoader(getClass().getResource("/mechanic/dashboard.fxml"));
                 dashboardLoader.setControllerFactory(context::getBean);
@@ -82,7 +85,10 @@ public class MainController {
                 sidebarLoader.setClassLoader(getClass().getClassLoader());
                 sidebarLoader.setControllerFactory(context::getBean);
                 sidebarContent = sidebarLoader.load();
-                sidebarController.setMainLayout(mainLayout); // Pass mainLayout to sidebar for content loading
+                com.example.projeto2.Desktop.SidebarController sidebarController = sidebarLoader.getController();
+                if (sidebarController != null) {
+                    sidebarController.setMainLayout(mainLayout); // Pass mainLayout to sidebar for content loading
+                }
 
                 FXMLLoader dashboardLoader = new FXMLLoader(getClass().getResource("/receptionist-dashboard.fxml"));
                 dashboardLoader.setControllerFactory(context::getBean);
