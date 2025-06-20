@@ -22,11 +22,4 @@ public class HeaderController {
         // Retrieve MainController from the ApplicationContext
         this.mainController = context.getBean(MainController.class);
     }
-
-    @FXML
-    private void toggleSidebar() {
-        if (mainController != null) {
-            mainController.toggleSidebar();
-        }
-    }
 }
