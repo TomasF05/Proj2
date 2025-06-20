@@ -64,8 +64,7 @@ public class MainController {
                 }
                 FXMLLoader sidebarLoader = new FXMLLoader(mechanicSidebarUrl);
                 sidebarLoader.setClassLoader(getClass().getClassLoader());
-                com.example.projeto2.Desktop.mechanic.SidebarControllerMechanic sidebarController = context.getBean(com.example.projeto2.Desktop.mechanic.SidebarControllerMechanic.class);
-                sidebarLoader.setController(sidebarController);
+                sidebarLoader.setControllerFactory(context::getBean);
                 sidebarContent = sidebarLoader.load();
                 sidebarController.setMainLayout(mainLayout); // Pass mainLayout to sidebar for content loading
 
@@ -81,8 +80,7 @@ public class MainController {
                 }
                 FXMLLoader sidebarLoader = new FXMLLoader(receptionistSidebarUrl);
                 sidebarLoader.setClassLoader(getClass().getClassLoader());
-                com.example.projeto2.Desktop.SidebarController sidebarController = context.getBean(com.example.projeto2.Desktop.SidebarController.class);
-                sidebarLoader.setController(sidebarController);
+                sidebarLoader.setControllerFactory(context::getBean);
                 sidebarContent = sidebarLoader.load();
                 sidebarController.setMainLayout(mainLayout); // Pass mainLayout to sidebar for content loading
 
