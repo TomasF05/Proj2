@@ -36,6 +36,25 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import java.time.ZoneId;
 
+
+import com.example.projeto2.Desktop.MainController;
+import com.example.projeto2.Desktop.SceneManager;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.layout.VBox;
+import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.LinearGradient;
+import javafx.scene.paint.Stop;
+import javafx.scene.shape.Arc;
+import javafx.scene.shape.ArcType;
 @Component
 public class ServicesController {
     @Autowired
@@ -47,8 +66,19 @@ public class ServicesController {
     @FXML
     private VBox repairsList;
 
+    @FXML
+    private Button dashboardButton;
+    @FXML
+    private Button servicesButton;
+    @FXML
+    private Button inventoryButton;
+    @FXML
+    private Button ordersButton;
+    @FXML
+    private Button logoutButton;
+
     private final ReparacaoService reparacaoService;
-    private final ApplicationContext applicationContext; // Inject ApplicationContext
+    private final ApplicationContext applicationContext;
     private Funcionario loggedInFuncionario;
 
     @Autowired
@@ -62,6 +92,53 @@ public class ServicesController {
     public void initialize() {
         loadTodayRepairs();
     }
+
+    // Sidebar button actions
+    @FXML
+    public void onDashboardButtonClick() {
+        try {
+            SceneManager.switchScene("/mechanic/dashboard.fxml", "Dashboard", dashboardButton);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void onInventoryButtonClick() {
+        try {
+            SceneManager.switchScene("/mechanic/inventory.fxml", "Inventory", inventoryButton);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void onServicesButtonClick() {
+        try {
+            SceneManager.switchScene("/mechanic/services.fxml", "Services", servicesButton);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void onOrdersButtonClick() {
+        try {
+            SceneManager.switchScene("/mechanic/order-part.fxml", "Orders", ordersButton);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void onLogoutButtonClick() {
+        try {
+            SceneManager.switchScene("/login.fxml", "Login", logoutButton);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     private void loadTodayRepairs() {
         // Get the logged-in funcionario

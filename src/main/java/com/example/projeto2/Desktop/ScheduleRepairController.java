@@ -18,6 +18,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 @Component
 public class ScheduleRepairController {
@@ -33,6 +35,19 @@ public class ScheduleRepairController {
 
      @FXML
      private TextField observationsField;
+
+    @FXML
+    private Button dashboardButton;
+    @FXML
+    private Button appointmentsButton;
+    @FXML
+    private Button inventoryButton;
+    @FXML
+    private Button createClientButton;
+    @FXML
+    private Button createInvoiceButton;
+    @FXML
+    private Button logoutButton;
  
      @Autowired
      private ApplicationContext applicationContext;
@@ -52,7 +67,7 @@ public class ScheduleRepairController {
      public void setAppointmentSlot(Agendamento appointmentSlot) {
          // Get the logged-in funcionario
          //loggedInFuncionario = funcionarioService.findByUsername("test1"); //TODO: Get the logged in user
-         funcionarioService.getFuncionarioByUsername(LoginController.getLoggedInUsername()).ifPresent(funcionario -> loggedInFuncionario = funcionario);
+         //funcionarioService.getFuncionarioByUsername(LoginController.getLoggedInUsername()).ifPresent(funcionario -> loggedInFuncionario = funcionario);
          this.selectedAppointmentSlot = appointmentSlot;
          this.timeField.setText(selectedAppointmentSlot.getDataHora().toString());
      }
@@ -92,6 +107,60 @@ public class ScheduleRepairController {
             System.out.println("Scheduled repair: " + newReparacao);
         } else {
             System.out.println("No appointment slot selected");
+        }
+    }
+
+    @FXML
+    public void onDashboardButtonClick() {
+        try {
+            SceneManager.switchScene("/receptionist-dashboard.fxml", "Dashboard", dashboardButton);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void onAppointmentsButtonClick() {
+        try {
+            SceneManager.switchScene("/schedule-repair.fxml", "Agendamentos", appointmentsButton);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void onInventoryButtonClick() {
+        try {
+            SceneManager.switchScene("/mechanic/inventory.fxml", "Inventário", inventoryButton);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void onCreateClientButtonClick() {
+        try {
+            SceneManager.switchScene("/create-client.fxml", "Criar Cliente", createClientButton);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void onCreateInvoiceButtonClick() {
+        try {
+            SceneManager.switchScene("/create-invoice.fxml", "Criar Fatura", createInvoiceButton);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void onLogoutButtonClick() {
+        try {
+            SceneManager.switchScene("/login.fxml", "Login", logoutButton);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

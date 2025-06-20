@@ -14,12 +14,7 @@
     <top>
         <fx:include source="header.fxml" />
     </top>
-    <left>
-        <!-- Sidebar will be dynamically loaded here -->
-        <VBox fx:id="sidebarContainer" prefWidth="250.0" maxWidth="250.0" />
-    </left>
     <center>
-        <!-- Main content will be dynamically loaded here -->
         <StackPane fx:id="contentContainer" />
     </center>
 </BorderPane>

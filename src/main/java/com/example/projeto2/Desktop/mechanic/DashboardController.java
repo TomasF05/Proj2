@@ -1,5 +1,6 @@
 package com.example.projeto2.Desktop.mechanic;
 
+import com.example.projeto2.Desktop.SceneManager;
 import com.example.projeto2.Services.AgendamentoService;
 import com.example.projeto2.Services.PecaService;
 import com.example.projeto2.Services.ReparacaoService;
@@ -26,6 +27,7 @@ import javafx.scene.shape.Arc;
 import javafx.scene.shape.ArcType;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -37,7 +39,15 @@ import java.util.ResourceBundle;
 public class DashboardController {
 
     @FXML
-    private BorderPane mainLayout;
+    private Button dashboardButton;
+    @FXML
+    private Button servicesButton;
+    @FXML
+    private Button inventoryButton;
+    @FXML
+    private Button ordersButton;
+    @FXML
+    private Button logoutButton;
 
     @FXML
     private Arc progressArc;
@@ -50,17 +60,64 @@ public class DashboardController {
 
     private final ReparacaoService reparacaoService;
     private final PecaService pecaService;
+    private final ApplicationContext context;
 
     @Autowired
-    public DashboardController(ReparacaoService reparacaoService, PecaService pecaService) {
+    public DashboardController(ReparacaoService reparacaoService, PecaService pecaService, ApplicationContext context) {
         this.reparacaoService = reparacaoService;
         this.pecaService = pecaService;
+        this.context = context;
     }
 
     @FXML
     public void initialize() {
         loadRepairProgress();
         loadStockInformation();
+    }
+
+    @FXML
+    public void onDashboardButtonClick() {
+        try {
+            SceneManager.switchScene("/mechanic/dashboard.fxml", "Dashboard", dashboardButton);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void onInventoryButtonClick() {
+        try {
+            SceneManager.switchScene("/mechanic/inventory.fxml", "Inventory", inventoryButton);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void onServicesButtonClick() {
+        try {
+            SceneManager.switchScene("/mechanic/services.fxml", "Services", servicesButton);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void onOrdersButtonClick() {
+        try {
+            SceneManager.switchScene("/mechanic/order-part.fxml", "Orders", ordersButton);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void onLogoutButtonClick() {
+        try {
+            SceneManager.switchScene("/login.fxml", "Login", logoutButton);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void loadRepairProgress() {

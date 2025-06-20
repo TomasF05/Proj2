@@ -1,7 +1,6 @@
 // MainController.java
 package com.example.projeto2.Desktop;
 
-import com.example.projeto2.Desktop.mechanic.SidebarControllerMechanic;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -21,8 +20,6 @@ public class MainController {
     @FXML
     private BorderPane mainLayout;
 
-    @FXML
-    private VBox sidebarContainer; // Container for the sidebar
 
     @FXML
     private StackPane contentContainer; // Container for the main content
@@ -43,67 +40,23 @@ public class MainController {
 
     @FXML
     public void initialize() {
-        // The header is now included directly in main.fxml, so no need to load it here.
-        // Ensure the HeaderController gets a reference to this MainController.
-        // This is typically handled by Spring's FXML loader if HeaderController is a @Component.
-        sidebarContainer.setTranslateX(0); // Start with sidebar always visible
-        System.out.println("MainController initialize - sidebarContainer width: " + sidebarContainer.getWidth());
+        System.out.println("MainController initialize - contentContainer initialized.");
     }
 
     public void loadUserSpecificContent(BigDecimal userType) {
         System.out.println("MainController loadUserSpecificContent entered. UserType: " + userType + ", Instance hash: " + this.hashCode());
         try {
-            Parent sidebarContent = null;
             Parent dashboardContent = null;
 
             if (userType.equals(new BigDecimal(1))) { // Mechanic
-                java.net.URL mechanicSidebarUrl = context.getResource("classpath:/mechanic/sidebar.fxml").getURL();
-                if (mechanicSidebarUrl == null) {
-                    System.err.println("MainController loadUserSpecificContent - Mechanic sidebar FXML not found: /mechanic/sidebar.fxml");
-                    return; // Exit if resource not found
-                }
-                FXMLLoader sidebarLoader = new FXMLLoader(mechanicSidebarUrl);
-                sidebarLoader.setClassLoader(getClass().getClassLoader());
-                sidebarLoader.setControllerFactory(context::getBean);
-                sidebarContent = sidebarLoader.load();
-                com.example.projeto2.Desktop.mechanic.SidebarControllerMechanic sidebarController = sidebarLoader.getController();
-                if (sidebarController != null) {
-                    sidebarController.setMainLayout(mainLayout); // Pass mainLayout to sidebar for content loading
-                }
-
                 FXMLLoader dashboardLoader = new FXMLLoader(getClass().getResource("/mechanic/dashboard.fxml"));
                 dashboardLoader.setControllerFactory(context::getBean);
                 dashboardContent = dashboardLoader.load();
 
             } else if (userType.equals(new BigDecimal(2))) { // Receptionist
-                java.net.URL receptionistSidebarUrl = context.getResource("classpath:/sidebar.fxml").getURL(); // Assuming generic sidebar for receptionist
-                if (receptionistSidebarUrl == null) {
-                    System.err.println("MainController loadUserSpecificContent - Receptionist sidebar FXML not found: /sidebar.fxml");
-                    return; // Exit if resource not found
-                }
-                FXMLLoader sidebarLoader = new FXMLLoader(receptionistSidebarUrl);
-                sidebarLoader.setClassLoader(getClass().getClassLoader());
-                sidebarLoader.setControllerFactory(context::getBean);
-                sidebarContent = sidebarLoader.load();
-                // Get the controller and pass the reference to this MainController
-                com.example.projeto2.Desktop.SidebarController sidebarController = sidebarLoader.getController();
-                sidebarController.setMainController(this); // Pass reference
-
                 FXMLLoader dashboardLoader = new FXMLLoader(getClass().getResource("/receptionist-dashboard.fxml"));
                 dashboardLoader.setControllerFactory(context::getBean);
                 dashboardContent = dashboardLoader.load();
-            }
-
-            if (sidebarContent != null) {
-                if (sidebarContent instanceof VBox) {
-                    currentSidebar = (VBox) sidebarContent;
-                    sidebarContainer.getChildren().setAll(currentSidebar); // Set sidebar into its container
-                    System.out.println("MainController loadUserSpecificContent - sidebar loaded successfully. sidebarContainer width after loading: " + sidebarContainer.getWidth());
-                } else {
-                    System.err.println("MainController loadUserSpecificContent - Loaded sidebar content is not a VBox. Actual type: " + sidebarContent.getClass().getName());
-                }
-            } else {
-                System.err.println("MainController loadUserSpecificContent - sidebarContent is null after loading FXML.");
             }
 
             // Load the initial dashboard content

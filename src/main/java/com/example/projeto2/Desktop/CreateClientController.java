@@ -35,6 +35,19 @@ public class CreateClientController {
     @FXML
     private TextField postalCodeField;
 
+    @FXML
+    private Button dashboardButton;
+    @FXML
+    private Button appointmentsButton;
+    @FXML
+    private Button inventoryButton;
+    @FXML
+    private Button createClientButton;
+    @FXML
+    private Button createInvoiceButton;
+    @FXML
+    private Button logoutButton;
+
     @Autowired
     private ClienteService clienteService;
 
@@ -81,6 +94,59 @@ public class CreateClientController {
             System.out.println("Client created: " + newCliente);
         } else {
             System.out.println("Please enter all the required information");
+        }
+    }
+    @FXML
+    public void onDashboardButtonClick() {
+        try {
+            SceneManager.switchScene("/receptionist-dashboard.fxml", "Dashboard", dashboardButton);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void onAppointmentsButtonClick() {
+        try {
+            SceneManager.switchScene("/schedule-repair.fxml", "Agendamentos", appointmentsButton);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void onInventoryButtonClick() {
+        try {
+            SceneManager.switchScene("/mechanic/inventory.fxml", "Inventário", inventoryButton);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void onCreateClientButtonClick() {
+        try {
+            SceneManager.switchScene("/create-client.fxml", "Criar Cliente", createClientButton);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void onCreateInvoiceButtonClick() {
+        try {
+            SceneManager.switchScene("/create-invoice.fxml", "Criar Fatura", createInvoiceButton);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void onLogoutButtonClick() {
+        try {
+            SceneManager.switchScene("/login.fxml", "Login", logoutButton);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

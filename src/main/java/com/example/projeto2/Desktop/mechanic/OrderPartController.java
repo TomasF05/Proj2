@@ -17,12 +17,32 @@ import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.util.List;
 import java.util.Optional; // Import Optional
 import java.util.ResourceBundle;
 
+
+import com.example.projeto2.Desktop.MainController;
+import com.example.projeto2.Desktop.SceneManager;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.layout.VBox;
+import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.LinearGradient;
+import javafx.scene.paint.Stop;
+import javafx.scene.shape.Arc;
+import javafx.scene.shape.ArcType;
 @Component
 public class OrderPartController implements Initializable {
 
@@ -35,11 +55,23 @@ public class OrderPartController implements Initializable {
     @FXML
     private ComboBox<Fornecedor> supplierComboBox;
 
+
     private final EncomendaFornecedorService encomendaFornecedorService;
     private final FornecedorService fornecedorService;
-    private final PecaService pecaService; // Inject PecaService
+    private final PecaService pecaService;
     private Stage dialogStage;
     private boolean orderPlaced = false;
+
+    @FXML
+    private Button dashboardButton;
+    @FXML
+    private Button servicesButton;
+    @FXML
+    private Button inventoryButton;
+    @FXML
+    private Button ordersButton;
+    @FXML
+    private Button logoutButton;
 
     @Autowired
     public OrderPartController(EncomendaFornecedorService encomendaFornecedorService, FornecedorService fornecedorService, PecaService pecaService) {
@@ -59,7 +91,7 @@ public class OrderPartController implements Initializable {
 
     public void setPartName(String partName) {
         this.partNameField.setText(partName);
-        this.partNameField.setEditable(false); // Part name is pre-filled and not editable
+        this.partNameField.setEditable(false);
     }
 
     public boolean isOrderPlaced() {
@@ -70,7 +102,6 @@ public class OrderPartController implements Initializable {
         List<Fornecedor> suppliers = fornecedorService.getAllFornecedores();
         ObservableList<Fornecedor> supplierList = FXCollections.observableArrayList(suppliers);
         supplierComboBox.setItems(supplierList);
-        // Set a cell factory or string converter if you want to display something other than the default toString()
         supplierComboBox.setPromptText("Select Supplier");
     }
 
@@ -87,12 +118,11 @@ public class OrderPartController implements Initializable {
 
         try {
             BigDecimal quantity = new BigDecimal(quantityText);
-             if (quantity.compareTo(BigDecimal.ZERO) <= 0) {
-                 showAlert("Error", "Invalid Quantity", "Quantity must be a positive number.");
-                 return;
+            if (quantity.compareTo(BigDecimal.ZERO) <= 0) {
+                showAlert("Error", "Invalid Quantity", "Quantity must be a positive number.");
+                return;
             }
 
-            // Find the part by name
             Optional<Peca> partOptional = pecaService.getPecaByNome(partName);
 
             if (!partOptional.isPresent()) {
@@ -102,15 +132,15 @@ public class OrderPartController implements Initializable {
 
             Peca partToOrder = partOptional.get();
 
-            // Create a new supplier order header
             EncomendaFornecedor newOrder = encomendaFornecedorService.createSupplierOrder(selectedSupplier);
 
-            // Add the part as a line item to the order
             encomendaFornecedorService.addPartToSupplierOrder(newOrder, partToOrder, quantity);
 
             orderPlaced = true;
             showAlert("Success", "Part Ordered", "Part ordered successfully.");
-            dialogStage.close(); // Close the modal after successful order
+            if (dialogStage != null) {
+                dialogStage.close();
+            }
 
         } catch (NumberFormatException e) {
             showAlert("Error", "Invalid Quantity", "Please enter a valid number for quantity.");
@@ -123,7 +153,9 @@ public class OrderPartController implements Initializable {
     @FXML
     private void handleCancel() {
         orderPlaced = false;
-        dialogStage.close();
+        if (dialogStage != null) {
+            dialogStage.close();
+        }
     }
 
     private void showAlert(String title, String header, String content) {
@@ -132,5 +164,51 @@ public class OrderPartController implements Initializable {
         alert.setHeaderText(header);
         alert.setContentText(content);
         alert.showAndWait();
+    }
+
+    // Sidebar button actions
+    @FXML
+    public void onDashboardButtonClick() {
+        try {
+            SceneManager.switchScene("/mechanic/dashboard.fxml", "Dashboard", dashboardButton);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void onInventoryButtonClick() {
+        try {
+            SceneManager.switchScene("/mechanic/inventory.fxml", "Inventory", inventoryButton);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void onServicesButtonClick() {
+        try {
+            SceneManager.switchScene("/mechanic/services.fxml", "Services", servicesButton);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void onOrdersButtonClick() {
+        try {
+            SceneManager.switchScene("/mechanic/order-part.fxml", "Orders", ordersButton);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void onLogoutButtonClick() {
+        try {
+            SceneManager.switchScene("/login.fxml", "Login", logoutButton);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -1,6 +1,7 @@
 package com.example.projeto2.Desktop;
 
 import com.example.projeto2.Services.PecaService;
+import com.example.projeto2.Desktop.SceneManager;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.fxml.FXMLLoader;
@@ -11,10 +12,12 @@ import javafx.scene.layout.VBox;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
+import com.example.projeto2.Services.PecaService;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.scene.control.Button;
 
 @Component
 public class ReceptionistDashboardController implements Initializable {
@@ -22,7 +25,18 @@ public class ReceptionistDashboardController implements Initializable {
     @FXML
     private ListView partsListView;
 
-    private BorderPane mainLayout; // Injected from MainController
+    @FXML
+    private Button dashboardButton;
+    @FXML
+    private Button appointmentsButton;
+    @FXML
+    private Button inventoryButton;
+    @FXML
+    private Button createClientButton;
+    @FXML
+    private Button createInvoiceButton;
+    @FXML
+    private Button logoutButton;
 
     private final ApplicationContext applicationContext;
     private final PecaService pecaService;
@@ -33,10 +47,6 @@ public class ReceptionistDashboardController implements Initializable {
         this.pecaService = pecaService;
     }
 
-    public void setMainLayout(BorderPane mainLayout) {
-        this.mainLayout = mainLayout;
-    }
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Load parts from database and populate the list view
@@ -45,32 +55,90 @@ public class ReceptionistDashboardController implements Initializable {
 
     @FXML
     private void handleCreateClient() {
-        loadContent("/create-client.fxml");
+        try {
+            SceneManager.switchScene("/create-client.fxml", "Criar Cliente", createClientButton);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
     private void handleScheduleRepair() {
-        loadContent("/schedule-repair.fxml");
+        try {
+            SceneManager.switchScene("/schedule-repair.fxml", "Agendar Reparação", appointmentsButton);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
     private void handleCreateReceipt() {
-        loadContent("/create-invoice.fxml");
+        try {
+            SceneManager.switchScene("/create-invoice.fxml", "Criar Fatura", createInvoiceButton);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
     private void handleOrderParts() {
-        loadContent("/order-part.fxml");
+        try {
+            SceneManager.switchScene("/mechanic/order-part.fxml", "Encomendar Peças", inventoryButton); // Assuming inventory button is used for ordering parts
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void loadContent(String fxmlPath) {
+    // Sidebar button actions
+    @FXML
+    public void onDashboardButtonClick() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
-            loader.setControllerFactory(applicationContext::getBean);
-            Parent content = loader.load();
-            if (mainLayout != null) {
-                mainLayout.setCenter(content);
-            }
+            SceneManager.switchScene("/receptionist-dashboard.fxml", "Dashboard", dashboardButton);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void onAppointmentsButtonClick() {
+        try {
+            SceneManager.switchScene("/schedule-repair.fxml", "Agendamentos", appointmentsButton);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void onInventoryButtonClick() {
+        try {
+            SceneManager.switchScene("/mechanic/inventory.fxml", "Inventário", inventoryButton);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void onCreateClientButtonClick() {
+        try {
+            SceneManager.switchScene("/create-client.fxml", "Criar Cliente", createClientButton);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void onCreateInvoiceButtonClick() {
+        try {
+            SceneManager.switchScene("/create-invoice.fxml", "Criar Fatura", createInvoiceButton);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void onLogoutButtonClick() {
+        try {
+            SceneManager.switchScene("/login.fxml", "Login", logoutButton);
         } catch (IOException e) {
             e.printStackTrace();
         }
