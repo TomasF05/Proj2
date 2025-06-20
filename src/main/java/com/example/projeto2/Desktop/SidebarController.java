@@ -18,15 +18,17 @@ public class SidebarController {
     private VBox sidebar;
 
     private final ApplicationContext context;
-    private BorderPane mainLayout;
+    private MainController mainController; // Reference to MainController
 
     @Autowired
     public SidebarController(ApplicationContext context) {
         this.context = context;
     }
 
-    public void setMainLayout(BorderPane mainLayout) {
-        this.mainLayout = mainLayout;
+    @FXML
+    public void initialize() {
+        // Retrieve MainController from the ApplicationContext
+        this.mainController = context.getBean(MainController.class);
     }
 
     @FXML
@@ -65,8 +67,8 @@ public class SidebarController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             loader.setControllerFactory(context::getBean);
             Parent content = loader.load();
-            if (mainLayout != null) {
-                mainLayout.setCenter(content);
+            if (mainController != null && mainController.contentContainer != null) {
+                mainController.contentContainer.getChildren().setAll(content);
             }
         } catch (Exception e) {
             e.printStackTrace();

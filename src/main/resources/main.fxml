@@ -1,10 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.fxml.FXMLLoader?>
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:id="mainLayout"
             fx:controller="com.example.projeto2.Desktop.MainController"
             stylesheets="/styles.css">
+    <top>
+        <fx:include source="header.fxml" />
+    </top>
+    <left>
+        <!-- Sidebar will be dynamically loaded here -->
+        <VBox fx:id="sidebarContainer" />
+    </left>
+    <center>
+        <!-- Main content will be dynamically loaded here -->
+        <StackPane fx:id="contentContainer" />
+    </center>
 </BorderPane>

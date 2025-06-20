@@ -22,6 +22,12 @@ public class MainController {
     @FXML
     private BorderPane mainLayout;
 
+    @FXML
+    private VBox sidebarContainer; // Container for the sidebar
+
+    @FXML
+    private StackPane contentContainer; // Container for the main content
+
     private VBox currentSidebar; // To hold the currently loaded sidebar
 
     private final ApplicationContext context;
@@ -35,17 +41,9 @@ public class MainController {
 
     @FXML
     public void initialize() {
-        try {
-            // Load header content
-            FXMLLoader headerLoader = new FXMLLoader(getClass().getResource("/header.fxml"));
-            headerLoader.setControllerFactory(context::getBean);
-            Parent headerContent = headerLoader.load();
-            HeaderController headerController = headerLoader.getController();
-            headerController.setMainController(this); // Pass reference to MainController
-            mainLayout.setTop(headerContent);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        // The header is now included directly in main.fxml, so no need to load it here.
+        // Ensure the HeaderController gets a reference to this MainController.
+        // This is typically handled by Spring's FXML loader if HeaderController is a @Component.
     }
 
     public void loadUserSpecificContent(BigDecimal userType) {
@@ -57,8 +55,8 @@ public class MainController {
                 FXMLLoader sidebarLoader = new FXMLLoader(getClass().getResource("/mechanic/sidebar.fxml"));
                 sidebarLoader.setControllerFactory(context::getBean);
                 sidebarContent = sidebarLoader.load();
-                SidebarControllerMechanic sidebarController = sidebarLoader.getController();
-                sidebarController.setMainLayout(mainLayout);
+                com.example.projeto2.Desktop.mechanic.SidebarController sidebarController = sidebarLoader.getController();
+                sidebarController.setMainLayout(mainLayout); // Pass mainLayout to sidebar for content loading
 
                 FXMLLoader dashboardLoader = new FXMLLoader(getClass().getResource("/mechanic/dashboard.fxml"));
                 dashboardLoader.setControllerFactory(context::getBean);
@@ -69,7 +67,7 @@ public class MainController {
                 sidebarLoader.setControllerFactory(context::getBean);
                 sidebarContent = sidebarLoader.load();
                 com.example.projeto2.Desktop.SidebarController sidebarController = sidebarLoader.getController(); // Assuming a generic SidebarController
-                sidebarController.setMainLayout(mainLayout);
+                sidebarController.setMainLayout(mainLayout); // Pass mainLayout to sidebar for content loading
 
                 FXMLLoader dashboardLoader = new FXMLLoader(getClass().getResource("/receptionist-dashboard.fxml"));
                 dashboardLoader.setControllerFactory(context::getBean);
@@ -78,11 +76,11 @@ public class MainController {
 
             if (sidebarContent instanceof VBox) {
                 currentSidebar = (VBox) sidebarContent;
-                mainLayout.setLeft(currentSidebar);
+                sidebarContainer.getChildren().setAll(currentSidebar); // Set sidebar into its container
                 sidebarOpen = true; // Ensure sidebar is open when loaded
             }
             if (dashboardContent != null) {
-                mainLayout.setCenter(dashboardContent);
+                contentContainer.getChildren().setAll(dashboardContent); // Set dashboard into its container
             }
 
         } catch (IOException e) {
@@ -95,11 +93,11 @@ public class MainController {
             return;
         }
 
-        TranslateTransition transition = new TranslateTransition(Duration.millis(300), currentSidebar);
+        TranslateTransition transition = new TranslateTransition(Duration.millis(300), sidebarContainer); // Animate the container
         if (sidebarOpen) {
-            transition.setByX(-currentSidebar.getWidth());
+            transition.setByX(-sidebarContainer.getWidth());
         } else {
-            transition.setByX(currentSidebar.getWidth());
+            transition.setByX(sidebarContainer.getWidth());
         }
         transition.play();
         sidebarOpen = !sidebarOpen;

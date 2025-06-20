@@ -9,14 +9,17 @@ import org.springframework.stereotype.Component;
 public class HeaderController {
 
     private MainController mainController;
+    private final ApplicationContext context;
 
     @Autowired
-    public HeaderController() {
-        // Spring will inject dependencies later
+    public HeaderController(ApplicationContext context) {
+        this.context = context;
     }
 
-    public void setMainController(MainController mainController) {
-        this.mainController = mainController;
+    @FXML
+    public void initialize() {
+        // Retrieve MainController from the ApplicationContext
+        this.mainController = context.getBean(MainController.class);
     }
 
     @FXML
