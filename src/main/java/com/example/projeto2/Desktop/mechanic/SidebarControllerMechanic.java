@@ -32,14 +32,14 @@ public class SidebarControllerMechanic {
         this.mainLayout = mainLayout;
     }
 
+    public void setMainController(MainController mainController) {
+        this.mainController = mainController;
+    }
+
     @FXML
     public void initialize() {
-        // Retrieve MainController from the ApplicationContext
-        this.mainController = context.getBean(MainController.class);
-        // Load initial content
-        if (mainController != null && mainController.getContentContainer() != null) {
-            loadDashboard();
-        }
+        // DO NOT load content here. This method is called too early.
+        // The MainController will handle loading the initial dashboard.
     }
 
     @FXML

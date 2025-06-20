@@ -85,10 +85,9 @@ public class MainController {
                 sidebarLoader.setClassLoader(getClass().getClassLoader());
                 sidebarLoader.setControllerFactory(context::getBean);
                 sidebarContent = sidebarLoader.load();
+                // Get the controller and pass the reference to this MainController
                 com.example.projeto2.Desktop.SidebarController sidebarController = sidebarLoader.getController();
-                if (sidebarController != null) {
-                    sidebarController.setMainLayout(mainLayout); // Pass mainLayout to sidebar for content loading
-                }
+                sidebarController.setMainController(this); // Pass reference
 
                 FXMLLoader dashboardLoader = new FXMLLoader(getClass().getResource("/receptionist-dashboard.fxml"));
                 dashboardLoader.setControllerFactory(context::getBean);
@@ -107,8 +106,9 @@ public class MainController {
                 System.err.println("MainController loadUserSpecificContent - sidebarContent is null after loading FXML.");
             }
 
+            // Load the initial dashboard content
             if (dashboardContent != null) {
-                contentContainer.getChildren().setAll(dashboardContent); // Set dashboard into its container
+                contentContainer.getChildren().setAll(dashboardContent);
             }
 
         } catch (IOException e) {
