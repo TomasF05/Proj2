@@ -2,14 +2,12 @@
 package com.example.projeto2.Desktop;
 
 import com.example.projeto2.Desktop.mechanic.SidebarControllerMechanic;
-import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.util.Duration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
@@ -37,8 +35,6 @@ public class MainController {
 
     private final ApplicationContext context;
 
-    private boolean sidebarOpen = false; // Track sidebar state
-
     @Autowired
     public MainController(ApplicationContext context) {
         this.context = context;
@@ -50,7 +46,7 @@ public class MainController {
         // The header is now included directly in main.fxml, so no need to load it here.
         // Ensure the HeaderController gets a reference to this MainController.
         // This is typically handled by Spring's FXML loader if HeaderController is a @Component.
-        sidebarContainer.setTranslateX(-250); // Start with sidebar hidden
+        sidebarContainer.setTranslateX(0); // Start with sidebar always visible
         System.out.println("MainController initialize - sidebarContainer width: " + sidebarContainer.getWidth());
     }
 
@@ -118,23 +114,5 @@ public class MainController {
             System.err.println("MainController loadUserSpecificContent - An unexpected error occurred: " + e.getMessage());
             e.printStackTrace();
         }
-    }
-
-    public void toggleSidebar() {
-        if (currentSidebar == null) {
-            System.out.println("MainController toggleSidebar - currentSidebar is null. Cannot toggle.");
-            return;
-        }
-        System.out.println("MainController toggleSidebar - sidebarOpen: " + sidebarOpen + ", sidebarContainer width: " + sidebarContainer.getWidth());
-
-        TranslateTransition transition = new TranslateTransition(Duration.millis(300), sidebarContainer); // Animate the container
-        if (sidebarOpen) {
-            transition.setToX(-sidebarContainer.getWidth()); // Close the sidebar
-        } else {
-            transition.setToX(0); // Open the sidebar
-        }
-        transition.play();
-        sidebarOpen = !sidebarOpen; // Toggle the state
-        System.out.println("MainController toggleSidebar - new sidebarOpen state: " + !sidebarOpen);
     }
 }
