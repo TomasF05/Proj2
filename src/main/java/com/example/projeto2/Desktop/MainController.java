@@ -50,6 +50,7 @@ public class MainController {
         // Ensure the HeaderController gets a reference to this MainController.
         // This is typically handled by Spring's FXML loader if HeaderController is a @Component.
         sidebarContainer.setTranslateX(-250); // Start with sidebar hidden
+        System.out.println("MainController initialize - sidebarContainer width: " + sidebarContainer.getWidth());
     }
 
     public void loadUserSpecificContent(BigDecimal userType) {
@@ -83,6 +84,7 @@ public class MainController {
             if (sidebarContent instanceof VBox) {
                 currentSidebar = (VBox) sidebarContent;
                 sidebarContainer.getChildren().setAll(currentSidebar); // Set sidebar into its container
+                System.out.println("MainController loadUserSpecificContent - sidebarContainer width after loading: " + sidebarContainer.getWidth());
             }
             if (dashboardContent != null) {
                 contentContainer.getChildren().setAll(dashboardContent); // Set dashboard into its container
@@ -95,8 +97,10 @@ public class MainController {
 
     public void toggleSidebar() {
         if (currentSidebar == null) {
+            System.out.println("MainController toggleSidebar - currentSidebar is null. Cannot toggle.");
             return;
         }
+        System.out.println("MainController toggleSidebar - sidebarOpen: " + sidebarOpen + ", sidebarContainer width: " + sidebarContainer.getWidth());
 
         TranslateTransition transition = new TranslateTransition(Duration.millis(300), sidebarContainer); // Animate the container
         if (sidebarOpen) {
@@ -106,5 +110,6 @@ public class MainController {
         }
         transition.play();
         sidebarOpen = !sidebarOpen; // Toggle the state
+        System.out.println("MainController toggleSidebar - new sidebarOpen state: " + !sidebarOpen);
     }
 }
