@@ -61,7 +61,7 @@ public class MainController {
             Parent dashboardContent = null;
 
             if (userType.equals(new BigDecimal(1))) { // Mechanic
-                java.net.URL mechanicSidebarUrl = getClass().getResource("/mechanic/sidebar.fxml");
+                java.net.URL mechanicSidebarUrl = context.getResource("classpath:/mechanic/sidebar.fxml").getURL();
                 if (mechanicSidebarUrl == null) {
                     System.err.println("MainController loadUserSpecificContent - Mechanic sidebar FXML not found: /mechanic/sidebar.fxml");
                     return; // Exit if resource not found
@@ -78,7 +78,7 @@ public class MainController {
                 dashboardContent = dashboardLoader.load();
 
             } else if (userType.equals(new BigDecimal(2))) { // Receptionist
-                java.net.URL receptionistSidebarUrl = getClass().getResource("/sidebar.fxml"); // Assuming generic sidebar for receptionist
+                java.net.URL receptionistSidebarUrl = context.getResource("classpath:/sidebar.fxml").getURL(); // Assuming generic sidebar for receptionist
                 if (receptionistSidebarUrl == null) {
                     System.err.println("MainController loadUserSpecificContent - Receptionist sidebar FXML not found: /sidebar.fxml");
                     return; // Exit if resource not found
