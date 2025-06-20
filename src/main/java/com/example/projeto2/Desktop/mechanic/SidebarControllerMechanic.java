@@ -1,5 +1,6 @@
 package com.example.projeto2.Desktop.mechanic;
 
+import com.example.projeto2.Desktop.MainController;
 import com.example.projeto2.Desktop.SceneManager;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
@@ -20,10 +21,15 @@ public class SidebarControllerMechanic {
 
     private final ApplicationContext context;
     private MainController mainController; // Reference to MainController
+    private BorderPane mainLayout; // Reference to the main layout
 
     @Autowired
     public SidebarControllerMechanic(ApplicationContext context) {
         this.context = context;
+    }
+
+    public void setMainLayout(BorderPane mainLayout) {
+        this.mainLayout = mainLayout;
     }
 
     @FXML
@@ -31,7 +37,7 @@ public class SidebarControllerMechanic {
         // Retrieve MainController from the ApplicationContext
         this.mainController = context.getBean(MainController.class);
         // Load initial content
-        if (mainController != null && mainController.contentContainer != null) {
+        if (mainController != null && mainController.getContentContainer() != null) {
             loadDashboard();
         }
     }
@@ -61,7 +67,7 @@ public class SidebarControllerMechanic {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/mechanic/dashboard.fxml"));
             loader.setControllerFactory(context::getBean);
             Parent dashboardContent = loader.load();
-            mainController.contentContainer.getChildren().setAll(dashboardContent);
+            mainController.getContentContainer().getChildren().setAll(dashboardContent);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -72,7 +78,7 @@ public class SidebarControllerMechanic {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/mechanic/inventory.fxml"));
             loader.setControllerFactory(context::getBean);
             Parent inventoryContent = loader.load();
-            mainController.contentContainer.getChildren().setAll(inventoryContent);
+            mainController.getContentContainer().getChildren().setAll(inventoryContent);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -83,7 +89,7 @@ public class SidebarControllerMechanic {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/mechanic/services.fxml"));
             loader.setControllerFactory(context::getBean);
             Parent servicesContent = loader.load();
-            mainController.contentContainer.getChildren().setAll(servicesContent);
+            mainController.getContentContainer().getChildren().setAll(servicesContent);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -94,7 +100,7 @@ public class SidebarControllerMechanic {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/mechanic/order-part.fxml"));
             loader.setControllerFactory(context::getBean);
             Parent ordersContent = loader.load();
-            mainController.contentContainer.getChildren().setAll(ordersContent);
+            mainController.getContentContainer().getChildren().setAll(ordersContent);
         } catch (Exception e) {
             e.printStackTrace();
         }

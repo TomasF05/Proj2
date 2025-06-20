@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,10 @@ public class MainController {
 
     @FXML
     private StackPane contentContainer; // Container for the main content
+
+    public StackPane getContentContainer() {
+        return contentContainer;
+    }
 
     private VBox currentSidebar; // To hold the currently loaded sidebar
 
@@ -55,7 +60,7 @@ public class MainController {
                 FXMLLoader sidebarLoader = new FXMLLoader(getClass().getResource("/mechanic/sidebar.fxml"));
                 sidebarLoader.setControllerFactory(context::getBean);
                 sidebarContent = sidebarLoader.load();
-                com.example.projeto2.Desktop.mechanic.SidebarController sidebarController = sidebarLoader.getController();
+                com.example.projeto2.Desktop.mechanic.SidebarControllerMechanic sidebarController = sidebarLoader.getController();
                 sidebarController.setMainLayout(mainLayout); // Pass mainLayout to sidebar for content loading
 
                 FXMLLoader dashboardLoader = new FXMLLoader(getClass().getResource("/mechanic/dashboard.fxml"));

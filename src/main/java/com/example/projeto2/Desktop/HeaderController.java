@@ -3,6 +3,7 @@ package com.example.projeto2.Desktop;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 @Component

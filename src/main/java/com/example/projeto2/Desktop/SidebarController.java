@@ -19,10 +19,15 @@ public class SidebarController {
 
     private final ApplicationContext context;
     private MainController mainController; // Reference to MainController
+    private BorderPane mainLayout; // Reference to the main layout
 
     @Autowired
     public SidebarController(ApplicationContext context) {
         this.context = context;
+    }
+
+    public void setMainLayout(BorderPane mainLayout) {
+        this.mainLayout = mainLayout;
     }
 
     @FXML
@@ -67,8 +72,8 @@ public class SidebarController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             loader.setControllerFactory(context::getBean);
             Parent content = loader.load();
-            if (mainController != null && mainController.contentContainer != null) {
-                mainController.contentContainer.getChildren().setAll(content);
+            if (mainController != null && mainController.getContentContainer() != null) {
+                mainController.getContentContainer().getChildren().setAll(content);
             }
         } catch (Exception e) {
             e.printStackTrace();
