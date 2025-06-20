@@ -83,16 +83,27 @@ public class MainController {
                 dashboardContent = dashboardLoader.load();
             }
 
-            if (sidebarContent instanceof VBox) {
-                currentSidebar = (VBox) sidebarContent;
-                sidebarContainer.getChildren().setAll(currentSidebar); // Set sidebar into its container
-                System.out.println("MainController loadUserSpecificContent - sidebarContainer width after loading: " + sidebarContainer.getWidth());
+            if (sidebarContent != null) {
+                if (sidebarContent instanceof VBox) {
+                    currentSidebar = (VBox) sidebarContent;
+                    sidebarContainer.getChildren().setAll(currentSidebar); // Set sidebar into its container
+                    System.out.println("MainController loadUserSpecificContent - sidebar loaded successfully. sidebarContainer width after loading: " + sidebarContainer.getWidth());
+                } else {
+                    System.err.println("MainController loadUserSpecificContent - Loaded sidebar content is not a VBox. Actual type: " + sidebarContent.getClass().getName());
+                }
+            } else {
+                System.err.println("MainController loadUserSpecificContent - sidebarContent is null after loading FXML.");
             }
+
             if (dashboardContent != null) {
                 contentContainer.getChildren().setAll(dashboardContent); // Set dashboard into its container
             }
 
         } catch (IOException e) {
+            System.err.println("MainController loadUserSpecificContent - IOException during FXML loading: " + e.getMessage());
+            e.printStackTrace();
+        } catch (Exception e) {
+            System.err.println("MainController loadUserSpecificContent - An unexpected error occurred: " + e.getMessage());
             e.printStackTrace();
         }
     }
