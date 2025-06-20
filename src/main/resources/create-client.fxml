@@ -11,7 +11,7 @@
 <HBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.example.projeto2.Desktop.CreateClientController"
-      style="-fx-background-color: #1a1a1a;">
+      style="-fx-background-color: #1a1a1a;" HBox.hgrow="ALWAYS">
     <VBox spacing="15.0" style="-fx-background-color: #2d2d2d; -fx-pref-width: 250px;">
         <padding>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
