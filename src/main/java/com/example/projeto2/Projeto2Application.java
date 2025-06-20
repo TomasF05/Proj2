@@ -23,7 +23,6 @@ import java.util.List;
 @SpringBootApplication
 @EnableJpaRepositories(basePackages = "com.example.projeto2.Repo")
 @EntityScan(basePackages = "com.example.projeto2.Tables")
-@ComponentScan(basePackages = "com.example.projeto2")
 public class Projeto2Application extends Application {
 
     private static ConfigurableApplicationContext springContext;

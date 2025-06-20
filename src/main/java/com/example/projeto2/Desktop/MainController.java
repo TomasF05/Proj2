@@ -37,7 +37,7 @@ public class MainController {
 
     private final ApplicationContext context;
 
-    private boolean sidebarOpen = true; // Track sidebar state
+    private boolean sidebarOpen = false; // Track sidebar state
 
     @Autowired
     public MainController(ApplicationContext context) {
@@ -49,6 +49,7 @@ public class MainController {
         // The header is now included directly in main.fxml, so no need to load it here.
         // Ensure the HeaderController gets a reference to this MainController.
         // This is typically handled by Spring's FXML loader if HeaderController is a @Component.
+        sidebarContainer.setTranslateX(-250); // Start with sidebar hidden
     }
 
     public void loadUserSpecificContent(BigDecimal userType) {
@@ -82,7 +83,6 @@ public class MainController {
             if (sidebarContent instanceof VBox) {
                 currentSidebar = (VBox) sidebarContent;
                 sidebarContainer.getChildren().setAll(currentSidebar); // Set sidebar into its container
-                sidebarOpen = true; // Ensure sidebar is open when loaded
             }
             if (dashboardContent != null) {
                 contentContainer.getChildren().setAll(dashboardContent); // Set dashboard into its container
@@ -100,11 +100,11 @@ public class MainController {
 
         TranslateTransition transition = new TranslateTransition(Duration.millis(300), sidebarContainer); // Animate the container
         if (sidebarOpen) {
-            transition.setByX(-sidebarContainer.getWidth());
+            transition.setToX(-sidebarContainer.getWidth()); // Close the sidebar
         } else {
-            transition.setByX(sidebarContainer.getWidth());
+            transition.setToX(0); // Open the sidebar
         }
         transition.play();
-        sidebarOpen = !sidebarOpen;
+        sidebarOpen = !sidebarOpen; // Toggle the state
     }
 }
