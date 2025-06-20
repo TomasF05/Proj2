@@ -15,7 +15,7 @@
     </top>
     <left>
         <!-- Sidebar will be dynamically loaded here -->
-        <VBox fx:id="sidebarContainer" prefWidth="250.0" />
+        <VBox fx:id="sidebarContainer" prefWidth="250.0" maxWidth="250.0" />
     </left>
     <center>
         <!-- Main content will be dynamically loaded here -->
