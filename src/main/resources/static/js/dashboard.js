@@ -1,4 +1,3 @@
-
 document.addEventListener('DOMContentLoaded', async () => {
     try {
         const resp = await fetch('/api/dashboard', {
@@ -101,6 +100,23 @@ document.addEventListener('DOMContentLoaded', async () => {
             agendamentosList.innerHTML = '<li class="list-group-item bg-dark text-white border-secondary">Nenhum agendamento encontrado</li>';
         }
 
+        // === Botão de logout ===
+        const btnLogout = document.getElementById('logout-btn');
+        if (btnLogout) {
+            btnLogout.addEventListener('click', async () => {
+                try {
+                    await fetch('/api/logout', {
+                        method: 'POST',
+                        credentials: 'include'
+                    });
+                    window.location.href = '/login.html';
+                } catch (err) {
+                    alert('Erro ao terminar sessão.');
+                    console.error(err);
+                }
+            });
+        }
+
     } catch (err) {
         console.error('Erro:', err);
         alert(err.message);
@@ -108,8 +124,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         window.location.href = '/login.html';
     }
 });
-
-// === Função auxiliar ===
 
 function formatarData(dataIso) {
     if (!dataIso) return '-';
