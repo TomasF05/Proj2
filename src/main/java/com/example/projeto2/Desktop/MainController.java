@@ -67,6 +67,7 @@ public class MainController {
                     return; // Exit if resource not found
                 }
                 FXMLLoader sidebarLoader = new FXMLLoader(mechanicSidebarUrl);
+                sidebarLoader.setClassLoader(getClass().getClassLoader());
                 com.example.projeto2.Desktop.mechanic.SidebarControllerMechanic sidebarController = context.getBean(com.example.projeto2.Desktop.mechanic.SidebarControllerMechanic.class);
                 sidebarLoader.setController(sidebarController);
                 sidebarContent = sidebarLoader.load();
@@ -83,6 +84,7 @@ public class MainController {
                     return; // Exit if resource not found
                 }
                 FXMLLoader sidebarLoader = new FXMLLoader(receptionistSidebarUrl);
+                sidebarLoader.setClassLoader(getClass().getClassLoader());
                 com.example.projeto2.Desktop.SidebarController sidebarController = context.getBean(com.example.projeto2.Desktop.SidebarController.class);
                 sidebarLoader.setController(sidebarController);
                 sidebarContent = sidebarLoader.load();
