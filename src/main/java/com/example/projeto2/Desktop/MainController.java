@@ -61,7 +61,12 @@ public class MainController {
             Parent dashboardContent = null;
 
             if (userType.equals(new BigDecimal(1))) { // Mechanic
-                FXMLLoader sidebarLoader = new FXMLLoader(getClass().getResource("/mechanic/sidebar.fxml"));
+                java.net.URL mechanicSidebarUrl = getClass().getResource("/mechanic/sidebar.fxml");
+                if (mechanicSidebarUrl == null) {
+                    System.err.println("MainController loadUserSpecificContent - Mechanic sidebar FXML not found: /mechanic/sidebar.fxml");
+                    return; // Exit if resource not found
+                }
+                FXMLLoader sidebarLoader = new FXMLLoader(mechanicSidebarUrl);
                 sidebarLoader.setControllerFactory(context::getBean);
                 sidebarContent = sidebarLoader.load();
                 com.example.projeto2.Desktop.mechanic.SidebarControllerMechanic sidebarController = sidebarLoader.getController();
@@ -72,7 +77,12 @@ public class MainController {
                 dashboardContent = dashboardLoader.load();
 
             } else if (userType.equals(new BigDecimal(2))) { // Receptionist
-                FXMLLoader sidebarLoader = new FXMLLoader(getClass().getResource("/sidebar.fxml")); // Assuming generic sidebar for receptionist
+                java.net.URL receptionistSidebarUrl = getClass().getResource("/sidebar.fxml"); // Assuming generic sidebar for receptionist
+                if (receptionistSidebarUrl == null) {
+                    System.err.println("MainController loadUserSpecificContent - Receptionist sidebar FXML not found: /sidebar.fxml");
+                    return; // Exit if resource not found
+                }
+                FXMLLoader sidebarLoader = new FXMLLoader(receptionistSidebarUrl);
                 sidebarLoader.setControllerFactory(context::getBean);
                 sidebarContent = sidebarLoader.load();
                 com.example.projeto2.Desktop.SidebarController sidebarController = sidebarLoader.getController(); // Assuming a generic SidebarController
