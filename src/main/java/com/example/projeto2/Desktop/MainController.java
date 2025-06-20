@@ -42,6 +42,7 @@ public class MainController {
     @Autowired
     public MainController(ApplicationContext context) {
         this.context = context;
+        System.out.println("MainController constructor called. Instance hash: " + this.hashCode());
     }
 
     @FXML
@@ -54,6 +55,7 @@ public class MainController {
     }
 
     public void loadUserSpecificContent(BigDecimal userType) {
+        System.out.println("MainController loadUserSpecificContent entered. UserType: " + userType + ", Instance hash: " + this.hashCode());
         try {
             Parent sidebarContent = null;
             Parent dashboardContent = null;

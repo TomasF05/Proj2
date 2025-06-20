@@ -82,6 +82,8 @@ public class LoginController {
                 loader.setControllerFactory(Projeto2Application.getSpringContext()::getBean);
                 Parent root = loader.load();
                 MainController mainController = loader.getController();
+                System.out.println("LoginController - Calling mainController.loadUserSpecificContent with userType: " + usuario.getTipo());
+                System.out.println("LoginController - MainController instance hash: " + mainController.hashCode());
                 mainController.loadUserSpecificContent(usuario.getTipo());
 
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
