@@ -68,6 +68,7 @@ public class MainController {
                 }
                 FXMLLoader sidebarLoader = new FXMLLoader(mechanicSidebarUrl);
                 sidebarLoader.setControllerFactory(context::getBean);
+                sidebarLoader.setBuilderFactory(null); // Diagnostic: Try default builder factory
                 sidebarContent = sidebarLoader.load();
                 com.example.projeto2.Desktop.mechanic.SidebarControllerMechanic sidebarController = sidebarLoader.getController();
                 sidebarController.setMainLayout(mainLayout); // Pass mainLayout to sidebar for content loading
@@ -84,6 +85,7 @@ public class MainController {
                 }
                 FXMLLoader sidebarLoader = new FXMLLoader(receptionistSidebarUrl);
                 sidebarLoader.setControllerFactory(context::getBean);
+                sidebarLoader.setBuilderFactory(null); // Diagnostic: Try default builder factory
                 sidebarContent = sidebarLoader.load();
                 com.example.projeto2.Desktop.SidebarController sidebarController = sidebarLoader.getController(); // Assuming a generic SidebarController
                 sidebarController.setMainLayout(mainLayout); // Pass mainLayout to sidebar for content loading
