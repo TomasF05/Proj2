@@ -67,10 +67,9 @@ public class MainController {
                     return; // Exit if resource not found
                 }
                 FXMLLoader sidebarLoader = new FXMLLoader(mechanicSidebarUrl);
-                sidebarLoader.setControllerFactory(context::getBean);
+                com.example.projeto2.Desktop.mechanic.SidebarControllerMechanic sidebarController = context.getBean(com.example.projeto2.Desktop.mechanic.SidebarControllerMechanic.class);
+                sidebarLoader.setController(sidebarController);
                 sidebarContent = sidebarLoader.load();
-                System.out.println("MainController loadUserSpecificContent - sidebarLoader.load() result (mechanic): " + sidebarContent);
-                com.example.projeto2.Desktop.mechanic.SidebarControllerMechanic sidebarController = sidebarLoader.getController();
                 sidebarController.setMainLayout(mainLayout); // Pass mainLayout to sidebar for content loading
 
                 FXMLLoader dashboardLoader = new FXMLLoader(getClass().getResource("/mechanic/dashboard.fxml"));
@@ -84,10 +83,9 @@ public class MainController {
                     return; // Exit if resource not found
                 }
                 FXMLLoader sidebarLoader = new FXMLLoader(receptionistSidebarUrl);
-                sidebarLoader.setControllerFactory(context::getBean);
+                com.example.projeto2.Desktop.SidebarController sidebarController = context.getBean(com.example.projeto2.Desktop.SidebarController.class);
+                sidebarLoader.setController(sidebarController);
                 sidebarContent = sidebarLoader.load();
-                System.out.println("MainController loadUserSpecificContent - sidebarLoader.load() result (receptionist): " + sidebarContent);
-                com.example.projeto2.Desktop.SidebarController sidebarController = sidebarLoader.getController(); // Assuming a generic SidebarController
                 sidebarController.setMainLayout(mainLayout); // Pass mainLayout to sidebar for content loading
 
                 FXMLLoader dashboardLoader = new FXMLLoader(getClass().getResource("/receptionist-dashboard.fxml"));
