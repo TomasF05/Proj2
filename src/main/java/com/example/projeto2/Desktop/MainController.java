@@ -48,7 +48,7 @@ public class MainController {
         try {
             Parent dashboardContent = null;
 
-            if (userType.equals(new BigDecimal(1))) { // Mechanic
+            if (userType == new BigDecimal(1)) { // Mechanic
                 String fxmlPath = "/mechanic/dashboard.fxml";
                 java.net.URL fxmlUrl = getClass().getResource(fxmlPath);
                 System.out.println("MainController: Attempting to load FXML from path: " + fxmlPath);
@@ -68,7 +68,7 @@ public class MainController {
                     System.out.println("MainController: FXML content loading failed. View is null.");
                 }
 
-            } else if (userType.equals(new BigDecimal(2))) { // Receptionist
+            } else if (userType == new BigDecimal(2)) { // Receptionist
                 String fxmlPath = "/receptionist-dashboard.fxml";
                 java.net.URL fxmlUrl = getClass().getResource(fxmlPath);
                 System.out.println("MainController: Attempting to load FXML from path: " + fxmlPath);

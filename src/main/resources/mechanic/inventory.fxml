@@ -20,13 +20,13 @@
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
         </padding>
         <children>
-            <Button fx:id="dashboardButton" text="Início" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 16px; -fx-alignment: CENTER_LEFT;" maxWidth="Infinity" onAction="#onDashboardButtonClick" />
-            <Button fx:id="servicesButton" text="Serviços" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 16px; -fx-alignment: CENTER_LEFT;" maxWidth="Infinity" onAction="#onServicesButtonClick" />
-            <Button fx:id="inventoryButton" text="Inventário" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 16px; -fx-alignment: CENTER_LEFT;" maxWidth="Infinity" onAction="#onInventoryButtonClick" />
-            <Button fx:id="ordersButton" text="Encomendas" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 16px; -fx-alignment: CENTER_LEFT;" maxWidth="Infinity" onAction="#onOrdersButtonClick" />
+            <Button fx:id="dashboardButton" text="Início" style="-fx-fill: transparent; -fx-text-fill: white; -fx-font-size: 16px; -fx-alignment: CENTER_LEFT;" maxWidth="Infinity" onAction="#onDashboardButtonClick" />
+            <Button fx:id="servicesButton" text="Serviços" style="-fx-fill: transparent; -fx-text-fill: white; -fx-font-size: 16px; -fx-alignment: CENTER_LEFT;" maxWidth="Infinity" onAction="#onServicesButtonClick" />
+            <Button fx:id="inventoryButton" text="Inventário" style="-fx-fill: transparent; -fx-text-fill: white; -fx-font-size: 16px; -fx-alignment: CENTER_LEFT;" maxWidth="Infinity" onAction="#onInventoryButtonClick" />
+            <Button fx:id="ordersButton" text="Encomendas" style="-fx-fill: transparent; -fx-text-fill: white; -fx-font-size: 16px; -fx-alignment: CENTER_LEFT;" maxWidth="Infinity" onAction="#onOrdersButtonClick" />
             <!-- Add a spacer to push the "Sair" button to the bottom -->
             <Region VBox.vgrow="ALWAYS" />
-            <Button fx:id="logoutButton" text="Sair" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 16px; -fx-alignment: CENTER_LEFT;" maxWidth="Infinity" onAction="#onLogoutButtonClick" />
+            <Button fx:id="logoutButton" text="Sair" style="-fx-fill: transparent; -fx-text-fill: white; -fx-font-size: 16px; -fx-alignment: CENTER_LEFT;" maxWidth="Infinity" onAction="#onLogoutButtonClick" />
         </children>
     </VBox>
     <VBox spacing="20.0" style="-fx-background-color: #1a1a1a; -fx-padding: 20px;" HBox.hgrow="ALWAYS">

@@ -17,13 +17,13 @@
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
         </padding>
         <children>
-            <Button fx:id="dashboardButton" text="Dashboard" onAction="#onDashboardButtonClick" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 16px; -fx-alignment: CENTER_LEFT;" maxWidth="Infinity" />
-            <Button fx:id="appointmentsButton" text="Agendamentos" onAction="#onAppointmentsButtonClick" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 16px; -fx-alignment: CENTER_LEFT;" maxWidth="Infinity" />
-            <Button fx:id="inventoryButton" text="Inventário" onAction="#onInventoryButtonClick" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 16px; -fx-alignment: CENTER_LEFT;" maxWidth="Infinity" />
-            <Button fx:id="createClientButton" text="Criar Cliente" onAction="#onCreateClientButtonClick" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 16px; -fx-alignment: CENTER_LEFT;" maxWidth="Infinity" />
-            <Button fx:id="createInvoiceButton" text="Criar Fatura" onAction="#onCreateInvoiceButtonClick" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 16px; -fx-alignment: CENTER_LEFT;" maxWidth="Infinity" />
+            <Button fx:id="dashboardButton" text="Dashboard" onAction="#onDashboardButtonClick" style="-fx-fill: transparent; -fx-text-fill: white; -fx-font-size: 16px; -fx-alignment: CENTER_LEFT;" maxWidth="Infinity" />
+            <Button fx:id="appointmentsButton" text="Agendamentos" onAction="#onAppointmentsButtonClick" style="-fx-fill: transparent; -fx-text-fill: white; -fx-font-size: 16px; -fx-alignment: CENTER_LEFT;" maxWidth="Infinity" />
+            <Button fx:id="inventoryButton" text="Inventário" onAction="#onInventoryButtonClick" style="-fx-fill: transparent; -fx-text-fill: white; -fx-font-size: 16px; -fx-alignment: CENTER_LEFT;" maxWidth="Infinity" />
+            <Button fx:id="createClientButton" text="Criar Cliente" onAction="#onCreateClientButtonClick" style="-fx-fill: transparent; -fx-text-fill: white; -fx-font-size: 16px; -fx-alignment: CENTER_LEFT;" maxWidth="Infinity" />
+            <Button fx:id="createInvoiceButton" text="Criar Fatura" onAction="#onCreateInvoiceButtonClick" style="-fx-fill: transparent; -fx-text-fill: white; -fx-font-size: 16px; -fx-alignment: CENTER_LEFT;" maxWidth="Infinity" />
             <Region VBox.vgrow="ALWAYS" />
-            <Button fx:id="logoutButton" text="Sair" onAction="#onLogoutButtonClick" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 16px; -fx-alignment: CENTER_LEFT;" maxWidth="Infinity" />
+            <Button fx:id="logoutButton" text="Sair" onAction="#onLogoutButtonClick" style="-fx-fill: transparent; -fx-text-fill: white; -fx-font-size: 16px; -fx-alignment: CENTER_LEFT;" maxWidth="Infinity" />
         </children>
     </VBox>
     <VBox spacing="20.0" style="-fx-background-color: #1a1a1a; -fx-padding: 20px;" HBox.hgrow="ALWAYS">
