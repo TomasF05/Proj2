@@ -44,24 +44,55 @@ public class MainController {
     }
 
     public void loadUserSpecificContent(BigDecimal userType) {
-        System.out.println("MainController loadUserSpecificContent entered. UserType: " + userType + ", Instance hash: " + this.hashCode());
+        System.out.println("MainController: loadUserSpecificContent called with userType: " + userType);
         try {
             Parent dashboardContent = null;
 
             if (userType.equals(new BigDecimal(1))) { // Mechanic
-                FXMLLoader dashboardLoader = new FXMLLoader(getClass().getResource("/mechanic/dashboard.fxml"));
+                String fxmlPath = "/mechanic/dashboard.fxml";
+                java.net.URL fxmlUrl = getClass().getResource(fxmlPath);
+                System.out.println("MainController: Attempting to load FXML from path: " + fxmlPath);
+
+                if (fxmlUrl == null) {
+                    System.err.println("MainController: FXML resource not found: " + fxmlPath);
+                    return; // Exit if resource not found
+                }
+
+                FXMLLoader dashboardLoader = new FXMLLoader(fxmlUrl);
                 dashboardLoader.setControllerFactory(context::getBean);
                 dashboardContent = dashboardLoader.load();
 
+                if (dashboardContent != null) {
+                    System.out.println("MainController: FXML content loaded successfully. View is not null.");
+                } else {
+                    System.out.println("MainController: FXML content loading failed. View is null.");
+                }
+
             } else if (userType.equals(new BigDecimal(2))) { // Receptionist
-                FXMLLoader dashboardLoader = new FXMLLoader(getClass().getResource("/receptionist-dashboard.fxml"));
+                String fxmlPath = "/receptionist-dashboard.fxml";
+                java.net.URL fxmlUrl = getClass().getResource(fxmlPath);
+                System.out.println("MainController: Attempting to load FXML from path: " + fxmlPath);
+
+                if (fxmlUrl == null) {
+                    System.err.println("MainController: FXML resource not found: " + fxmlPath);
+                    return; // Exit if resource not found
+                }
+
+                FXMLLoader dashboardLoader = new FXMLLoader(fxmlUrl);
                 dashboardLoader.setControllerFactory(context::getBean);
                 dashboardContent = dashboardLoader.load();
+
+                if (dashboardContent != null) {
+                    System.out.println("MainController: FXML content loaded successfully. View is not null.");
+                } else {
+                    System.out.println("MainController: FXML content loading failed. View is null.");
+                }
             }
 
             // Load the initial dashboard content
             if (dashboardContent != null) {
                 contentContainer.getChildren().setAll(dashboardContent);
+                System.out.println("MainController: Content added to contentContainer. Number of children: " + contentContainer.getChildren().size());
             }
 
         } catch (IOException e) {
