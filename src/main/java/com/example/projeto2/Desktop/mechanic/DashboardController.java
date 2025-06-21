@@ -29,7 +29,7 @@ import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
-
+import javafx.scene.paint.CycleMethod;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -141,7 +141,7 @@ public class DashboardController {
         progressArc.setLength(360 * (progressPercentage / 100));
 
         Stop[] stops = new Stop[]{new Stop(0, Color.valueOf("#ff6b35")), new Stop(1, Color.valueOf("#ff9a00"))};
-        LinearGradient gradient = new LinearGradient(0, 0, 1, 0, true, null, stops);
+        LinearGradient gradient = new LinearGradient(0,0,1,0, true, CycleMethod.NO_CYCLE, stops);
         progressArc.setStroke(gradient);
         progressArc.setStrokeWidth(10);
         progressArc.setFill(null);
