@@ -68,7 +68,7 @@ public class MainController {
                     System.out.println("MainController: FXML content loading failed. View is null.");
                 }
 
-            } else if (userType.equals(BigDecimal.TWO)) { // Receptionist
+            } else if (userType.intValue() == 2) { // Receptionist
                 String fxmlPath = "/receptionist-dashboard.fxml";
                 java.net.URL fxmlUrl = getClass().getResource(fxmlPath);
                 System.out.println("MainController: Attempting to load FXML from path: " + fxmlPath);
