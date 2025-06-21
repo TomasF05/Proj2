@@ -48,7 +48,7 @@ public class MainController {
         try {
             Parent dashboardContent = null;
 
-            if (userType.equals(BigDecimal.ONE)) { // Mechanic
+            if (userType.intValue() == 1) { // Mechanic
                 String fxmlPath = "/mechanic/dashboard.fxml";
                 java.net.URL fxmlUrl = getClass().getResource(fxmlPath);
                 System.out.println("MainController: Attempting to load FXML from path: " + fxmlPath);
