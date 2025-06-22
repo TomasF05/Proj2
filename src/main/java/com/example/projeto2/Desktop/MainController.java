@@ -44,6 +44,8 @@ public class MainController {
     @FXML
     public void initialize() {
         System.out.println("MainController initialize - contentContainer initialized.");
+        // HeaderController's MainController dependency is now autowired by Spring,
+        // so no explicit setting is needed here.
     }
 
     @FXML

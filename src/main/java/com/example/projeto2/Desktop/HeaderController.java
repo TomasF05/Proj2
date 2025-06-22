@@ -14,7 +14,8 @@ public class HeaderController {
     @FXML
     private Button sidebarToggleButton;
 
-    private MainController mainController;
+    @Autowired
+    private MainController mainController; // Spring will inject the MainController instance
     private final ApplicationContext context;
 
     @Autowired
@@ -24,19 +25,7 @@ public class HeaderController {
 
     @FXML
     public void initialize() {
-        // Retrieve MainController from the ApplicationContext
-        this.mainController = context.getBean(MainController.class);
-        if (sidebarToggleButton != null) {
-            sidebarToggleButton.setOnAction(event -> {
-                if (mainController != null) {
-                    mainController.onSidebarToggleButtonClick();
-                }
-            });
-        }
-    }
-
-    public void setMainController(MainController mainController) {
-        this.mainController = mainController;
+        // mainController is now directly autowired by Spring
         if (sidebarToggleButton != null) {
             sidebarToggleButton.setOnAction(event -> {
                 if (mainController != null) {
