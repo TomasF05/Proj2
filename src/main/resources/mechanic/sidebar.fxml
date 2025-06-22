@@ -17,5 +17,5 @@
     <Button text="Reparações" onAction="#onRepairsButtonClick" prefWidth="Infinity" styleClass="sidebar-button"/>
     <Button text="Receber Peça" onAction="#onReceiveOrderPartButtonClick" prefWidth="Infinity" styleClass="sidebar-button"/>
     <Region VBox.vgrow="ALWAYS"/>
-    <Button text="Logout" onAction="#onLogoutButtonClick" prefWidth="Infinity" styleClass="sidebar-button"/>
+    <Button text="Sair" onAction="#onLogoutButtonClick" prefWidth="Infinity" styleClass="sidebar-button"/>
 </VBox>

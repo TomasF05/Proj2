@@ -1,7 +1,8 @@
 package com.example.projeto2.Desktop;
 
 import com.example.projeto2.Services.PecaService;
-import com.example.projeto2.Desktop.SceneManager;
+import com.example.projeto2.Desktop.MainController;
+import com.example.projeto2.Services.PecaService;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.fxml.FXMLLoader;
@@ -42,6 +43,9 @@ public class ReceptionistDashboardController implements Initializable {
     private final PecaService pecaService;
 
     @Autowired
+    private MainController mainController; // Inject MainController
+
+    @Autowired
     public ReceptionistDashboardController(ApplicationContext applicationContext, PecaService pecaService) {
         this.applicationContext = applicationContext;
         this.pecaService = pecaService;
@@ -56,7 +60,10 @@ public class ReceptionistDashboardController implements Initializable {
     @FXML
     private void handleCreateClient() {
         try {
-            SceneManager.switchScene("/create-client.fxml", "Criar Cliente", createClientButton);
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/create-client.fxml"));
+            fxmlLoader.setControllerFactory(applicationContext::getBean);
+            Parent createClientView = fxmlLoader.load();
+            mainController.getContentContainer().getChildren().setAll(createClientView);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -65,7 +72,10 @@ public class ReceptionistDashboardController implements Initializable {
     @FXML
     private void handleScheduleRepair() {
         try {
-            SceneManager.switchScene("/schedule-repair.fxml", "Agendar Reparação", appointmentsButton);
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/schedule-repair.fxml"));
+            fxmlLoader.setControllerFactory(applicationContext::getBean);
+            Parent scheduleRepairView = fxmlLoader.load();
+            mainController.getContentContainer().getChildren().setAll(scheduleRepairView);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -74,7 +84,10 @@ public class ReceptionistDashboardController implements Initializable {
     @FXML
     private void handleCreateReceipt() {
         try {
-            SceneManager.switchScene("/create-invoice.fxml", "Criar Fatura", createInvoiceButton);
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/create-invoice.fxml"));
+            fxmlLoader.setControllerFactory(applicationContext::getBean);
+            Parent createInvoiceView = fxmlLoader.load();
+            mainController.getContentContainer().getChildren().setAll(createInvoiceView);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -83,7 +96,10 @@ public class ReceptionistDashboardController implements Initializable {
     @FXML
     private void handleOrderParts() {
         try {
-            SceneManager.switchScene("/mechanic/order-part.fxml", "Encomendar Peças", inventoryButton); // Assuming inventory button is used for ordering parts
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mechanic/order-part.fxml"));
+            fxmlLoader.setControllerFactory(applicationContext::getBean);
+            Parent orderPartsView = fxmlLoader.load();
+            mainController.getContentContainer().getChildren().setAll(orderPartsView);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -93,7 +109,10 @@ public class ReceptionistDashboardController implements Initializable {
     @FXML
     public void onDashboardButtonClick() {
         try {
-            SceneManager.switchScene("/receptionist-dashboard.fxml", "Dashboard", dashboardButton);
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/receptionist-dashboard.fxml"));
+            fxmlLoader.setControllerFactory(applicationContext::getBean);
+            Parent dashboardView = fxmlLoader.load();
+            mainController.getContentContainer().getChildren().setAll(dashboardView);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -102,7 +121,10 @@ public class ReceptionistDashboardController implements Initializable {
     @FXML
     public void onAppointmentsButtonClick() {
         try {
-            SceneManager.switchScene("/schedule-repair.fxml", "Agendamentos", appointmentsButton);
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/schedule-repair.fxml"));
+            fxmlLoader.setControllerFactory(applicationContext::getBean);
+            Parent appointmentsView = fxmlLoader.load();
+            mainController.getContentContainer().getChildren().setAll(appointmentsView);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -111,7 +133,10 @@ public class ReceptionistDashboardController implements Initializable {
     @FXML
     public void onInventoryButtonClick() {
         try {
-            SceneManager.switchScene("/mechanic/inventory.fxml", "Inventário", inventoryButton);
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mechanic/inventory.fxml"));
+            fxmlLoader.setControllerFactory(applicationContext::getBean);
+            Parent inventoryView = fxmlLoader.load();
+            mainController.getContentContainer().getChildren().setAll(inventoryView);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -120,7 +145,10 @@ public class ReceptionistDashboardController implements Initializable {
     @FXML
     public void onCreateClientButtonClick() {
         try {
-            SceneManager.switchScene("/create-client.fxml", "Criar Cliente", createClientButton);
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/create-client.fxml"));
+            fxmlLoader.setControllerFactory(applicationContext::getBean);
+            Parent createClientView = fxmlLoader.load();
+            mainController.getContentContainer().getChildren().setAll(createClientView);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -129,7 +157,10 @@ public class ReceptionistDashboardController implements Initializable {
     @FXML
     public void onCreateInvoiceButtonClick() {
         try {
-            SceneManager.switchScene("/create-invoice.fxml", "Criar Fatura", createInvoiceButton);
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/create-invoice.fxml"));
+            fxmlLoader.setControllerFactory(applicationContext::getBean);
+            Parent createInvoiceView = fxmlLoader.load();
+            mainController.getContentContainer().getChildren().setAll(createInvoiceView);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -138,7 +169,10 @@ public class ReceptionistDashboardController implements Initializable {
     @FXML
     public void onLogoutButtonClick() {
         try {
-            SceneManager.switchScene("/login.fxml", "Login", logoutButton);
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/login.fxml"));
+            fxmlLoader.setControllerFactory(applicationContext::getBean);
+            Parent loginView = fxmlLoader.load();
+            mainController.getContentContainer().getChildren().setAll(loginView);
         } catch (IOException e) {
             e.printStackTrace();
         }

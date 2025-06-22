@@ -21,7 +21,10 @@
             <HBox spacing="20.0" alignment="CENTER_LEFT">
                 <VBox spacing="5.0" alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
                     <HBox alignment="CENTER" spacing="10">
-                         <Arc fx:id="progressArc" radiusX="40" radiusY="40" type="OPEN" startAngle="90" length="180" stroke="#ff6b35" strokeWidth="10" fill="transparent"/>
+                         <StackPane>
+                             <Circle radius="40" stroke="#4d4d4d" strokeWidth="10" fill="transparent"/>
+                             <Arc fx:id="progressArc" radiusX="40" radiusY="40" type="ROUND" startAngle="90" length="0" stroke="#ff6b35" strokeWidth="10" fill="transparent"/>
+                         </StackPane>
                          <Label fx:id="progressLabel" text="50% das reparações de hoje concluídas" style="-fx-text-fill: white;" />
                     </HBox>
                 </VBox>

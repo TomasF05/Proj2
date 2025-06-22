@@ -1,6 +1,6 @@
 package com.example.projeto2.Desktop.mechanic;
 
-import com.example.projeto2.Desktop.SceneManager;
+import com.example.projeto2.Desktop.MainController;
 import com.example.projeto2.Services.AgendamentoService;
 import com.example.projeto2.Services.PecaService;
 import com.example.projeto2.Services.ReparacaoService;
@@ -54,6 +54,9 @@ public class DashboardController {
     private final ApplicationContext context;
 
     @Autowired
+    private MainController mainController; // Inject MainController
+
+    @Autowired
     public DashboardController(ReparacaoService reparacaoService, PecaService pecaService, ApplicationContext context) {
         this.reparacaoService = reparacaoService;
         this.pecaService = pecaService;
@@ -70,7 +73,10 @@ public class DashboardController {
     @FXML
     public void onVerReparacoesButtonClick() {
         try {
-            SceneManager.switchScene("/mechanic/services.fxml", "Services", progressArc); // Using progressArc as a node for scene switching
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mechanic/services.fxml"));
+            fxmlLoader.setControllerFactory(context::getBean); // Ensure Spring manages the controller
+            Parent servicesView = fxmlLoader.load();
+            mainController.getContentContainer().getChildren().setAll(servicesView);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -92,9 +98,9 @@ public class DashboardController {
         // Customize the arc based on progress
         progressArc.setRadiusX(40);
         progressArc.setRadiusY(40);
-        progressArc.setType(ArcType.OPEN);
-        progressArc.setStartAngle(45); // Adjust start angle to create a top gap
-        progressArc.setLength(270 * (progressPercentage / 100)); // Total arc length is 270 degrees
+        progressArc.setType(ArcType.ROUND); // Changed to ROUND
+        progressArc.setStartAngle(90); // Start from the top
+        progressArc.setLength(360 * (progressPercentage / 100)); // Full circle progress
         progressArc.setStrokeLineCap(StrokeLineCap.ROUND); // Rounded ends for the arc
 
         Stop[] stops = new Stop[]{new Stop(0, Color.valueOf("#ff6b35")), new Stop(1, Color.valueOf("#ff9a00"))};
