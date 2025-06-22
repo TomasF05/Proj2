@@ -61,12 +61,17 @@ public class SidebarController {
     @FXML
     public void onRepairsButtonClick() {
         // "Reparações" maps to "Order Parts"
-        loadContent("/mechanic/order-part.fxml");
+        loadContent("/mechanic/services.fxml");
     }
 
     @FXML
     public void onReceiveOrderPartButtonClick() {
         loadContent("/mechanic/receive-order-part.fxml");
+    }
+
+    @FXML
+    public void onOrderPartButtonClick() {
+        loadContent("/mechanic/order-part.fxml");
     }
 
     @FXML

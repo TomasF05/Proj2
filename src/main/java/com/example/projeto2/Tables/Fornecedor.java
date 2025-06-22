@@ -90,7 +90,6 @@ public class Fornecedor {
                 ", nome='" + nome + '\'' +
                 ", nif=" + nif +
                 ", contacto=" + contacto +
-                ", codPostal=" + codPostal +
                 '}';
     }
 }

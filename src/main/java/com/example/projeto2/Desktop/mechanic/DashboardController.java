@@ -98,7 +98,7 @@ public class DashboardController {
         // Customize the arc based on progress
         progressArc.setRadiusX(40);
         progressArc.setRadiusY(40);
-        progressArc.setType(ArcType.Open); // Changed to ROUND
+        progressArc.setType(ArcType.OPEN); // Changed to ROUND
         progressArc.setStartAngle(90); // Start from the top
         progressArc.setLength(360 * (progressPercentage / 100)); // Full circle progress
         progressArc.setStrokeLineCap(StrokeLineCap.ROUND); // Rounded ends for the arc
