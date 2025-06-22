@@ -57,7 +57,7 @@ public class Projeto2Application extends Application {
             loader.setControllerFactory(springContext::getBean);
             Parent root = loader.load();
 
-            primaryStage.setTitle("AutoPro Workshop Management");
+            primaryStage.setTitle("AutoPro");
             primaryStage.setScene(new Scene(root));
             primaryStage.show();
         } catch (Exception e) {

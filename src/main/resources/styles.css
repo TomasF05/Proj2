@@ -24,3 +24,27 @@
 .sidebar-button:hover {
     -fx-background-color: #3a3a3a;
 }
+
+.sidebar-toggle-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-size: 24px;
+    -fx-padding: 0;
+}
+
+.sidebar-toggle-button:hover {
+    -fx-text-fill: #ff6b35;
+}
+
+/* Card Panel styles */
+.card-panel {
+    -fx-background-color: #2d2d2d; /* Slightly lighter than root, darker than main content */
+    -fx-padding: 20px;
+    -fx-background-radius: 15px; /* Rounded corners */
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0, 0, 5); /* Subtle shadow */
+}
+
+/* Text input styles */
+.text-input {
+    -fx-text-fill: white;
+}

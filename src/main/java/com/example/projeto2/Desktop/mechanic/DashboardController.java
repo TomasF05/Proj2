@@ -25,6 +25,7 @@ import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
 import javafx.scene.shape.Arc;
 import javafx.scene.shape.ArcType;
+import javafx.scene.shape.StrokeLineCap;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -38,16 +39,6 @@ import java.util.ResourceBundle;
 @Component
 public class DashboardController {
 
-    @FXML
-    private Button dashboardButton;
-    @FXML
-    private Button servicesButton;
-    @FXML
-    private Button inventoryButton;
-    @FXML
-    private Button ordersButton;
-    @FXML
-    private Button logoutButton;
 
     @FXML
     private Arc progressArc;
@@ -75,46 +66,11 @@ public class DashboardController {
         loadStockInformation();
     }
 
-    @FXML
-    public void onDashboardButtonClick() {
-        try {
-            SceneManager.switchScene("/mechanic/dashboard.fxml", "Dashboard", dashboardButton);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     @FXML
-    public void onInventoryButtonClick() {
+    public void onVerReparacoesButtonClick() {
         try {
-            SceneManager.switchScene("/mechanic/inventory.fxml", "Inventory", inventoryButton);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
-    public void onServicesButtonClick() {
-        try {
-            SceneManager.switchScene("/mechanic/services.fxml", "Services", servicesButton);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
-    public void onOrdersButtonClick() {
-        try {
-            SceneManager.switchScene("/mechanic/order-part.fxml", "Orders", ordersButton);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
-    public void onLogoutButtonClick() {
-        try {
-            SceneManager.switchScene("/login.fxml", "Login", logoutButton);
+            SceneManager.switchScene("/mechanic/services.fxml", "Services", progressArc); // Using progressArc as a node for scene switching
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -137,8 +93,9 @@ public class DashboardController {
         progressArc.setRadiusX(40);
         progressArc.setRadiusY(40);
         progressArc.setType(ArcType.OPEN);
-        progressArc.setStartAngle(90);
-        progressArc.setLength(360 * (progressPercentage / 100));
+        progressArc.setStartAngle(45); // Adjust start angle to create a top gap
+        progressArc.setLength(270 * (progressPercentage / 100)); // Total arc length is 270 degrees
+        progressArc.setStrokeLineCap(StrokeLineCap.ROUND); // Rounded ends for the arc
 
         Stop[] stops = new Stop[]{new Stop(0, Color.valueOf("#ff6b35")), new Stop(1, Color.valueOf("#ff9a00"))};
         LinearGradient gradient = new LinearGradient(0,0,1,0, true, CycleMethod.NO_CYCLE, stops);

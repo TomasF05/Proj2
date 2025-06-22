@@ -6,22 +6,22 @@
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.example.projeto2.Desktop.mechanic.ReceiveOrderPartController"
-      prefHeight="400.0" prefWidth="600.0">
-    <TableView fx:id="orderedPartsTable">
-        <columns>
-            <TableColumn text="Order ID" fx:id="orderIdColumn"/>
-            <TableColumn text="Supplier" fx:id="supplierColumn"/>
-            <TableColumn text="Order Date" fx:id="orderDateColumn"/>
-            <TableColumn text="Part Name" fx:id="partNameColumn"/>
-            <TableColumn text="Quantity Ordered" fx:id="quantityOrderedColumn"/>
-            <TableColumn text="Quantity Received" fx:id="quantityReceivedColumn" prefWidth="120.0"/>
-        </columns>
-    </TableView>
-    <HBox alignment="CENTER_RIGHT" spacing="10.0" VBox.vgrow="NEVER">
-        <padding>
-            <javafx.geometry.Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
-        </padding>
-        <Button text="Save Received Quantities" onAction="#handleSaveReceivedQuantities"/>
-        <Button text="Cancel" onAction="#handleCancel"/>
-    </HBox>
+      prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #1a1a1a; -fx-padding: 20px;">
+    <Label text="Receber Peça Encomendada" style="-fx-text-fill: white; -fx-font-size: 18px; -fx-padding: 0 0 10px 0;" />
+    <VBox styleClass="card-panel" spacing="10.0" VBox.vgrow="ALWAYS">
+        <TableView fx:id="orderedPartsTable" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn text="ID do Pedido" fx:id="orderIdColumn"/>
+                <TableColumn text="Fornecedor" fx:id="supplierColumn"/>
+                <TableColumn text="Data do Pedido" fx:id="orderDateColumn"/>
+                <TableColumn text="Nome da Peça" fx:id="partNameColumn"/>
+                <TableColumn text="Quantidade Pedida" fx:id="quantityOrderedColumn"/>
+                <TableColumn text="Quantidade Recebida" fx:id="quantityReceivedColumn" prefWidth="120.0"/>
+            </columns>
+        </TableView>
+        <HBox alignment="CENTER_RIGHT" spacing="10.0">
+            <Button text="Guardar Quantidades Recebidas" onAction="#handleSaveReceivedQuantities"/>
+            <Button text="Cancelar" onAction="#handleCancel"/>
+        </HBox>
+    </VBox>
 </VBox>

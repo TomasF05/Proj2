@@ -1,5 +1,7 @@
-package com.example.projeto2.Desktop;
+package com.example.projeto2.Desktop.mechanic;
 
+import com.example.projeto2.Desktop.MainController;
+import com.example.projeto2.Desktop.SceneManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -59,7 +61,12 @@ public class SidebarController {
     @FXML
     public void onRepairsButtonClick() {
         // "Reparações" maps to "Order Parts"
-        loadContent("/order-part.fxml");
+        loadContent("/mechanic/order-part.fxml");
+    }
+
+    @FXML
+    public void onReceiveOrderPartButtonClick() {
+        loadContent("/mechanic/receive-order-part.fxml");
     }
 
     @FXML

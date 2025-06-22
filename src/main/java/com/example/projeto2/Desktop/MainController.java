@@ -1,6 +1,8 @@
 // MainController.java
 package com.example.projeto2.Desktop;
 
+import com.example.projeto2.Desktop.mechanic.SidebarController;
+import com.example.projeto2.Desktop.receptionist.ReceptionistSidebarController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -29,6 +31,7 @@ public class MainController {
     }
 
     private VBox currentSidebar; // To hold the currently loaded sidebar
+    private boolean isSidebarOpen = true; // State of the sidebar
 
     private final ApplicationContext context;
 
@@ -43,50 +46,66 @@ public class MainController {
         System.out.println("MainController initialize - contentContainer initialized.");
     }
 
+    @FXML
+    public void onSidebarToggleButtonClick() {
+        isSidebarOpen = !isSidebarOpen;
+        if (isSidebarOpen) {
+            mainLayout.setLeft(currentSidebar);
+            // Update header button text to 'X'
+            HeaderController headerController = context.getBean(HeaderController.class);
+            headerController.setSidebarToggleButtonText("X");
+        } else {
+            mainLayout.setLeft(null);
+            // Update header button text to '☰'
+            HeaderController headerController = context.getBean(HeaderController.class);
+            headerController.setSidebarToggleButtonText("☰");
+        }
+    }
+
     public void loadUserSpecificContent(BigDecimal userType) {
         System.out.println("MainController: loadUserSpecificContent called with userType: " + userType);
         try {
             Parent dashboardContent = null;
 
             if (userType.intValue() == 1) { // Mechanic
-                String fxmlPath = "/mechanic/dashboard.fxml";
-                java.net.URL fxmlUrl = getClass().getResource(fxmlPath);
-                System.out.println("MainController: Attempting to load FXML from path: " + fxmlPath);
-
-                if (fxmlUrl == null) {
-                    System.err.println("MainController: FXML resource not found: " + fxmlPath);
-                    return; // Exit if resource not found
-                }
-
-                FXMLLoader dashboardLoader = new FXMLLoader(fxmlUrl);
+                // Load Mechanic Dashboard
+                String dashboardFxmlPath = "/mechanic/dashboard.fxml";
+                FXMLLoader dashboardLoader = new FXMLLoader(getClass().getResource(dashboardFxmlPath));
                 dashboardLoader.setControllerFactory(context::getBean);
                 dashboardContent = dashboardLoader.load();
 
-                if (dashboardContent != null) {
-                    System.out.println("MainController: FXML content loaded successfully. View is not null.");
-                } else {
-                    System.out.println("MainController: FXML content loading failed. View is null.");
-                }
+                // Load Sidebar for Mechanic
+                String sidebarFxmlPath = "/mechanic/sidebar.fxml";
+                FXMLLoader sidebarLoader = new FXMLLoader(getClass().getResource(sidebarFxmlPath));
+                sidebarLoader.setControllerFactory(context::getBean);
+                currentSidebar = sidebarLoader.load();
+
+                SidebarController sidebarController = sidebarLoader.getController();
+                sidebarController.setMainController(this);
+                sidebarController.setMainLayout(mainLayout);
+
+                mainLayout.setLeft(currentSidebar);
+                isSidebarOpen = true;
 
             } else if (userType.intValue() == 2) { // Receptionist
-                String fxmlPath = "/receptionist-dashboard.fxml";
-                java.net.URL fxmlUrl = getClass().getResource(fxmlPath);
-                System.out.println("MainController: Attempting to load FXML from path: " + fxmlPath);
-
-                if (fxmlUrl == null) {
-                    System.err.println("MainController: FXML resource not found: " + fxmlPath);
-                    return; // Exit if resource not found
-                }
-
-                FXMLLoader dashboardLoader = new FXMLLoader(fxmlUrl);
+                // Load Receptionist Dashboard
+                String dashboardFxmlPath = "/receptionist-dashboard.fxml";
+                FXMLLoader dashboardLoader = new FXMLLoader(getClass().getResource(dashboardFxmlPath));
                 dashboardLoader.setControllerFactory(context::getBean);
                 dashboardContent = dashboardLoader.load();
 
-                if (dashboardContent != null) {
-                    System.out.println("MainController: FXML content loaded successfully. View is not null.");
-                } else {
-                    System.out.println("MainController: FXML content loading failed. View is null.");
-                }
+                // Load Sidebar for Receptionist
+                String sidebarFxmlPath = "/receptionist/sidebar.fxml";
+                FXMLLoader sidebarLoader = new FXMLLoader(getClass().getResource(sidebarFxmlPath));
+                sidebarLoader.setControllerFactory(context::getBean);
+                currentSidebar = sidebarLoader.load();
+
+                ReceptionistSidebarController sidebarController = sidebarLoader.getController();
+                sidebarController.setMainController(this);
+                sidebarController.setMainLayout(mainLayout);
+
+                mainLayout.setLeft(currentSidebar);
+                isSidebarOpen = true;
             }
 
             // Load the initial dashboard content
