@@ -89,7 +89,7 @@ public class LoginController {
 
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 stage.setScene(new Scene(root));
-                stage.setTitle("AutoPro Workshop Management");
+                stage.setTitle("AutoPro");
                 stage.show();
             } catch (IOException e) {
                 e.printStackTrace();

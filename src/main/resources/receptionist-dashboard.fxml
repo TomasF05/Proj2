@@ -15,7 +15,7 @@
             </HBox>
         </VBox>
         <VBox styleClass="card-panel" spacing="10.0">
-            <Label text="Peças em stock" style="-fx-text-fill: white; -fx-font-size: 18px;" />
+            <Label text="Peças em Stock" style="-fx-text-fill: white; -fx-font-size: 18px;" />
             <ListView prefHeight="200.0" prefWidth="200.0" />
         </VBox>
     </VBox>

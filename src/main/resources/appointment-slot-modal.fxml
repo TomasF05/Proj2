@@ -15,8 +15,8 @@
                 </Button>
             </children>
         </HBox>
-        <Label text="Select Appointment Slot" />
+        <Label text="Selecionar Slot de Agendamento" />
         <ListView fx:id="appointmentSlotListView" prefHeight="200.0" prefWidth="200.0" />
-        <Button mnemonicParsing="false" text="Select" onAction="#handleSelect" />
+        <Button mnemonicParsing="false" text="Selecionar" onAction="#handleSelect" />
     </children>
 </VBox>

@@ -11,10 +11,10 @@
     <padding>
         <Insets top="20.0" right="10.0" bottom="20.0" left="10.0"/>
     </padding>
-    <Button text="Dashboard" onAction="#onDashboardButtonClick" prefWidth="Infinity" styleClass="sidebar-button"/>
+    <Button text="Painel de Controlo" onAction="#onDashboardButtonClick" prefWidth="Infinity" styleClass="sidebar-button"/>
     <Button text="Criar Cliente" onAction="#onCreateClientButtonClick" prefWidth="Infinity" styleClass="sidebar-button"/>
     <Button text="Criar Fatura" onAction="#onCreateInvoiceButtonClick" prefWidth="Infinity" styleClass="sidebar-button"/>
     <Button text="Agendar Reparação" onAction="#onScheduleRepairButtonClick" prefWidth="Infinity" styleClass="sidebar-button"/>
     <Region VBox.vgrow="ALWAYS"/> 
-    <Button text="Logout" onAction="#onLogoutButtonClick" prefWidth="Infinity" styleClass="sidebar-button"/>
+    <Button text="Sair" onAction="#onLogoutButtonClick" prefWidth="Infinity" styleClass="sidebar-button"/>
 </VBox>
