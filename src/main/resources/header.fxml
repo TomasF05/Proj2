@@ -11,7 +11,7 @@
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.example.projeto2.Desktop.HeaderController"
       style="-fx-background-color: #2d2d2d; -fx-padding: 15px;" alignment="CENTER_LEFT" spacing="10">
-   <Button fx:id="sidebarToggleButton" text="☰" styleClass="sidebar-toggle-button" onAction="#onSidebarToggleButtonClick" />
+   <Button fx:id="sidebarToggleButton" text="☰" styleClass="sidebar-toggle-button" onAction="#handleSidebarToggle" />
    <Label text="AutoPro" style="-fx-text-fill: white;">
        <font>
            <Font size="24.0" />

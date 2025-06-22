@@ -27,14 +27,22 @@ public class HeaderController {
         // Retrieve MainController from the ApplicationContext
         this.mainController = context.getBean(MainController.class);
         if (sidebarToggleButton != null) {
-            sidebarToggleButton.setOnAction(event -> mainController.onSidebarToggleButtonClick());
+            sidebarToggleButton.setOnAction(event -> {
+                if (mainController != null) {
+                    mainController.onSidebarToggleButtonClick();
+                }
+            });
         }
     }
 
     public void setMainController(MainController mainController) {
         this.mainController = mainController;
         if (sidebarToggleButton != null) {
-            sidebarToggleButton.setOnAction(event -> mainController.onSidebarToggleButtonClick());
+            sidebarToggleButton.setOnAction(event -> {
+                if (mainController != null) {
+                    mainController.onSidebarToggleButtonClick();
+                }
+            });
         }
     }
 
