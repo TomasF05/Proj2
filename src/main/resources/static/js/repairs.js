@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     const emptyMsg = document.getElementById('empty-message');
     const wrapper = document.getElementById('table-wrapper');
 
+    //Lê o parâmetro veiculo da query string (URL).
+    //Se existir, adiciona-o à URL da API.
     const params = new URLSearchParams(window.location.search);
     const veiculoId = params.get('veiculo');
     const url = veiculoId ? `/api/repairs?veiculo=${veiculoId}` : '/api/repairs';

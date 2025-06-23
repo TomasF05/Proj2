@@ -57,4 +57,8 @@ public class PecasModalController {
         Stage stage = (Stage) selectButton.getScene().getWindow();
         stage.close();
     }
+
+    public List<Peca> getSelectedPecas() {
+        return new ArrayList<>(pecasListView.getSelectionModel().getSelectedItems());
+    }
 }

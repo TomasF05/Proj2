@@ -13,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -30,6 +31,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.Optional;
+import java.time.format.DateTimeParseException;
 
 @Component
 public class ScheduleRepairController {
@@ -145,7 +147,7 @@ public class ScheduleRepairController {
             agendamentoService.saveAgendamento(selectedAppointmentSlot);
 
             showAlert(Alert.AlertType.INFORMATION, "Success", "Repair Scheduled", "Repair scheduled successfully.");
-        } catch (ParseException e) {
+        } catch (DateTimeParseException e) {
             showAlert(Alert.AlertType.ERROR, "Error", "Invalid Date/Time Format", "Please enter date in dd/MM/yyyy and time in HH:mm format.");
         } catch (Exception e) {
             showAlert(Alert.AlertType.ERROR, "Error", "Scheduling Failed", "An error occurred while scheduling the repair: " + e.getMessage());

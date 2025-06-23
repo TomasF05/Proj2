@@ -13,9 +13,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -192,6 +194,9 @@ public class CreateInvoiceController implements PecasSelectionListener {
             showAlert(Alert.AlertType.ERROR, "Error", "Invoice Creation Failed", "An error occurred while creating the invoice: " + e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    private void showAlert(Alert.AlertType alertType, String error, String missingInformation, String s) {
     }
 
     @Override
