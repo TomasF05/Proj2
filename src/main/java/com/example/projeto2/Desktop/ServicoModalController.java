@@ -1,7 +1,7 @@
 package com.example.projeto2.Desktop;
 
-import com.example.projeto2.Services.ServicoService;
-import com.example.projeto2.Tables.Servico;
+import com.example.projeto2.Services.ReparacaoService;
+import com.example.projeto2.Tables.Reparacao;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -25,65 +25,64 @@ import java.util.ResourceBundle;
 public class ServicoModalController implements Initializable {
 
     @FXML
-    private ListView<Servico> servicoListView;
+    private ListView<Reparacao> reparacaoListView;
 
     @FXML
     private TextField servicoTextField;
 
-    private Servico selectedServico;
+    private Reparacao selectedReparacao;
     private Stage dialogStage;
 
     @Autowired
-    private ServicoService servicoService;
+    private ReparacaoService reparacaoService;
 
     @Autowired
     private ApplicationContext applicationContext;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        servicoListView.setCellFactory(param -> new ServicoListCell(this));
-        loadServicos();
+        reparacaoListView.setCellFactory(param -> new ServicoListCell(this));
+        loadReparacoes();
     }
 
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
     }
 
-    public Servico getSelectedServico() {
-        return selectedServico;
+    public Reparacao getSelectedReparacao() {
+        return selectedReparacao;
     }
 
-    private void loadServicos() {
-        List<Servico> servicos = servicoService.getAllServicos();
-        ObservableList<Servico> observableList = FXCollections.observableArrayList(servicos);
-        servicoListView.setItems(observableList);
+    private void loadReparacoes() {
+        List<Reparacao> reparacoes = reparacaoService.getAllReparacoes();
+        ObservableList<Reparacao> observableList = FXCollections.observableArrayList(reparacoes);
+        reparacaoListView.setItems(observableList);
     }
 
-    public void selectServico(Servico servico) {
-        this.selectedServico = servico;
+    public void selectReparacao(Reparacao reparacao) {
+        this.selectedReparacao = reparacao;
         if (dialogStage != null) {
             dialogStage.close();
         }
     }
 
     @FXML
-    private void handleAddNewServico() {
-        String servicoName = servicoTextField.getText();
+    private void handleAddNewReparacao() {
+        String reparacaoDescription = servicoTextField.getText(); // Renamed for clarity
 
-        if (servicoName.isEmpty()) {
-            showAlert("Error", "Missing Information", "Please enter a service name.");
+        if (reparacaoDescription.isEmpty()) {
+            showAlert("Error", "Missing Information", "Please enter a repair description.");
             return;
         }
 
-        Servico servico = new Servico();
-        servico.setNome(servicoName);
-        // Set default price or prompt for it if needed
-        servico.setPreco(new BigDecimal("0.00")); // Default price
+        Reparacao reparacao = new Reparacao();
+        reparacao.setDescricao(reparacaoDescription);
+        // No need to set 'preco' as Reparacao uses 'valorTotal' and it's not directly set here.
 
         try {
-            servicoService.saveServico(servico);
-            showAlert("Success", "Service Added", "New service added successfully.");
-            loadServicos(); // Refresh the list
+            reparacaoService.saveReparacao(reparacao);
+            showAlert("Success", "Repair Added", "New repair added successfully.");
+            loadReparacoes(); // Refresh the list
             servicoTextField.clear();
         } catch (Exception e) {
             showAlert("Error", "Failed to Add", "Error adding service: " + e.getMessage());
@@ -92,7 +91,7 @@ public class ServicoModalController implements Initializable {
 
     @FXML
     private void handleClose() {
-        selectedServico = null; // Ensure no selection is returned on close
+        selectedReparacao = null; // Ensure no selection is returned on close
         if (dialogStage != null) {
             dialogStage.close();
         }

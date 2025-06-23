@@ -121,15 +121,15 @@ public class CreateInvoiceController implements PecasSelectionListener {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/servico-modal.fxml"));
         loader.setControllerFactory(applicationContext::getBean);
         Parent root = loader.load();
-        ServicoModalController controller = loader.getController();
+        ServicoModalController controller = loader.getController(); // This will be ReparacaoModalController after file rename
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setScene(new Scene(root));
         stage.showAndWait();
 
-        Servico selected = controller.getSelectedServico();
+        Reparacao selected = controller.getSelectedReparacao();
         if (selected != null) {
-            setServico(selected);
+            setReparacao(selected);
         }
     }
 
