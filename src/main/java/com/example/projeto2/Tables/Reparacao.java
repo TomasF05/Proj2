@@ -137,6 +137,7 @@ public class Reparacao implements Serializable {
                 ", idVeiculo=" + idVeiculo +
                 ", idFuncionario=" + idFuncionario +
                 ", idServico=" + idServico +
+                ", veiculo=" + (veiculo != null ? veiculo.getModelo() : "null") + // Include vehicle model if available
                 '}';
     }
 

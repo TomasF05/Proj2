@@ -6,32 +6,29 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
 
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 @Component
 public class PostalCodeModalController implements Initializable {
 
     @FXML
+    private ListView<CodPostal> postalCodeListView;
+
+    @FXML
     private TextField searchPostalCodeField;
-
-    @FXML
-    private ListView postalCodeListView;
-
-    @FXML
-    private Button addNewPostalCodeButton;
-
-    @FXML
-    private Button selectButton;
 
     @FXML
     private TextField postalCodeField;
@@ -39,19 +36,28 @@ public class PostalCodeModalController implements Initializable {
     @FXML
     private TextField descriptionField;
 
+    private CodPostal selectedPostalCode;
+    private Stage dialogStage;
+
     @Autowired
     private CodPostalService codPostalService;
 
     @Autowired
     private ApplicationContext applicationContext;
 
-    public void setApplicationContext(ApplicationContext applicationContext) {
-        this.applicationContext = applicationContext;
-    }
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        postalCodeListView.setCellFactory(param -> new PostalCodeListCell(this));
         loadPostalCodes();
+        searchPostalCodeField.textProperty().addListener((observable, oldValue, newValue) -> filterPostalCodes(newValue));
+    }
+
+    public void setDialogStage(Stage dialogStage) {
+        this.dialogStage = dialogStage;
+    }
+
+    public CodPostal getSelectedPostalCode() {
+        return selectedPostalCode;
     }
 
     private void loadPostalCodes() {
@@ -60,42 +66,60 @@ public class PostalCodeModalController implements Initializable {
         postalCodeListView.setItems(observableList);
     }
 
+    private void filterPostalCodes(String searchText) {
+        List<CodPostal> allPostalCodes = codPostalService.getAllCodPostais();
+        List<CodPostal> filteredList = allPostalCodes.stream()
+                .filter(cp -> cp.getCodPostal().toLowerCase().contains(searchText.toLowerCase()) ||
+                        cp.getDescricao().toLowerCase().contains(searchText.toLowerCase()))
+                .collect(Collectors.toList());
+        postalCodeListView.setItems(FXCollections.observableArrayList(filteredList));
+    }
+
+    public void selectPostalCode(CodPostal codPostal) {
+        this.selectedPostalCode = codPostal;
+        if (dialogStage != null) {
+            dialogStage.close();
+        }
+    }
+
     @FXML
     private void handleAddNewPostalCode() {
-        String postalCode = postalCodeField.getText();
-        String description = descriptionField.getText();
+        String newPostalCode = postalCodeField.getText();
+        String newDescription = descriptionField.getText();
 
-        if (postalCode != null && !postalCode.isEmpty() && description != null && !description.isEmpty()) {
-            CodPostal newPostalCode = new CodPostal();
-            newPostalCode.setCodPostal(postalCode);
-            newPostalCode.setDescricao(description);
-            codPostalService.saveCodPostal(newPostalCode);
+        if (newPostalCode.isEmpty() || newDescription.isEmpty()) {
+            showAlert("Error", "Missing Information", "Please enter both postal code and description.");
+            return;
+        }
+
+        CodPostal codPostal = new CodPostal();
+        codPostal.setCodPostal(newPostalCode);
+        codPostal.setDescricao(newDescription);
+
+        try {
+            codPostalService.saveCodPostal(codPostal);
+            showAlert("Success", "Postal Code Added", "New postal code added successfully.");
             loadPostalCodes(); // Refresh the list
-        } else {
-            System.out.println("Please enter postal code and description");
+            postalCodeField.clear();
+            descriptionField.clear();
+        } catch (Exception e) {
+            showAlert("Error", "Failed to Add", "Error adding postal code: " + e.getMessage());
         }
     }
 
     @FXML
     private void handleClose() {
-        Stage stage = (Stage) selectButton.getScene().getWindow();
-        stage.close();
+        selectedPostalCode = null; // Ensure no selection is returned on close
+        if (dialogStage != null) {
+            dialogStage.close();
+        }
     }
 
-    @FXML
-    private void handleSelect() {
-        CodPostal selectedPostalCode = (CodPostal) postalCodeListView.getSelectionModel().getSelectedItem();
-        if (selectedPostalCode != null) {
-            System.out.println("Selected postal code: " + selectedPostalCode);
-            // Implement logic to pass the selected postal code back to the CreateClientController
-            CreateClientController createClientController = applicationContext.getBean(CreateClientController.class);
-            createClientController.setPostalCode(selectedPostalCode);
-
-            // Close the modal
-            Stage stage = (Stage) selectButton.getScene().getWindow();
-            stage.close();
-        } else {
-            System.out.println("No postal code selected");
-        }
+    private void showAlert(String title, String header, String content) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 }

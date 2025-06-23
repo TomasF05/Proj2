@@ -44,13 +44,7 @@ public class SidebarController {
 
     @FXML
     public void onDashboardButtonClick() {
-        loadContent("/receptionist-dashboard.fxml");
-    }
-
-    @FXML
-    public void onAppointmentsButtonClick() {
-        // Assuming "Agendamentos" maps to appointments
-        loadContent("/schedule-repair.fxml"); // Or a dedicated appointments FXML
+        loadContent("/mechanic/dashboard.fxml");
     }
 
     @FXML

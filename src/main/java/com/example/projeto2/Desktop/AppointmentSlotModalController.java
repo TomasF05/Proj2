@@ -6,7 +6,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +20,9 @@ import java.util.ResourceBundle;
 public class AppointmentSlotModalController implements Initializable {
 
     @FXML
-    private ListView appointmentSlotListView;
+    private ListView<Agendamento> appointmentSlotListView;
 
-    @FXML
-    private Button selectButton;
+    private Agendamento selectedAppointmentSlot;
 
     @Autowired
     private AgendamentoService agendamentoService;
@@ -34,6 +32,7 @@ public class AppointmentSlotModalController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        appointmentSlotListView.setCellFactory(param -> new AppointmentSlotListCell(this));
         loadAppointmentSlots();
     }
 
@@ -43,26 +42,18 @@ public class AppointmentSlotModalController implements Initializable {
         appointmentSlotListView.setItems(observableList);
     }
 
-    @FXML
-    private void handleSelect() {
-        Agendamento selectedAppointmentSlot = (Agendamento) appointmentSlotListView.getSelectionModel().getSelectedItem();
-        if (selectedAppointmentSlot != null) {
-            System.out.println("Selected appointment slot: " + selectedAppointmentSlot);
-            // Implement logic to pass the selected appointment slot back to the ScheduleRepairController
-            ScheduleRepairController scheduleRepairController = applicationContext.getBean(ScheduleRepairController.class);
-            scheduleRepairController.setAppointmentSlot(selectedAppointmentSlot);
+    public void selectAppointmentSlot(Agendamento agendamento) {
+        this.selectedAppointmentSlot = agendamento;
+        ScheduleRepairController scheduleRepairController = applicationContext.getBean(ScheduleRepairController.class);
+        scheduleRepairController.setAppointmentSlot(selectedAppointmentSlot);
 
-            // Close the modal
-            Stage stage = (Stage) selectButton.getScene().getWindow();
-            stage.close();
-        } else {
-            System.out.println("No appointment slot selected");
-        }
+        Stage stage = (Stage) appointmentSlotListView.getScene().getWindow();
+        stage.close();
     }
 
     @FXML
     private void handleClose() {
-        Stage stage = (Stage) selectButton.getScene().getWindow();
+        Stage stage = (Stage) appointmentSlotListView.getScene().getWindow();
         stage.close();
     }
 }

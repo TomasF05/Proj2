@@ -70,10 +70,15 @@ public class CreateClientController {
         loader.setControllerFactory(applicationContext::getBean);
         Parent root = loader.load();
         PostalCodeModalController controller = loader.getController();
-        controller.setApplicationContext(applicationContext);
         Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL); // Make it a modal window
         stage.setScene(new Scene(root));
-        stage.show();
+        stage.showAndWait(); // Show and wait for the modal to close
+
+        CodPostal selected = controller.getSelectedPostalCode();
+        if (selected != null) {
+            setPostalCode(selected);
+        }
     }
 
     @FXML
@@ -91,10 +96,18 @@ public class CreateClientController {
 
             clienteService.saveCliente(newCliente);
 
-            System.out.println("Client created: " + newCliente);
+            showAlert(Alert.AlertType.INFORMATION, "Success", "Client Created", "Client created successfully.");
         } else {
-            System.out.println("Please enter all the required information");
+            showAlert(Alert.AlertType.ERROR, "Error", "Missing Information", "Please enter all the required information.");
         }
+    }
+
+    private void showAlert(Alert.AlertType alertType, String title, String header, String content) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
     @FXML
     public void onDashboardButtonClick() {

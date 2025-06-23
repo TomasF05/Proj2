@@ -12,7 +12,6 @@
         <Insets top="20.0" right="10.0" bottom="20.0" left="10.0"/>
     </padding>
     <Button text="Dashboard" onAction="#onDashboardButtonClick" prefWidth="Infinity" styleClass="sidebar-button"/>
-    <Button text="Agendamentos" onAction="#onAppointmentsButtonClick" prefWidth="Infinity" styleClass="sidebar-button"/>
     <Button text="Inventário" onAction="#onInventoryButtonClick" prefWidth="Infinity" styleClass="sidebar-button"/>
     <Button text="Reparações" onAction="#onRepairsButtonClick" prefWidth="Infinity" styleClass="sidebar-button"/>
     <Button text="Receber Peça" onAction="#onReceiveOrderPartButtonClick" prefWidth="Infinity" styleClass="sidebar-button"/>

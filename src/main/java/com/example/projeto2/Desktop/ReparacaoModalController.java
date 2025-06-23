@@ -1,25 +1,30 @@
 package com.example.projeto2.Desktop;
 
-import javafx.fxml.FXML;
 import com.example.projeto2.Services.ReparacaoService;
 import com.example.projeto2.Tables.Reparacao;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ListView;
-import javafx.stage.Stage;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
+import java.net.URL;
+import java.util.List;
+import java.util.ResourceBundle;
+
 @Component
-public class ReparacaoModalController {
+public class ReparacaoModalController implements Initializable {
 
     @FXML
-    private ListView reparacaoListView;
+    private ListView<Reparacao> reparacaoListView;
 
-    @FXML
-    private Button selectButton;
+    private Reparacao selectedReparacao;
+    private Stage dialogStage;
 
     @Autowired
     private ReparacaoService reparacaoService;
@@ -27,30 +32,46 @@ public class ReparacaoModalController {
     @Autowired
     private ApplicationContext applicationContext;
 
-    @FXML
-    private void handleSelect() {
-        Reparacao selectedReparacao = (Reparacao) reparacaoListView.getSelectionModel().getSelectedItem();
-        if (selectedReparacao != null) {
-            System.out.println("Selected reparacao: " + selectedReparacao);
-            // Implement logic to pass the selected reparacao back to the CreateInvoiceController
-            CreateInvoiceController createInvoiceController = applicationContext.getBean(CreateInvoiceController.class);
-            createInvoiceController.setReparacao(selectedReparacao);
-
-            // Close the modal
-            Stage stage = (Stage) selectButton.getScene().getWindow();
-            stage.close();
-        } else {
-            System.out.println("No reparacao selected");
-        }
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        reparacaoListView.setCellFactory(param -> new ReparacaoListCell(this));
+        loadReparacoes();
     }
 
-    public void setApplicationContext(ApplicationContext applicationContext) {
-        this.applicationContext = applicationContext;
+    public void setDialogStage(Stage dialogStage) {
+        this.dialogStage = dialogStage;
+    }
+
+    public Reparacao getSelectedReparacao() {
+        return selectedReparacao;
+    }
+
+    private void loadReparacoes() {
+        List<Reparacao> reparacoes = reparacaoService.getAllReparacoes();
+        ObservableList<Reparacao> observableList = FXCollections.observableArrayList(reparacoes);
+        reparacaoListView.setItems(observableList);
+    }
+
+    public void selectReparacao(Reparacao reparacao) {
+        this.selectedReparacao = reparacao;
+        if (dialogStage != null) {
+            dialogStage.close();
+        }
     }
 
     @FXML
     private void handleClose() {
-        Stage stage = (Stage) reparacaoListView.getScene().getWindow();
-        stage.close();
+        selectedReparacao = null; // Ensure no selection is returned on close
+        if (dialogStage != null) {
+            dialogStage.close();
+        }
+    }
+
+    private void showAlert(String title, String header, String content) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 }

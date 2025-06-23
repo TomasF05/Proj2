@@ -107,7 +107,6 @@ public class Agendamento implements Serializable {
                 ", observacoes='" + observacoes + '\'' +
                 ", idVeiculo=" + idVeiculo +
                 ", idFuncionario=" + idFuncionario +
-                ", cliente=" + cliente +
                 '}';
     }
 }

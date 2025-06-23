@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projeto2.Desktop.AppointmentSlotModalController">
+<VBox prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projeto2.Desktop.AppointmentSlotModalController" stylesheets="/styles.css">
     <children>
         <HBox alignment="TOP_RIGHT" prefHeight="30.0" prefWidth="600.0">
             <children>
@@ -17,6 +17,5 @@
         </HBox>
         <Label text="Selecionar Slot de Agendamento" />
         <ListView fx:id="appointmentSlotListView" prefHeight="200.0" prefWidth="200.0" />
-        <Button mnemonicParsing="false" text="Selecionar" onAction="#handleSelect" />
     </children>
 </VBox>

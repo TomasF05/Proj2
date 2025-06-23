@@ -81,7 +81,7 @@ public class CreateInvoiceController implements PecasSelectionListener {
     @FXML
     private void initialize() {
         // Set payment methods
-        List paymentMethods = Arrays.asList("Credit Card", "Debit Card", "Cash", "Paypal");
+        List paymentMethods = Arrays.asList("Cartão de crédito", "Cartão de Débito", "Dinheiro");
         ObservableList paymentMethodsList = FXCollections.observableArrayList(paymentMethods);
         paymentMethodComboBox.setItems(paymentMethodsList);
     }
@@ -99,67 +99,98 @@ public class CreateInvoiceController implements PecasSelectionListener {
 
     @FXML
     private void handleSelectReparacao() throws IOException {
-         FXMLLoader loader = new FXMLLoader(getClass().getResource("/reparacao-modal.fxml"));
-         loader.setControllerFactory(applicationContext::getBean);
-         Parent root = loader.load();
-         ReparacaoModalController controller = loader.getController();
-         controller.setApplicationContext(applicationContext);
-         Stage stage = new Stage();
-         stage.setScene(new Scene(root));
-         stage.show();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/reparacao-modal.fxml"));
+        loader.setControllerFactory(applicationContext::getBean);
+        Parent root = loader.load();
+        ReparacaoModalController controller = loader.getController();
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setScene(new Scene(root));
+        stage.showAndWait();
+
+        Reparacao selected = controller.getSelectedReparacao();
+        if (selected != null) {
+            setReparacao(selected);
+        }
     }
 
     @FXML
     private void handleSelectServico() throws IOException {
-         FXMLLoader loader = new FXMLLoader(getClass().getResource("/servico-modal.fxml"));
-         loader.setControllerFactory(applicationContext::getBean);
-         Parent root = loader.load();
-         ServicoModalController controller = loader.getController();
-         controller.setApplicationContext(applicationContext);
-         Stage stage = new Stage();
-         stage.setScene(new Scene(root));
-         stage.show();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/servico-modal.fxml"));
+        loader.setControllerFactory(applicationContext::getBean);
+        Parent root = loader.load();
+        ServicoModalController controller = loader.getController();
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setScene(new Scene(root));
+        stage.showAndWait();
+
+        Servico selected = controller.getSelectedServico();
+        if (selected != null) {
+            setServico(selected);
+        }
     }
 
     @FXML
     private void handleSelectPecas() throws IOException {
-         FXMLLoader loader = new FXMLLoader(getClass().getResource("/pecas-modal.fxml"));
-         loader.setControllerFactory(applicationContext::getBean);
-         Parent root = loader.load();
-         PecasModalController controller = loader.getController();
-         controller.setApplicationContext(applicationContext);
-           Stage stage = new Stage();
-           stage.setScene(new Scene(root));
-           stage.show();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/pecas-modal.fxml"));
+        loader.setControllerFactory(applicationContext::getBean);
+        Parent root = loader.load();
+        PecasModalController controller = loader.getController();
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setScene(new Scene(root));
+        stage.showAndWait();
+
+        List<Peca> selected = controller.getSelectedPecas();
+        if (selected != null && !selected.isEmpty()) {
+            onPecasSelected(selected);
+        }
     }
 
     @FXML
     private void handleConfirm() {
-        // Implement logic to create invoice
-        if (selectedReparacao != null) {
-            System.out.println("Creating invoice for: " + selectedReparacao);
+        String laborCostText = laborCostField.getText();
+        String paymentMethod = (String) paymentMethodComboBox.getValue();
+
+        if (selectedReparacao == null || laborCostText.isEmpty() || paymentMethod == null) {
+            showAlert(Alert.AlertType.ERROR, "Error", "Missing Information", "Please select a repair, enter labor cost, and select a payment method.");
+            return;
+        }
+
+        try {
+            BigDecimal laborCost = new BigDecimal(laborCostText);
+            if (laborCost.compareTo(BigDecimal.ZERO) < 0) {
+                showAlert(Alert.AlertType.ERROR, "Error", "Invalid Labor Cost", "Labor cost cannot be negative.");
+                return;
+            }
 
             // Get the last invoice
             FaturaCliente lastFatura = faturaClienteService.getLastFaturaCliente();
             BigDecimal nextInvoiceNumber = BigDecimal.ONE; // Default value
             if (lastFatura != null) {
-                // Get the last invoice number and increment it
                 nextInvoiceNumber = lastFatura.getnFatura().add(BigDecimal.ONE);
             }
+
             // Create a new FaturaCliente object
             FaturaCliente newFaturaCliente = new FaturaCliente();
-            newFaturaCliente.setnFatura(nextInvoiceNumber); // Set the new invoice number
-            newFaturaCliente.setData(java.sql.Date.valueOf(LocalDate.now())); // Set current date
-            newFaturaCliente.setIdCliente(selectedReparacao.getCliente().getIdCliente()); // Set client ID
-            newFaturaCliente.setValorTotal(selectedReparacao.getValorTotal()); // Set total value
-            newFaturaCliente.setMetodoPagamento(paymentMethodComboBox.getValue().toString()); // Set payment method
+            newFaturaCliente.setnFatura(nextInvoiceNumber);
+            newFaturaCliente.setData(java.sql.Date.valueOf(LocalDate.now()));
+            newFaturaCliente.setIdCliente(selectedReparacao.getCliente().getIdCliente());
+            
+            // Calculate total value including labor cost and existing repair total
+            BigDecimal totalValue = (selectedReparacao.getValorTotal() != null ? selectedReparacao.getValorTotal() : BigDecimal.ZERO).add(laborCost);
+            newFaturaCliente.setValorTotal(totalValue);
+            newFaturaCliente.setMetodoPagamento(paymentMethod);
 
-            // Save the new FaturaCliente to the database
             faturaClienteService.saveFaturaCliente(newFaturaCliente);
 
-            System.out.println("Created invoice: " + newFaturaCliente);
-        } else {
-            System.out.println("No reparacao selected");
+            showAlert(Alert.AlertType.INFORMATION, "Success", "Invoice Created", "Invoice created successfully.");
+        } catch (NumberFormatException e) {
+            showAlert(Alert.AlertType.ERROR, "Error", "Invalid Labor Cost", "Please enter a valid number for labor cost.");
+        } catch (Exception e) {
+            showAlert(Alert.AlertType.ERROR, "Error", "Invoice Creation Failed", "An error occurred while creating the invoice: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
