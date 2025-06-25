@@ -142,15 +142,26 @@ public class ServicesController {
 
     private void loadTodayRepairs() {
         // Get the logged-in funcionario
-        funcionarioService.getFuncionarioByUsername(LoginController.getLoggedInUsername()).ifPresent(funcionario -> loggedInFuncionario = funcionario); //TODO: Get the logged in user
+        funcionarioService.getFuncionarioByUsername(LoginController.getLoggedInUsername()).ifPresent(funcionario -> loggedInFuncionario = funcionario);
 
-        List<Reparacao> todayRepairs = reparacaoService.getTodayRepairs();
+        List<Reparacao> assignedRepairs = reparacaoService.getRepairsForMechanic(loggedInFuncionario.getIdFuncionario());
+        List<Reparacao> availableRepairs = reparacaoService.getAvailableRepairs();
+
+        // Combine and deduplicate
+        List<Reparacao> allRepairs = new java.util.ArrayList<>(assignedRepairs);
+        availableRepairs.forEach(repair -> {
+            if (!allRepairs.contains(repair)) { // Assuming Reparacao has proper equals/hashCode
+                allRepairs.add(repair);
+            }
+        });
+        // Sort if necessary, e.g., by dataInicio
+        allRepairs.sort(java.util.Comparator.comparing(Reparacao::getDataInicio));
 
         repairsList.getChildren().clear(); // Clear existing items
 
-        todayRepairs.forEach(reparacao -> {
-            // Only display repairs that are not "Concluída" and belong to the logged-in mechanic
-            if (!"Concluída".equals(reparacao.getEstado()) && (loggedInFuncionario == null || reparacao.getIdFuncionario().equals(loggedInFuncionario.getIdFuncionario()))) {
+        allRepairs.forEach(reparacao -> {
+            // Only display repairs that are not "Concluída"
+            if (!"Concluída".equals(reparacao.getEstado())) {
                 HBox repairItem = new HBox(20); // Increased spacing
                 repairItem.setStyle("-fx-padding: 15px; -fx-spacing: 15px; -fx-background-color: #2d2d2d; -fx-background-radius: 10;");
                 repairItem.setPrefHeight(80.0); // Adjust height as needed
@@ -175,35 +186,33 @@ public class ServicesController {
                 HBox buttonBox = new HBox(10); // Spacing between buttons
                 buttonBox.setAlignment(javafx.geometry.Pos.CENTER_RIGHT); // Align buttons to the right
 
-                switch (reparacao.getEstado()) {
-                    case "Pendente":
-                        Button startButton = new Button("Iniciar");
-                        startButton.setStyle("-fx-background-color: linear-gradient(to right, #ff6b35, #ff9a00); -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 5 15 5 15; -fx-background-radius: 5;");
-                        // Add action for "Iniciar" button
-                        startButton.setOnAction(event -> handleStartRepair(reparacao));
-                        buttonBox.getChildren().add(startButton);
-                        break;
-                    case "Em andamento":
-                        Button addPartsButton = new Button("Add Parts");
-                        addPartsButton.setStyle("-fx-background-color: linear-gradient(to right, #ff6b35, #ff9a00); -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 5 15 5 15; -fx-background-radius: 5;");
-                        addPartsButton.setOnAction(event -> handleAddParts(reparacao)); // Add action for "Add Parts" button
+                // Determine buttons based on state and assignment
+                if ("Pendente".equals(reparacao.getEstado()) && reparacao.getIdFuncionario() == null) {
+                    // This is an available repair
+                    Button startButton = new Button("Pick Up & Start");
+                    startButton.setStyle("-fx-background-color: linear-gradient(to right, #ff6b35, #ff9a00); -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 5 15 5 15; -fx-background-radius: 5;");
+                    startButton.setOnAction(event -> handleStartRepair(reparacao)); // This will now assign and start
+                    buttonBox.getChildren().add(startButton);
+                } else if ("Em andamento".equals(reparacao.getEstado()) && loggedInFuncionario != null && reparacao.getIdFuncionario() != null && reparacao.getIdFuncionario().equals(loggedInFuncionario.getIdFuncionario())) {
+                    // This is an assigned and in-progress repair for the logged-in mechanic
+                    Button addPartsButton = new Button("Add Parts");
+                    addPartsButton.setStyle("-fx-background-color: linear-gradient(to right, #ff6b35, #ff9a00); -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 5 15 5 15; -fx-background-radius: 5;");
+                    addPartsButton.setOnAction(event -> handleAddParts(reparacao));
 
-                        Button finishButton = new Button("Finish");
-                        finishButton.setStyle("-fx-background-color: linear-gradient(to right, #ff6b35, #ff9a00); -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 5 15 5 15; -fx-background-radius: 5;");
-                        // Add action for "Finish" button
-                        finishButton.setOnAction(event -> handleFinishRepair(reparacao));
+                    Button finishButton = new Button("Finish");
+                    finishButton.setStyle("-fx-background-color: linear-gradient(to right, #ff6b35, #ff9a00); -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 5 15 5 15; -fx-background-radius: 5;");
+                    finishButton.setOnAction(event -> handleFinishRepair(reparacao));
 
-                        buttonBox.getChildren().addAll(addPartsButton, finishButton);
-                        break;
-                    default:
-                        // For other states (shouldn't happen based on the request, but good practice)
-                        Button detailsButton = new Button("Detalhes");
-                         detailsButton.setStyle("-fx-background-color: linear-gradient(to right, #ff6b35, #ff9a00); -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 5 15 5 15; -fx-background-radius: 5;");
-                        // Add default action
-                        // detailsButton.setOnAction(event -> handleViewDetails(reparacao));
-                        buttonBox.getChildren().add(detailsButton);
-                        break;
+                    buttonBox.getChildren().addAll(addPartsButton, finishButton);
+                } else if ("Pendente".equals(reparacao.getEstado()) && loggedInFuncionario != null && reparacao.getIdFuncionario() != null && reparacao.getIdFuncionario().equals(loggedInFuncionario.getIdFuncionario())) {
+                    // This is an assigned but not yet started repair for the logged-in mechanic
+                    Button startButton = new Button("Start");
+                    startButton.setStyle("-fx-background-color: linear-gradient(to right, #ff6b35, #ff9a00); -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 5 15 5 15; -fx-background-radius: 5;");
+                    startButton.setOnAction(event -> handleStartRepair(reparacao));
+                    buttonBox.getChildren().add(startButton);
                 }
+                // No default case needed for "Concluída" as they are filtered out.
+                // For other states or if not assigned to current mechanic, no buttons.
 
                 repairItem.getChildren().addAll(dateTimeInfo, vehicleInfo, buttonBox);
                 repairsList.getChildren().add(repairItem);
@@ -221,6 +230,12 @@ public class ServicesController {
     private void handleStartRepair(Reparacao reparacao) {
         System.out.println("Starting repair: " + reparacao.getIdReparacao());
         try {
+            // If the repair is unassigned, assign it to the logged-in mechanic
+            if (reparacao.getIdFuncionario() == null && loggedInFuncionario != null) {
+                reparacao.setIdFuncionario(loggedInFuncionario.getIdFuncionario());
+                reparacaoService.updateReparacao(reparacao.getIdReparacao(), reparacao); // Save the assignment
+            }
+
             reparacaoService.startRepair(reparacao.getIdReparacao());
             loadTodayRepairs(); // Refresh the list
             showAlert(Alert.AlertType.INFORMATION, "Success", "Repair Started", "Repair marked as started.");

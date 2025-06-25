@@ -44,6 +44,14 @@ public class ReparacaoService {
         return reparacaoRepository.findByEstadoNot("Concluída");
     }
 
+    public List<Reparacao> getAvailableRepairs() {
+        return reparacaoRepository.findByEstadoAndIdFuncionarioIsNull("Pendente");
+    }
+
+    public List<Reparacao> getRepairsForMechanic(BigDecimal idFuncionario) {
+        return reparacaoRepository.findByIdFuncionarioAndEstadoNot(idFuncionario, "Concluída");
+    }
+
     // ---------- CRUD ----------
     @Transactional
     public Long saveReparacao(Reparacao reparacao) {

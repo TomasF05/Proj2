@@ -14,4 +14,6 @@ public interface ReparacaoRepository extends JpaRepository<Reparacao, Long> {
     @Query("SELECT r FROM Reparacao r JOIN FETCH r.veiculo v JOIN FETCH v.cliente c WHERE r.dataInicio <= :date AND r.dataFim >= :endDate")
     List<Reparacao> findByDataInicioLessThanEqualAndDataFimGreaterThanEqual(LocalDate date, LocalDate endDate);
     List<Reparacao> findByEstadoNot(String estado);
+    List<Reparacao> findByEstadoAndIdFuncionarioIsNull(String estado);
+    List<Reparacao> findByIdFuncionarioAndEstadoNot(BigDecimal idFuncionario, String estado);
 }
