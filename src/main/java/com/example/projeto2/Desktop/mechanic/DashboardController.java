@@ -88,7 +88,7 @@ public class DashboardController {
 
         double progressPercentage;
         if (totalRepairs > 0) {
-            progressPercentage = (double) completedRepairs / totalRepairs * 100;
+            progressPercentage = Math.min(((double) completedRepairs / totalRepairs) * 100, 100.0);
             progressLabel.setText(String.format("%.1f%% das reparações de hoje concluídas", progressPercentage));
         } else {
             progressPercentage = 50.0; // Placeholder for demonstration

@@ -82,6 +82,8 @@ public class DashboardRestController {
                 .filter(a -> a.getCliente() != null && idCliente.equals(a.getCliente().getIdCliente()))
                 .collect(Collectors.toList());
 
+        agendamentos.forEach(a -> a.setCliente(null));
+
         System.out.println("Agendamentos filtrados: " + agendamentos.size());
 
         // Montar resposta
