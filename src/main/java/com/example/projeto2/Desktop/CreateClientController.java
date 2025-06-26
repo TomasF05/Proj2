@@ -38,6 +38,12 @@ public class CreateClientController {
     private TextField postalCodeField;
 
     @FXML
+    private TextField usernameField;
+
+    @FXML
+    private TextField passwordField;
+
+    @FXML
     private Button dashboardButton;
     @FXML
     private Button appointmentsButton;
@@ -73,6 +79,7 @@ public class CreateClientController {
         Parent root = loader.load();
         PostalCodeModalController controller = loader.getController();
         Stage stage = new Stage();
+        controller.setDialogStage(stage);
         stage.initModality(Modality.APPLICATION_MODAL); // Make it a modal window
         stage.setScene(new Scene(root));
         stage.showAndWait(); // Show and wait for the modal to close
@@ -88,19 +95,29 @@ public class CreateClientController {
         String name = nameField.getText();
         String nif = nifField.getText();
         String contact = contactField.getText();
+        String username = usernameField.getText();
+        String password = passwordField.getText();
 
-        if (name != null && !name.isEmpty() && nif != null && !nif.isEmpty() && contact != null && !contact.isEmpty() && selectedPostalCode != null) {
+        if (name != null && !name.isEmpty()
+                && nif != null && !nif.isEmpty()
+                && contact != null && !contact.isEmpty()
+                && username != null && !username.isEmpty()
+                && password != null && !password.isEmpty()
+                && selectedPostalCode != null) {
+
             Cliente newCliente = new Cliente();
             newCliente.setNome(name);
             newCliente.setNif(nif);
             newCliente.setContacto(contact);
             newCliente.setCodPostal(selectedPostalCode);
+            newCliente.setUsername(username);
+            newCliente.setPassword(password);
 
             clienteService.saveCliente(newCliente);
 
-            showAlert(Alert.AlertType.INFORMATION, "Success", "Client Created", "Client created successfully.");
+            showAlert(Alert.AlertType.INFORMATION, "Sucesso", "Cliente Criado", "O cliente foi criado com sucesso.");
         } else {
-            showAlert(Alert.AlertType.ERROR, "Error", "Missing Information", "Please enter all the required information.");
+            showAlert(Alert.AlertType.ERROR, "Erro", "Dados em falta", "Por favor preencha todos os campos.");
         }
     }
 

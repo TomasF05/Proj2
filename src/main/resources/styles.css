@@ -48,3 +48,14 @@
 .text-input {
     -fx-text-fill: white;
 }
+.dashboard-button {
+    -fx-background-color: #ff6b35;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8px;
+    -fx-padding: 10 20;
+    -fx-cursor: hand;
+}
+.dashboard-button:hover {
+    -fx-background-color: #ff884d;
+}

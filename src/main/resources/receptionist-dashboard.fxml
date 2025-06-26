@@ -4,16 +4,21 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<HBox prefHeight="400.0" prefWidth="500.0" HBox.hgrow="ALWAYS" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projeto2.Desktop.ReceptionistDashboardController" style="-fx-background-color: #1a1a1a;">
+<HBox prefHeight="400.0" prefWidth="500.0" HBox.hgrow="ALWAYS"
+      xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.projeto2.Desktop.ReceptionistDashboardController"
+      style="-fx-background-color: #1a1a1a;" stylesheets="/styles.css">
+
     <VBox spacing="20.0" style="-fx-padding: 20px;" HBox.hgrow="ALWAYS">
         <VBox styleClass="card-panel" spacing="20.0">
             <HBox alignment="CENTER" spacing="20.0">
-                <Button mnemonicParsing="false" text="Criar Cliente" onAction="#handleCreateClient" />
-                <Button mnemonicParsing="false" text="Agendar Reparação" onAction="#handleScheduleRepair" />
-                <Button mnemonicParsing="false" text="Criar Fatura" onAction="#handleCreateReceipt" />
-                <Button mnemonicParsing="false" text="Encomendar Peças" onAction="#handleOrderParts" />
+                <Button mnemonicParsing="false" text="Criar Cliente" onAction="#handleCreateClient" styleClass="dashboard-button" />
+                <Button mnemonicParsing="false" text="Agendar Reparação" onAction="#handleScheduleRepair" styleClass="dashboard-button" />
+                <Button mnemonicParsing="false" text="Criar Fatura" onAction="#handleCreateReceipt" styleClass="dashboard-button" />
+                <Button mnemonicParsing="false" text="Encomendar Peças" onAction="#handleOrderParts" styleClass="dashboard-button" />
             </HBox>
         </VBox>
+
         <VBox styleClass="card-panel" spacing="10.0">
             <Label text="Peças em Stock" style="-fx-text-fill: white; -fx-font-size: 18px;" />
             <ListView prefHeight="200.0" prefWidth="200.0" />
