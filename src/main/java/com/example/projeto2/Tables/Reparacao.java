@@ -141,6 +141,19 @@ public class Reparacao implements Serializable {
                 '}';
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Reparacao reparacao = (Reparacao) o;
+        return idReparacao != null && idReparacao.equals(reparacao.idReparacao);
+    }
+
+    @Override
+    public int hashCode() {
+        return idReparacao != null ? idReparacao.hashCode() : 0;
+    }
+
     @ManyToOne
     @JoinColumn(name = "idveiculo", insertable = false, updatable = false)
     private Veiculo veiculo;
